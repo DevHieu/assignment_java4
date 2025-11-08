@@ -2,7 +2,7 @@ package com.asm.dao;
 
 import java.util.List;
 
-public interface CrudDao<T, ID> {
+public interface CrudDAO<T, ID> {
   /** Truy vấn tất cả */
   List<T> findAll();
 
