@@ -1,0 +1,24 @@
+/* File custom-dark.css */
+:root[data-bs-theme="dark"] {
+  --bs-body-bg: #111111;
+  --bs-secondary-bg: #0b0b0b;
+  --bs-tertiary-bg: #0b0b0b;
+
+  /* Nếu muốn mấy viền tối hơn theo tông */
+  --bs-border-color: #222222;
+
+  /* Màu chữ tùy mày muốn chỉnh */
+  --bs-body-color: #e0e0e0;
+
+  --bs-primary: #f99619; /* Cam cháy */
+  --bs-primary-rgb: 249, 150, 25;
+  --bs-success: #19d65d; /* Xanh lá */
+  --bs-success-rgb: 25, 214, 93;
+  --bs-gray-700: #383838; /* Nền hover cho nav */
+}
+
+.navbar,
+.navbar-dark,
+.navbar[data-bs-theme="dark"] {
+  background-color: rgba(11, 11, 11, 0.6) !important;
+}
