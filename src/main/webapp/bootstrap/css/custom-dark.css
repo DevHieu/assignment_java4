@@ -1,5 +1,5 @@
 /* File custom-dark.css */
-:root[data-bs-theme="dark"] {
+:root {
   --bs-body-bg: #111111;
   --bs-secondary-bg: #0b0b0b;
   --bs-tertiary-bg: #0b0b0b;
@@ -15,10 +15,4 @@
   --bs-success: #19d65d; /* Xanh lá */
   --bs-success-rgb: 25, 214, 93;
   --bs-gray-700: #383838; /* Nền hover cho nav */
-}
-
-.navbar,
-.navbar-dark,
-.navbar[data-bs-theme="dark"] {
-  background-color: rgba(11, 11, 11, 0.6) !important;
 }

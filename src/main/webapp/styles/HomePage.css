@@ -1,0 +1,106 @@
+.carousel-caption {
+  display: flex !important;
+  left: 0;
+  text-align: left;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.8)
+  );
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5em !important;
+  height: 60% !important;
+  bottom: 0;
+}
+
+.about {
+  /* background-color: red; */
+  .about-title {
+    font-size: 2.5em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+  }
+
+  .btn-contact {
+    background-color: var(--bs-primary);
+    color: black;
+    &:hover {
+      background-color: #e58000;
+    }
+  }
+
+  .btn-skits {
+    border-color: var(--bs-success);
+    color: var(--bs-success);
+    &:hover {
+      background: rgba(25, 214, 93, 0.3);
+      color: white;
+    }
+  }
+}
+
+.icon-btn {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  transition: 0.2s all;
+  &:hover {
+    text-shadow: 0 0 5px rgba(25, 214, 93, 0.5), 0 0 10px rgba(25, 214, 93, 0.5);
+  }
+
+  & i {
+    color: #ff9900;
+    font-size: 20px;
+  }
+}
+
+.skit-title {
+  background-image: linear-gradient(to right, #f99619, #19d65d);
+
+  -webkit-background-clip: text; /* Dành cho trình duyệt WebKit (Chrome, Safari) */
+  background-clip: text;
+
+  color: transparent;
+}
+.skit-item {
+  background-color: #0e0e0e;
+  color: white;
+  transition: 0.2s all;
+  &:hover {
+    box-shadow: 0 0 5px rgba(25, 214, 93, 0.5), 0 0 10px rgba(25, 214, 93, 0.5);
+  }
+}
+
+.custom-pagination .page-item {
+  margin: 0 4px; /* Khoảng cách giữa các nút */
+}
+
+/* Tùy chỉnh link (nút) */
+.custom-pagination .page-link {
+  background-color: transparent;
+  border: none;
+  font-size: 1.25rem;
+  padding: 0.5rem 0.75rem;
+
+  transition: color 0.2s ease-in-out;
+}
+
+.custom-pagination .page-link {
+  border-radius: 0 !important;
+}
+
+/* Hiệu ứng Hover và Focus */
+.custom-pagination .page-link:hover,
+.custom-pagination .page-link:focus {
+  color: var(--bs-white); /* Chuyển sang màu trắng khi hover */
+  box-shadow: none; /* Loại bỏ shadow mặc định của Bootstrap */
+  background-color: transparent;
+}
+
+/* Tùy chỉnh cho nút Active/Disabled (Nếu áp dụng) */
+.custom-pagination .page-item .page-link[disabled] i {
+  color: #555 !important; /* Màu xám cho nút bị vô hiệu hóa */
+}
