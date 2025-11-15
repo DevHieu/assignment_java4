@@ -1,122 +1,350 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
+uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html>
 <html data-bs-theme="dark">
-<head>
-<meta charset="UTF-8" />
-<title>JSP Page</title>
-<!-- Bootstrap CDN -->
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-	crossorigin="anonymous" />
-<!-- CSS custom -->
-<link rel="stylesheet" href="../bootstrap/css/custom-dark.css" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSP Page</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../bootstrap/css/custom-dark.css" />
+    <script defer src="../bootstrap/js/bootstrap.bundle.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-<!--  Bootstrap JS CDN -->
-<script defer
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-	integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-	crossorigin="anonymous"></script>
+    <link href="../styles/HomePage.css" rel="stylesheet" />
+    <link href="../styles/NavBar.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="position-relative">
+      <%@ include file="./components/navbar.jsp" %>
+      <div class="container-fluid p-0" id="banner">
+        <header>
+          <!-- data-bs-ride="carousel" -->
+          <div id="carousel" class="carousel slide">
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#carousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+            </div>
+            <div class="carousel-inner" style="height: 90vh">
+              <div class="carousel-item active h-100 w-100">
+                <img
+                  src="../images/baner1.png"
+                  class="d-block w-100 h-100 object-fit-cover"
+                  alt="..."
+                />
+                <div
+                  class="carousel-caption d-md-block w-100 text-white p-0"
+                  style="height: 100%"
+                >
+                  <h1 style="font-size: 80px; margin-bottom: 0.5em">
+                    Interstella
+                  </h1>
+                  <h5>
+                    Some representative placeholder content for the first slide.
+                  </h5>
+                </div>
+              </div>
+              <div class="carousel-item h-100 w-100">
+                <img
+                  src="../images/baner2.jpg"
+                  class="d-block w-100 h-100 object-fit-cover"
+                  alt="..."
+                />
+                <div
+                  class="carousel-caption d-md-block w-100 text-white p-0"
+                  style="height: 100%"
+                >
+                  <h1 style="font-size: 80px; margin-bottom: 0.5em">
+                    Breaking Bad
+                  </h1>
+                  <h5>
+                    Some representative placeholder content for the first slide.
+                  </h5>
+                </div>
+              </div>
+              <div class="carousel-item h-100 w-100">
+                <img
+                  src="../images/baner3.jpg"
+                  class="d-block w-100 h-100 object-fit-cover"
+                  alt="..."
+                />
+                <div
+                  class="carousel-caption d-md-block w-100 text-white p-0"
+                  style="height: 100%"
+                >
+                  <h1 style="font-size: 80px; margin-bottom: 0.5em">
+                    Chainsaw man
+                  </h1>
+                  <h5>
+                    Some representative placeholder content for the first slide.
+                  </h5>
+                </div>
+              </div>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carousel"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carousel"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+        </header>
+        <section id="skit">
+          <h1 class="mt-5 ms-5 skit-title">Tiểu phẩm hài nổi bật</h1>
+          <div class="row mx-5">
+            <c:forEach var="video" items="${videos}">
+              <div class="col-sm-4 my-3">
+                <div class="card p-3 border-0 skit-item position-relative">
+                  <div
+                    class="card-img-top bg-light object-fit-cover overflow-hidden"
+                    style="height: 300px; border-radius: 8px"
+                  >
+                    <a href="/video" class="stretched-link">
+                      <img
+                        src="../images/baner1.png"
+                        alt="thumbnail"
+                        class="h-100"
+                      />
+                    </a>
+                  </div>
+  
+                  <div class="card-body p-0 pt-2">
+                    <div class="row g-0 align-items-end">
+                      <div class="col-10">
+                        <h5 class="card-title fw-bold mb-0 fs-4">${video.title}</h5>
+                        <p class="card-text text-muted small my-2">${video.description}</p>
+                        <p class="card-text small mb-0 mt-1"><i class="fa-solid fa-eye me-2 text-primary" style="font-size: 15px;"></i>${video.views}</p>
+                      </div>
+  
+                      <div
+                        class="col-2 text-end d-flex justify-content-end align-items-center"
+                      >
+                        <button class="icon-btn me-2 z-3" onclick="likeVideo('${video.id}', this)">
+                          <c:choose>
+                            <c:when test="${video.liked}">
+                              <i
+                                class="fa-solid fa-thumbs-up"
+                                id="like-icon-${video.id}"
+                                data-is-liked="true"
+                              ></i>
+                            </c:when>
+                            <c:otherwise>
+                              <i
+                                class="fa-regular fa-thumbs-up"
+                                id="like-icon-${video.id}"
+                                data-is-liked="false"
+                              ></i>
+                            </c:otherwise>
+                          </c:choose>
+                        </button>
+                        
+  
+                        <button 
+                            class="icon-btn z-3" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#share" 
+                            data-video-id="${video.id}"
+                            >
+                            <i class="fa-regular fa-share-from-square"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </c:forEach>
+          </div>
+          <form action="/home" method="get" class="d-flex justify-content-center mt-5">
+            <ul class="pagination custom-pagination border-0">
+          
+              <!-- Trang đầu -->
+              <li class="page-item">
+                <button type="submit" name="page" value="1" class="page-link bg-transparent border-0" aria-label="First">
+                  <i class="fa-solid fa-angles-left text-success fs-3"></i>
+                </button>
+              </li>
+          
+              <!-- Trang trước -->
+              <li class="page-item">
+                <button type="submit" name="page" value="${currentPage - 1}" 
+                        class="page-link bg-transparent border-0" aria-label="Previous"
+                        ${(currentPage == 1) ? 'disabled' : ''}>
+                  <i class="fa-solid fa-angle-left text-primary fs-3"></i>
+                </button>
+              </li>
+          
+              <!-- Trang sau -->
+              <li class="page-item">
+                <button type="submit" name="page" value="${currentPage + 1}" 
+                        class="page-link bg-transparent border-0" aria-label="Next"
+                        ${currentPage == maxPage ? 'disabled' : ''}>
+                  <i class="fa-solid fa-angle-right text-primary fs-3"></i>
+                </button>
+              </li>
+          
+              <!-- Trang cuối -->
+              <li class="page-item">
+                <button type="submit" name="page" value="${maxPage}" class="page-link bg-transparent border-0" aria-label="Last">
+                  <i class="fa-solid fa-angles-right text-success fs-3"></i>
+                </button>
+              </li>
+          
+            </ul>
+          </form>
+          </div>
+        </section>
+        <section id="about">
+          <div class="container">
+            <div class="about p-4 p-md-5">
+              <div class="row g-4 align-items-center">
+                <div class="col-lg-7">
+                  <div class="mb-3">
+                    <span
+                      class="about-title badge badge-accent rounded-pill px-3 py-lg-2 fs-5"
+                      >Về The Haha Factory</span
+                    >
+                  </div>
 
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-	integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
+                  <h1 class="display-6 fw-bold mb-3">
+                    Mang tiếng cười, kết nối niềm vui cho mọi sự kiện
+                  </h1>
 
-<link href="../styles/NavBar.css" rel="stylesheet" />
-<style>
-.carousel-caption {
-	display: flex !important;
-	left: 0;
-	text-align: left;
-	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0),
-		rgba(0, 0, 0, 0.8));
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	padding: 0 5em !important;
-	height: 60% !important;
-	bottom: 0;
-}
-</style>
-</head>
-<body>
-	<div class="position-relative">
-		<%@ include file="./components/navbar.jsp"%>
-		<div class="container-fluid p-0">
-			<header>
-				<!-- data-bs-ride="carousel" -->
-				<div id="carousel" class="carousel slide">
-					<div class="carousel-indicators">
-						<button type="button" data-bs-target="#carousel"
-							data-bs-slide-to="0" class="active" aria-current="true"
-							aria-label="Slide 1"></button>
-						<button type="button" data-bs-target="#carousel"
-							data-bs-slide-to="1" aria-label="Slide 2"></button>
-						<button type="button" data-bs-target="#carousel"
-							data-bs-slide-to="2" aria-label="Slide 3"></button>
-					</div>
-					<div class="carousel-inner" style="height: 90vh">
-						<div class="carousel-item active h-100 w-100">
-							<img src="../images/baner1.png"
-								class="d-block w-100 h-100 object-fit-cover" alt="..." />
-							<div class="carousel-caption d-md-block w-100 text-white p-0"
-								style="height: 100%">
-								<h1 style="font-size: 80px; margin-bottom: 0.5em">
-									Interstella</h1>
-								<h5>Some representative placeholder content for the first
-									slide.</h5>
-							</div>
-						</div>
-						<div class="carousel-item h-100 w-100">
-							<img src="../images/baner2.jpg"
-								class="d-block w-100 h-100 object-fit-cover" alt="..." />
-							<div class="carousel-caption d-md-block w-100 text-white p-0"
-								style="height: 100%">
-								<h1 style="font-size: 80px; margin-bottom: 0.5em">Breaking
-									Bad</h1>
-								<h5>Some representative placeholder content for the first
-									slide.</h5>
-							</div>
-						</div>
-						<div class="carousel-item h-100 w-100">
-							<img src="../images/baner3.jpg"
-								class="d-block w-100 h-100 object-fit-cover" alt="..." />
-							<div class="carousel-caption d-md-block w-100 text-white p-0"
-								style="height: 100%">
-								<h1 style="font-size: 80px; margin-bottom: 0.5em">Chainsaw
-									man</h1>
-								<h5>Some representative placeholder content for the first
-									slide.</h5>
-							</div>
-						</div>
-					</div>
-					<button class="carousel-control-prev" type="button"
-						data-bs-target="#carousel" data-bs-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Previous</span>
-					</button>
-					<button class="carousel-control-next" type="button"
-						data-bs-target="#carousel" data-bs-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="visually-hidden">Next</span>
-					</button>
-				</div>
-			</header>
-			<section id="skit">
-				<div class="bg-primary" style="height: 100vh"></div>
-			</section>
-			<section id="info">
-				<div class="bg-warning" style="height: 100vh"></div>
-			</section>
-			<section id="contact">
-				<div class="bg-success" style="height: 100vh"></div>
-			</section>
-			<section></section>
-		</div>
-	</div>
-</body>
+                  <p class="lead mb-3">
+                    <strong>The Haha Factory</strong> được thành lập với sứ mệnh
+                    mang đến tiếng cười, niềm vui và năng lượng tích cực cho mọi
+                    sự kiện. Chúng tôi tin rằng tiếng cười không chỉ kết nối con
+                    người mà còn tạo ra những kỷ niệm đáng nhớ cho tập thể.
+                  </p>
+
+                  <p class="mb-3">
+                    Với đội ngũ diễn viên, biên kịch và đạo diễn giàu kinh
+                    nghiệm, chúng tôi cung cấp
+                    <strong
+                      >tiểu phẩm hài, kịch ngắn và chương trình giải trí</strong
+                    >
+                    dành cho các sự kiện doanh nghiệp như lễ kỷ niệm, hội nghị,
+                    tiệc tri ân và Year End Party. Mỗi tiết mục được đầu tư kỹ
+                    lưỡng từ kịch bản đến dàn dựng, phù hợp với mục tiêu và văn
+                    hóa của khách hàng.
+                  </p>
+
+                  <div class="row gy-2 gx-3">
+                    <div class="col-sm-6">
+                      <ul class="list-unstyled mb-0">
+                        <li>• Tiểu phẩm theo chủ đề &amp; theo yêu cầu</li>
+                        <li>• Chương trình kịch ngắn, sân khấu tương tác</li>
+                      </ul>
+                    </div>
+                    <div class="col-sm-6">
+                      <ul class="list-unstyled mb-0">
+                        <li>• Dàn dựng bài bản, chuyên nghiệp</li>
+                        <li>• Chia sẻ trích đoạn miễn phí trên website</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  <p class="mt-3 mb-0">
+                    Nếu bạn đang tìm một giải pháp giải trí khác biệt, chuyên
+                    nghiệp và truyền cảm hứng cho sự kiện,
+                    <strong>The Haha Factory</strong> sẵn sàng đồng hành cùng
+                    bạn.
+                  </p>
+
+                  <div class="mt-4">
+                    <a href="#footer" class="btn btn-lg me-2 btn-contact"
+                      >Liên hệ đặt show</a
+                    >
+                    <a
+                      href="#skit"
+                      class="btn btn-outline-secondary btn-lg btn-skits"
+                      >Xem các tiểu phẩm hài</a
+                    >
+                  </div>
+                </div>
+
+                <div class="col-lg-5 text-center">
+                  <div
+                    class="ratio ratio-4x3 rounded overflow-hidden shadow-sm"
+                  >
+                    <img
+                      src="../images/haikich.jpg"
+                      alt="Tiểu phẩm hài - The Haha Factory"
+                      class="img-fluid object-fit-cover"
+                    />
+                  </div>
+                  <p class="text-muted small mt-3">
+                    Ảnh minh họa các tiết mục của The Haha Factory
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <%@ include file="./components/footer.jsp" %>
+      <%@ include file="./components/shareBox.jsp" %>
+    </div>
+  </body>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+            const targetScrollId = "${targetScrollId}";
+
+            if (targetScrollId && targetScrollId.startsWith('#')) {
+                const targetElement = document.querySelector(targetScrollId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'instant', // Cuộn mượt
+                        block: 'start' // Đưa phần tử lên đầu màn hình
+                    });
+                }
+            }
+        });
+
+    
+
+    
+  </script>
+  <script src="../scripts/VideoAction.js"></script>
 </html>
