@@ -17,6 +17,8 @@
       referrerpolicy="no-referrer"
     />
     <link href="../styles/NavBar.css" rel="stylesheet" />
+    <link href="../styles/UserManager.css" rel="stylesheet" />
+
 </head>
 <body>
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
@@ -41,6 +43,72 @@
         </div>
     </nav>
 
+    <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="userModalLabel">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">ID:</label>
+                            <input type="text" name="id" class="form-control" maxlength="20">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Fullname:</label>
+                            <input type="text" name="fullname" class="form-control" maxlength="50">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email:</label>
+                            <input type="email" name="email" class="form-control" maxlength="50">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password:</label>
+                            <input type="password" name="password" class="form-control" maxlength="50">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Nhập lại Password:</label>
+                            <input type="password" name="confirmPassword" class="form-control" maxlength="50">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Avatar:</label>
+                            <input type="file" name="avatarFile" class="form-control" accept="image/*" id="avatarInput">
+                            <div class="mt-2">
+                                <img id="avatarPreview" src="" alt="Avatar preview"
+                                    style="display:none; max-width:200px; border-radius:8px; object-fit:cover;">
+                            </div>
+                        </div>
+
+                        <div class="mb-2 d-flex align-items-center">
+                            <label class="form-label mb-0 me-3">Vai trò:</label>
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="radio" name="role" id="roleUser" value="USER" checked>
+                                <label class="form-check-label" for="roleUser">User</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="radio" name="role" id="roleAdmin" value="ADMIN">
+                                <label class="form-check-label" for="roleAdmin">Admin</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-warning">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <main class="container-fluid px-5 py-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="m-0">User Management</h5>
@@ -53,27 +121,30 @@
                         <option value="ADMIN" ${param.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
                         <option value="USER" ${param.role == 'USER' ? 'selected' : ''}>User</option>
                     </select>
-                    <button class="btn btn-primary" type="submit">
+                    <button class="btn btn-warning" type="submit">
                         <i class="fa-solid fa-magnifying-glass me-1"></i>
                     </button>
                 </form>
-                <a href="/admin/users/new" class="btn btn-success">
+                <button type="button"
+                        class="btn btn-success"
+                        data-bs-toggle="modal"
+                        data-bs-target="#userModal">
                     <i class="fa-solid fa-plus me-1"></i> Add User
-                </a>
+                </button>
             </div>
         </div>
 
         <div class="table-responsive rounded-3 overflow-hidden border">
-            <table class="table table-hover table-striped align-middle mb-0">
+            <table class="table table-hover table-striped align-middle mb-0 table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th scope="col" style="width:72px">ID</th>
-                        <th scope="col">Fullname</th>
-                        <th scope="col">Email</th>
-                        <th scope="col" style="width:140px">Role</th>
-                        <th scope="col" style="width:120px">Avatar</th>
-                        <th scope="col" style="width:120px">Status</th>
-                        <th scope="col" class="text-end" style="width:180px">Actions</th>
+                        <th class="text-center" scope="col" style="width:72px">ID</th>
+                        <th class="text-center" scope="col">Fullname</th>
+                        <th class="text-center" scope="col">Email</th>
+                        <th class="text-center" scope="col" style="width:140px">Role</th>
+                        <th class="text-center" scope="col" style="width:120px">Avatar</th>
+                        <!-- <th scope="col" style="width:120px">Status</th> -->
+                        <th class="text-center" scope="col" class="text-end" style="width:180px">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -99,7 +170,7 @@
                                         <i class="fa-solid fa-user text-secondary"></i>
                                     </span>
                                 </td>
-                                <td>
+                                <!-- <td>
                                     <span class="text-muted">—</span>
                                     <%-- Nếu sau này có u.active (Boolean), dùng:
                                     <c:choose>
@@ -107,7 +178,7 @@
                                         <c:otherwise><span class="badge bg-danger">Blocked</span></c:otherwise>
                                     </c:choose>
                                     --%>
-                                </td>
+                                </td> -->
                                 <td class="text-end">
                                     <a href="/admin/users/edit?id=${u.id}" class="btn btn-sm btn-warning me-2">
                                         <i class="fa-solid fa-pen-to-square"></i><span class="ms-1">Edit</span>
@@ -123,7 +194,7 @@
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="7" class="text-center py-4 text-muted">No users found.</td>
+                                <td colspan="6" class="text-center py-4 text-muted">No users found.</td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
@@ -144,5 +215,26 @@
             </nav>
         </c:if>
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('avatarInput');
+            const img = document.getElementById('avatarPreview');
+
+            if (!input || !img) return;
+
+            input.addEventListener('change', function () {
+                const file = this.files && this.files[0];
+                if (!file) {
+                    img.src = '';
+                    img.style.display = 'none';
+                    return;
+                }
+                const url = URL.createObjectURL(file);
+                img.src = url;
+                img.style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>
