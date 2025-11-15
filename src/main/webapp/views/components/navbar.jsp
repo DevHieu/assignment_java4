@@ -26,7 +26,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-4">
         <li class="nav-item">
-          <a class="nav-link fw-semibold" aria-current="page" href="/home"
+          <a class="nav-link fw-semibold" aria-current="page" href="/home#banner"
             >Trang chủ</a
           >
         </li>
@@ -34,10 +34,10 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
           <a class="nav-link fw-semibold"  href="/home#skit">Tiểu phẩm</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold" href="/home#info">Giới thiệu</a>
+          <a class="nav-link fw-semibold" href="/home#about">Giới thiệu</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold" href="/home#contact">Liên hệ</a>
+          <a class="nav-link fw-semibold" href="#footer">Liên hệ</a>
         </li>
       </ul>
 
@@ -82,7 +82,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       
               <ul class="dropdown-menu dropdown-menu-end">
                   <li>
-                      <a class="dropdown-item " href="/profile">
+                      <a class="dropdown-item " href="#footer">
                           <i class="fa-solid fa-address-card me-2 text-primary "></i>
                           Cập nhật Tài khoản
                       </a>
