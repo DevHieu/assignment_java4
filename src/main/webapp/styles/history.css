@@ -1,0 +1,75 @@
+:root {
+    --orange-color: #ff9800;
+    --orange-hover: #e0851c;
+    --black-bg: #121212;
+    --black-card: #1f1f1f;
+    --black-dark: #000;
+    --white-text: #fff;
+    --gray-text: #aaaaaa;
+}
+
+body {
+    background-color: var(--black-bg) !important;
+}
+
+.btn-outline-primary {
+    color: var(--orange-color) !important;
+    border-color: var(--orange-color) !important;
+    background-color: transparent !important;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary.active {
+    background-color: var(--orange-color) !important;
+    border-color: var(--orange-color) !important;
+    color: var(--black-dark) !important;
+}
+
+.card {
+    background-color: var(--black-card) !important;
+    border-color: var(--black-card) !important;
+    transition: transform 0.2s ease;
+}
+.card:hover {
+    transform: scale(1.02);
+}
+
+.text-white-50 {
+    color: var(--gray-text) !important;
+}
+
+.btn-sm.btn-outline-primary i {
+    color: var(--orange-color) !important;
+}
+.btn-sm.btn-outline-primary:hover i {
+    color: var(--black-dark) !important;
+}
+.pagination {
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.pagination .page-link {
+    color: #ff9800;          /* chữ cam */
+    border: 1px solid #ff9800; /* viền cam */
+    margin: 0 7px;
+    min-width: 40px;
+    text-align: center;
+    font-weight: 500;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.pagination .page-link:hover {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+.pagination .active .page-link {
+    background-color: #ff9800;
+    color: #fff;
+    border-color: #ff9800;
+}
+
+.page-control {
+    font-weight: bold;
+}

@@ -1,5 +1,5 @@
 /* File custom-dark.css */
-:root {
+:root[data-bs-theme="dark"] {
   --bs-body-bg: #111111;
   --bs-secondary-bg: #0b0b0b;
   --bs-tertiary-bg: #0b0b0b;
