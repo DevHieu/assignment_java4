@@ -4,27 +4,25 @@ body, html {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), /* lớp phủ mờ */
     url('../images/baner1.png') no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.login-container {
+.register-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 90vh;
     padding: 20px;
 }
-.login-card {
+.register-card {
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(241, 175, 52, 0.4);
     padding: 40px;
     width: 100%;
     max-width: 400px;
     background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(50px);
 }
-.login-title {
+.register-title {
     text-align: center;
     margin-bottom: 30px;
     color: #ffc107;
@@ -57,7 +55,7 @@ body, html {
     color: #e7d8ab;
 }
 
-.btn-login {
+.btn-register {
     border-radius: 5px !important;
     padding: 9px;
     font-weight: 600;
@@ -66,7 +64,7 @@ body, html {
     transition: all 0.3s ease;
     color: black;
 }
-.btn-login:hover {
+.btn-register:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(241, 175, 52, 0.4);
 }
@@ -91,8 +89,6 @@ body, html {
     text-align: center;
     margin-top: 20px;
     font-size: 0.9rem;
-    width: 100%;       
-    display: block; 
 } 
 .register-link a {
     font-size: 0.95rem;

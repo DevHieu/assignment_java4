@@ -8,14 +8,14 @@ body, html {
     background-repeat: no-repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.login-container {
+.forgotPassword-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 90vh;
     padding: 20px;
 }
-.login-card {
+.forgotPassword-card {
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(241, 175, 52, 0.4);
     padding: 40px;
@@ -24,12 +24,12 @@ body, html {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
 }
-.login-title {
+.forgotPassword-title {
     text-align: center;
     margin-bottom: 30px;
     color: #ffc107;
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.8rem;
 }
 .form-control {
     border-radius: 50px;
@@ -57,7 +57,7 @@ body, html {
     color: #e7d8ab;
 }
 
-.btn-login {
+.btn-retrieve {
     border-radius: 5px !important;
     padding: 9px;
     font-weight: 600;
@@ -66,34 +66,7 @@ body, html {
     transition: all 0.3s ease;
     color: black;
 }
-.btn-login:hover {
+.btn-retrieve:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(241, 175, 52, 0.4);
-}
-.form-check-label {
-    font-size: 0.9rem;
-}
-.form-check-input {
-    background-color: #a5aeb608;
-}
-.form-check-input:checked {
-    background-color: #ffc107;
-}
-.text-link {
-    color: #ffc107;
-    text-decoration: none;
-    font-weight: 500;
-}
-.text-link:hover {
-    text-decoration: underline;
-}
-.register-link {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 0.9rem;
-    width: 100%;       
-    display: block; 
-} 
-.register-link a {
-    font-size: 0.95rem;
 }

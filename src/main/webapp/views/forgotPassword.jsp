@@ -9,8 +9,8 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <!-- <link href="../styles/Login.css" rel="stylesheet" /> -->
-    <style>
+    <link href="../styles/ForgotPw.css" rel="stylesheet" />
+    <!-- <style>
         body, html {
             height: 100%;
             margin: 0;
@@ -82,11 +82,11 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(29, 208, 124, 0.4);
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="logo">
-        <img src="icons/logo2.png" alt="" style="width: 70px; height: auto; margin: 20px 0 0 20px;">
+        <img src="../icons/logo2.png" alt="" style="width: 70px; height: auto; margin: 20px 0 0 20px;">
     </div>
     <div class="forgotPassword-container">
         <div class="forgotPassword-card">
@@ -104,7 +104,7 @@
                 <div class="mb-3">
                     <div class="input-group">
                         <input type="text" class="form-control" name="email" placeholder="Email" required>
-                        <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                        <span class="input-group-text"><i class="fa-solid fa-at"></i></span>
                     </div>
                 </div>
 

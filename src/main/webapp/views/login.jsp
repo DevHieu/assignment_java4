@@ -9,8 +9,8 @@
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <!-- <link href="../styles/Login.css" rel="stylesheet" /> -->
-    <style>
+    <link href="../styles/Login.css" rel="stylesheet" />
+    <!-- <style>
         body, html {
             height: 100%;
             margin: 0;
@@ -34,6 +34,7 @@
             padding: 40px;
             width: 100%;
             max-width: 400px;
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(10px);
         }
         .login-title {
@@ -44,7 +45,7 @@
             font-size: 2rem;
         }
         .form-control {
-            border-radius: 5px;
+            border-radius: 50px;
             padding: 12px 20px;
             background-color: #a5aeb608;
             border: 1px solid #837a7a;
@@ -62,7 +63,7 @@
             color: #ffffff;
         }
         .input-group-text {
-            border-radius: 0 5px 5px 0;
+            border-radius: 0 50px 50px 0;
             background-color: #a5aeb608;
             border: none;
             border-right: none;
@@ -109,11 +110,11 @@
         .register-link a {
             font-size: 0.95rem;
         }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="logo">
-        <img src="icons/logo2.png" alt="" style="width: 70px; height: auto; margin: 20px 0 0 20px;">
+        <img src="../icons/logo2.png" alt="" style="width: 70px; height: auto; margin: 20px 0 0 20px;">
     </div>
     <div class="login-container">
         <div class="login-card">
@@ -141,7 +142,7 @@
                         <input class="form-check-input" type="checkbox" id="rememberMe">
                         <label class="form-check-label" for="rememberMe" style="color: #ffc107;">Remember me</label>
                     </div>
-                    <a href="../views/forgotPassword.jsp" class="text-decoration-none" style="color: #ffc107;">Forgot Password?</a>
+                    <a href="/login?action=forgot_pw" class="text-decoration-none" style="color: #ffc107;">Forgot Password?</a>
                 </div>
 
                 <!-- Login Button -->
@@ -150,7 +151,7 @@
 
             <!-- Register Link -->
             <div class="register-link" style="color: #ffc107;">
-                Don't have an account? <a href="../views/register.jsp" class="text-link">Register</a>
+                Don't have an account? <a href="/register" class="text-link">Register</a>
             </div>
         </div>
     </div>
