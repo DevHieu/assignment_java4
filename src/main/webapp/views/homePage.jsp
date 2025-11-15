@@ -131,7 +131,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
           </div>
         </header>
         <section id="skit">
-          <h1 class="mt-5 ms-5 skit-title">Các tiểu phẩm hài nổi bật</h1>
+          <h1 class="mt-5 ms-5 skit-title">Tiểu phẩm hài nổi bật</h1>
           <div class="row mx-5">
             <c:forEach var="video" items="${videos}">
               <div class="col-sm-4 my-3">
@@ -154,7 +154,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                       <div class="col-10">
                         <h5 class="card-title fw-bold mb-0 fs-4">${video.title}</h5>
                         <p class="card-text text-muted small my-2">${video.description}</p>
-                        <p class="card-text small mb-0 mt-1">${video.views} lượt xem</p>
+                        <p class="card-text small mb-0 mt-1"><i class="fa-solid fa-eye me-2 text-primary" style="font-size: 15px;"></i>${video.views}</p>
                       </div>
   
                       <div
