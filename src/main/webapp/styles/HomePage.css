@@ -44,16 +44,24 @@
 
 .icon-btn {
   background-color: transparent;
-  border: none;
-  outline: none;
+  border: 1px solid #ff9900;
   transition: 0.2s all;
   &:hover {
+    border: 1px solid #ff9900;
     text-shadow: 0 0 5px rgba(25, 214, 93, 0.5), 0 0 10px rgba(25, 214, 93, 0.5);
   }
 
   & i {
+    padding: 5px 3px;
     color: #ff9900;
-    font-size: 20px;
+    font-size: 18px;
+  }
+}
+.liked-class {
+  background-color: #ff9900 !important;
+  & i {
+    /* background-color: #ff9900; */
+    color: #0e0e0e !important;
   }
 }
 
@@ -103,4 +111,6 @@
 /* Tùy chỉnh cho nút Active/Disabled (Nếu áp dụng) */
 .custom-pagination .page-item .page-link[disabled] i {
   color: #555 !important; /* Màu xám cho nút bị vô hiệu hóa */
+}
+olor: #555 !important; /* Màu xám cho nút bị vô hiệu hóa */
 }

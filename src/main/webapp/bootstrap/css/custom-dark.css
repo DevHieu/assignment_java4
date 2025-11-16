@@ -16,3 +16,16 @@
   --bs-success-rgb: 25, 214, 93;
   --bs-gray-700: #383838;
 }
+
+.navbar {
+  background-color: rgba(11, 11, 11, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.nav-item .nav-link:hover {
+  color: #19d65d !important;
+
+  text-shadow: 0 0 5px rgba(25, 214, 93, 0.7), 0 0 10px rgba(25, 214, 93, 0.5);
+
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}

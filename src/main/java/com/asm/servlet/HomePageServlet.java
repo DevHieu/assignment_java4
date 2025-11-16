@@ -17,7 +17,7 @@ import com.asm.dao.impl.VideoDetailDAOImpl;
 import com.asm.dto.VideoDetailDTO;
 import com.asm.entity.User;
 
-@WebServlet({ "/home" })
+@WebServlet({ "/home", "logout" })
 public class HomePageServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,17 @@ public class HomePageServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession(true);
+    // fake session user -> giả lập đăng nhập
+    User user = new User();
+    user.setId("hieu01");
+    user.setFullname("Admin");
+    user.setAdmin(true);
+    session.setAttribute("user", user);
+
+    if (request.getRequestURI().contains("logout")) {
+      session.setAttribute("user", null);
+    }
+
     String userId = session.getAttribute("user") != null
         ? ((User) session.getAttribute("user")).getId()
         : null;

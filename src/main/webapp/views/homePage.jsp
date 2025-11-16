@@ -18,6 +18,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
     <link href="../styles/HomePage.css" rel="stylesheet" />
     <link href="../styles/NavBar.css" rel="stylesheet" />
+    <script src="../scripts/VideoAction.js"></script>
   </head>
   <body>
     <div class="position-relative">
@@ -140,7 +141,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                     class="card-img-top bg-light object-fit-cover overflow-hidden"
                     style="height: 300px; border-radius: 8px"
                   >
-                    <a href="/video" class="stretched-link">
+                    <a href="/watch?id=${video.id}" class="stretched-link">
                       <img
                         src="../images/baner1.png"
                         alt="thumbnail"
@@ -160,34 +161,20 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                       <div
                         class="col-2 text-end d-flex justify-content-end align-items-center"
                       >
-                        <button class="icon-btn me-2 z-3" onclick="likeVideo('${video.id}', this)">
-                          <c:choose>
-                            <c:when test="${video.liked}">
-                              <i
-                                class="fa-solid fa-thumbs-up"
-                                id="like-icon-${video.id}"
-                                data-is-liked="true"
-                              ></i>
-                            </c:when>
-                            <c:otherwise>
-                              <i
-                                class="fa-regular fa-thumbs-up"
-                                id="like-icon-${video.id}"
-                                data-is-liked="false"
-                              ></i>
-                            </c:otherwise>
-                          </c:choose>
+                        <button class="btn btn-sm icon-btn me-3 z-3 ${video.liked ? 'liked-class' : ''}" onclick="likeVideo('${video.id}', this)" data-is-liked="${video.liked}">
+                          <i
+                              class=" fas fa-thumbs-up >"
+                              id="like-icon-${video.id}"
+                          ></i>
                         </button>
                         
-  
-                        <button 
-                            class="icon-btn z-3" 
-                            data-bs-toggle="modal" 
-                            data-bs-target="#share" 
-                            data-video-id="${video.id}"
-                            >
-                            <i class="fa-regular fa-share-from-square"></i>
+                        <button class="btn btn-sm icon-btn z-3" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#share" 
+                        data-video-id="${video.id}" >
+                          <i class="fas fa-share"></i>
                         </button>
+  
                       </div>
                     </div>
                   </div>
@@ -342,9 +329,37 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
             }
         });
 
-    
+    function likeVideo(videoId, button) {
+      const isLiked = button.getAttribute("data-is-liked") === "true";
+
+      const formData = new FormData();
+      formData.append("videoId", videoId);
+      formData.append("action", isLiked ? "unlike" : "like");
+
+      fetch("/like-video", {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === "success") {
+            if (data.action === "like") {
+              button.classList.add("liked-class");
+              button.setAttribute("data-is-liked", "true");
+            } else {
+              button.classList.remove("liked-class");
+              button.setAttribute("data-is-liked", "false");
+            }
+          } else {
+            alert("Có lỗi xảy ra: " + data.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Lỗi khi gửi yêu cầu:", error);
+          alert("Không thể kết nối đến máy chủ.");
+        });
+    }
 
     
   </script>
-  <script src="../scripts/VideoAction.js"></script>
 </html>
