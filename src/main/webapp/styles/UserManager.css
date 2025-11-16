@@ -1,0 +1,52 @@
+tn-warning {
+        background-color: #ff922b;
+        border-color: #ff922b;
+        color: #121212;
+        transition: background-color .2s ease, border-color .2s ease, transform .1s;
+    }
+
+
+    .btn-warning:hover {
+        background-color: #ffd86b;
+        border-color: #ffd86b;
+        color: #121212;
+        transform: translateY(-1px);
+    }
+
+
+    .btn-success {
+        background-color: #19d65d;
+        border-color: #19d65d;
+        color: #121212;
+        transition: background-color .2s ease, border-color .2s ease, transform .1s;
+    }
+    
+    /* Input trong trang User Manager */
+    .form-control:focus {
+    border-color: #ff922b !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 146, 43, 0.4) !important;
+    }
+
+
+    #userModal .form-control:focus {
+    border-color: #ff922b !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 146, 43, 0.4) !important;
+    }
+
+
+    .form-check-input[type="radio"]:checked {
+    background-color: #ff922b;
+    border-color: #ff922b;
+    }
+
+
+    .form-check-input[type="radio"]:focus {
+        border-color: #ff922b;
+        box-shadow: 0 0 0 0.2rem rgba(255, 146, 43, 0.4);
+    }
+
+
+    .form-check-input[type="radio"]:checked {
+        background-color: #ff922b !important;
+        border-color: #ff922b !important;
+    }

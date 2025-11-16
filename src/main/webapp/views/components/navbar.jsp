@@ -2,30 +2,44 @@
   <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
 
-    <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="/home">
-          <img src="../../icons/logo2.png" alt="logo" class="mx-5" style="height: 60px" />
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-4">
-            <li class="nav-item">
-              <a class="nav-link fw-semibold" aria-current="page" href="/home">Trang chủ</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-semibold" href="/home#skit">Tiểu phẩm</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-semibold" href="/home#info">Giới thiệu</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link fw-semibold" href="/home#contact">Liên hệ</a>
-            </li>
-          </ul>
+<nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">
+      <img
+        src="../../icons/logo2.png"
+        alt="logo"
+        class="mx-5"
+        style="height: 60px"
+      />
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-4">
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" aria-current="page" href="/home#banner"
+            >Trang chủ</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold"  href="/home#skit">Tiểu phẩm</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="/home#about">Giới thiệu</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link fw-semibold" href="#footer">Liên hệ</a>
+        </li>
+      </ul>
 
           <div class="d-flex align-items-center me-5">
             <form class="d-flex position-relative me-2" role="search" action="/search" method="get">
@@ -38,19 +52,24 @@
               </button>
             </form>
 
-            <c:choose>
-              <c:when test="${not empty sessionScope.user}">
-                <div class="dropdown">
-                  <a class="nav-link d-flex align-items-center p-0" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <i class="fa-solid fa-circle-user fa-lg mx-2 text-primary" style="font-size: 35px;"></i>
-                  </a>
-
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item " href="/profile">
-                        <i class="fa-solid fa-address-card me-2 text-primary "></i>
-                        Cập nhật Tài khoản
+        <c:choose>
+          <c:when test="${not empty sessionScope.user}">
+            <div class="dropdown">
+              <a
+                  class="nav-link d-flex align-items-center p-0"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+              >
+                  <i class="fa-solid fa-circle-user fa-lg mx-2 text-primary" style="font-size: 35px;"></i>
+              </a>
+      
+              <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                      <a class="dropdown-item " href="#footer">
+                          <i class="fa-solid fa-address-card me-2 text-primary "></i>
+                          Cập nhật Tài khoản
                       </a>
                     </li>
 
