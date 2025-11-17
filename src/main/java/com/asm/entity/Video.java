@@ -25,8 +25,10 @@ public class Video {
   private String poster;
   @Column(name = "views")
   private int views;
-  @Column(name = "description")
+  @Column(name = "description", columnDefinition = "TEXT")
   private String description;
+  @Column(name = "isBanner")
+  private boolean isBanner;
   @Column(name = "active")
   private boolean active;
 

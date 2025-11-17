@@ -1,10 +1,9 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
-uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+  <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
 <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home">
+    <a class="navbar-brand" href="<c:url value='/home' />">
       <img
         src="../../icons/logo2.png"
         alt="logo"
@@ -26,46 +25,31 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-4">
         <li class="nav-item">
-          <a class="nav-link fw-semibold" aria-current="page" href="/home"
+          <a class="nav-link fw-semibold" aria-current="page" href="<c:url value='/home' />#banner"
             >Trang chủ</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold"  href="/home#skit">Tiểu phẩm</a>
+          <a class="nav-link fw-semibold"  href="<c:url value='/home' />#skit">Tiểu phẩm</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold" href="/home#info">Giới thiệu</a>
+          <a class="nav-link fw-semibold" href="<c:url value='/home' />#about">Giới thiệu</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link fw-semibold" href="/home#contact">Liên hệ</a>
+          <a class="nav-link fw-semibold" href="#footer">Liên hệ</a>
         </li>
       </ul>
 
-      <div class="d-flex align-items-center me-5">
-        <form
-          class="d-flex position-relative me-2"
-          role="search"
-          action="/search"
-          method="get"
-        >
-          <input
-            class="form-control rounded-pill"
-            name="query"
-            type="search"
-            placeholder="Tìm kiếm"
-            aria-label="Search"
-            style="padding-right: 3rem"
-          />
+          <div class="d-flex align-items-center me-5">
+            <form class="d-flex position-relative me-2" role="search" action="/search" method="get">
+              <input class="form-control rounded-pill" name="query" type="search" placeholder="Tìm kiếm"
+                aria-label="Search" style="padding-right: 3rem" />
 
-          <button
-            class="btn btn-link position-absolute end-0 top-50 translate-middle-y"
-            type="submit"
-            style="color: #ffc107; padding: 0.375rem 0.75rem"
-            aria-label="Search"
-          >
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
+              <button class="btn btn-link position-absolute end-0 top-50 translate-middle-y" type="submit"
+                style="color: #ffc107; padding: 0.375rem 0.75rem" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </form>
 
         <c:choose>
           <c:when test="${not empty sessionScope.user}">
@@ -82,43 +66,58 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       
               <ul class="dropdown-menu dropdown-menu-end">
                   <li>
-                      <a class="dropdown-item " href="/profile">
+                      <a class="dropdown-item " href="<c:url value='/profile' />">
                           <i class="fa-solid fa-address-card me-2 text-primary "></i>
                           Cập nhật Tài khoản
                       </a>
-                  </li>
-                  
-                  <li><hr class="dropdown-divider"></li>
+                    </li>
 
-                  <li>
-                    <a class="dropdown-item " href="/history">
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+
+                    <li>
+                      <a class="dropdown-item " href="<c:url value='/history' />">
                         <i class="fa-solid fa-film me-2 text-primary "></i>
                         Lịch sử xem
-                    </a>
-                </li>
-
-                <li><hr class="dropdown-divider"></li>
-
-                  <li>
-                      <a class="dropdown-item " href="/logout">
-                          <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i>
-                          Đăng xuất
                       </a>
-                  </li>
-              </ul>
+                    </li>
+
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+
+                    <c:if test="${sessionScope.user.admin}">
+                      <li>
+                        <a class="dropdown-item " href="<c:url value='/admin/home' />">
+                          <i class="fa-brands fa-black-tie me-2 text-primary "></i>
+                          Quản lí trang web
+                        </a>
+                      </li>
+  
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                    </c:if>
+
+                    <li>
+                      <a class="dropdown-item " href="<c:url value='/logout' />">
+                        <i class="fa-solid fa-right-from-bracket me-2 text-primary"></i>
+                        Đăng xuất
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </c:when>
+              <c:otherwise>
+                <a href="<c:url value='/login' />"
+                  class="text-decoration-none d-flex align-items-center ms-2 border rounded-pill px-3 py-1 bg-dark-subtle">
+                  <i class="fa-solid fa-user me-2" style="color: #ffc107"></i>
+                  <span class="text-white fw-semibold">Login</span>
+                </a>
+              </c:otherwise>
+            </c:choose>
           </div>
-          </c:when>
-          <c:otherwise>
-            <a
-              href="/login"
-              class="text-decoration-none d-flex align-items-center ms-2 border rounded-pill px-3 py-1 bg-dark-subtle"
-            >
-              <i class="fa-solid fa-user me-2" style="color: #ffc107"></i>
-              <span class="text-white fw-semibold">Login</span>
-            </a>
-          </c:otherwise>
-        </c:choose>
+        </div>
       </div>
-    </div>
-  </div>
-</nav>
+    </nav>

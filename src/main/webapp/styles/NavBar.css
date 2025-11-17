@@ -1,3 +1,8 @@
+.navbar {
+  background-color: rgba(11, 11, 11, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
 .nav-item .nav-link:hover {
   color: #19d65d !important;
 
