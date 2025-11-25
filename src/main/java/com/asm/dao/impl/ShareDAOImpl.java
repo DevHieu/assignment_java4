@@ -5,11 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import com.asm.dao.VideoDAO;
-import com.asm.entity.Video;
+import com.asm.dao.ShareDAO;
+import com.asm.entity.Share;
 import com.asm.utils.XJpa;
 
-public class VideoDAOImpl implements VideoDAO {
+public class ShareDAOImpl implements ShareDAO {
 
   EntityManager em = XJpa.getEntityManager();
 
@@ -19,19 +19,19 @@ public class VideoDAOImpl implements VideoDAO {
   }
 
   @Override
-  public List<Video> findAll() {
-    String sql = "SELECT f FROM Favorite f";
-    TypedQuery<Video> query = em.createQuery(sql, Video.class);
+  public List<Share> findAll() {
+    String sql = "SELECT s FROM Share s";
+    TypedQuery<Share> query = em.createQuery(sql, Share.class);
     return query.getResultList();
   }
 
   @Override
-  public Video findById(String id) {
-    return em.find(Video.class, id);
+  public Share findById(Long id) {
+    return em.find(Share.class, id);
   }
 
   @Override
-  public void create(Video item) {
+  public void create(Share item) {
     try {
       em.getTransaction().begin();
       em.persist(item);
@@ -42,7 +42,7 @@ public class VideoDAOImpl implements VideoDAO {
   }
 
   @Override
-  public void update(Video item) {
+  public void update(Share item) {
     try {
       em.getTransaction().begin();
       em.merge(item);
@@ -53,8 +53,8 @@ public class VideoDAOImpl implements VideoDAO {
   }
 
   @Override
-  public void deleteById(String id) {
-    Video user = em.find(Video.class, id);
+  public void deleteById(Long id) {
+    Share user = em.find(Share.class, id);
     try {
       em.getTransaction().begin();
       em.remove(user);
@@ -66,31 +66,21 @@ public class VideoDAOImpl implements VideoDAO {
 
   @Override
   public int countAll() {
-    String sql = "SELECT COUNT(v) FROM Video v";
+    String sql = "SELECT COUNT(s) FROM Share s";
     TypedQuery<Long> query = em.createQuery(sql, Long.class);
     return query.getSingleResult().intValue();
   }
 
   @Override
-  public List<Video> getBannerVideo() {
-    String sql = "SELECT v FROM Video v WHERE v.isBanner = true";
-    TypedQuery<Video> query = em.createQuery(sql, Video.class);
-    return query.getResultList();
-  }
+  public List<Share> getShareStatisByTitle(String title) {
+    // String sql = "SELECT new com.asm.dto.ShareStatis(u.fullname, u.email,
+    // s.emails, s.shareDate) "
+    // + "FROM Share s WHERE s.video.title LIKE :title";
 
-  @Override
-  public void removeBanner(String videoId) {
-    Video video = em.find(Video.class, videoId);
-    if (video != null) {
-      try {
-        em.getTransaction().begin();
-        video.setBanner(false);
-        em.merge(video);
-        em.getTransaction().commit();
-      } catch (Exception e) {
-        em.getTransaction().rollback();
-      }
-    }
+    String sql = "SELECT s FROM Share s WHERE s.video.title LIKE :title";
+    TypedQuery<Share> query = em.createQuery(sql, Share.class);
+    query.setParameter("title", "%" + title + "%");
+    return query.getResultList();
   }
 
 }
