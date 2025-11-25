@@ -5,11 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-import com.asm.dao.VideoDAO;
-import com.asm.entity.Video;
+import com.asm.dao.UserDAO;
+import com.asm.entity.User;
 import com.asm.utils.XJpa;
 
-public class VideoDAOImpl implements VideoDAO {
+public class UserDAOImpl implements UserDAO {
 
   EntityManager em = XJpa.getEntityManager();
 
@@ -19,19 +19,19 @@ public class VideoDAOImpl implements VideoDAO {
   }
 
   @Override
-  public List<Video> findAll() {
+  public List<User> findAll() {
     String sql = "SELECT f FROM Favorite f";
-    TypedQuery<Video> query = em.createQuery(sql, Video.class);
+    TypedQuery<User> query = em.createQuery(sql, User.class);
     return query.getResultList();
   }
 
   @Override
-  public Video findById(String id) {
-    return em.find(Video.class, id);
+  public User findById(String id) {
+    return em.find(User.class, id);
   }
 
   @Override
-  public void create(Video item) {
+  public void create(User item) {
     try {
       em.getTransaction().begin();
       em.persist(item);
@@ -42,7 +42,7 @@ public class VideoDAOImpl implements VideoDAO {
   }
 
   @Override
-  public void update(Video item) {
+  public void update(User item) {
     try {
       em.getTransaction().begin();
       em.merge(item);
@@ -54,7 +54,7 @@ public class VideoDAOImpl implements VideoDAO {
 
   @Override
   public void deleteById(String id) {
-    Video user = em.find(Video.class, id);
+    User user = em.find(User.class, id);
     try {
       em.getTransaction().begin();
       em.remove(user);
@@ -66,31 +66,9 @@ public class VideoDAOImpl implements VideoDAO {
 
   @Override
   public int countAll() {
-    String sql = "SELECT COUNT(v) FROM Video v";
+    String sql = "SELECT COUNT(u) FROM User u";
     TypedQuery<Long> query = em.createQuery(sql, Long.class);
     return query.getSingleResult().intValue();
-  }
-
-  @Override
-  public List<Video> getBannerVideo() {
-    String sql = "SELECT v FROM Video v WHERE v.isBanner = true";
-    TypedQuery<Video> query = em.createQuery(sql, Video.class);
-    return query.getResultList();
-  }
-
-  @Override
-  public void removeBanner(String videoId) {
-    Video video = em.find(Video.class, videoId);
-    if (video != null) {
-      try {
-        em.getTransaction().begin();
-        video.setBanner(false);
-        em.merge(video);
-        em.getTransaction().commit();
-      } catch (Exception e) {
-        em.getTransaction().rollback();
-      }
-    }
   }
 
 }

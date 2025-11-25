@@ -17,4 +17,7 @@ public interface CrudDAO<T, ID> {
 
   /** Xóa theo mã */
   void deleteById(ID id);
+
+  /** Đếm tổng số bản ghi */
+  int countAll();
 }
