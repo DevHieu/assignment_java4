@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="<c:url value='/home' />">
       <img
-        src="../../icons/logo2.png"
+      src="<c:url value='/icons/logo2.png' />"
         alt="logo"
         class="mx-5"
         style="height: 60px"

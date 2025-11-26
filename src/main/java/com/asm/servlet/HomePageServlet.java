@@ -16,61 +16,58 @@ import com.asm.dao.impl.VideoDAOImpl;
 import com.asm.dao.impl.VideoDetailDAOImpl;
 import com.asm.dto.VideoDetailDTO;
 import com.asm.entity.User;
-import com.asm.entity.Video;
 
-@WebServlet({ "/home", "logout" })
+@WebServlet({ "/home", "/logout" })
 public class HomePageServlet extends HttpServlet {
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  VideoDetailDAO videoDetailDAO = new VideoDetailDAOImpl();
-  VideoDAO videoDAO = new VideoDAOImpl();
+	VideoDetailDAO videoDetailDAO = new VideoDetailDAOImpl();
+	VideoDAO videoDAO = new VideoDAOImpl();
 
-  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    HttpSession session = request.getSession(true);
-    // fake session user -> giả lập đăng nhập
-    User user = new User();
-    user.setId("hieu01");
-    user.setFullname("Admin");
-    user.setAdmin(true);
-    session.setAttribute("user", user);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession(true);
+		// fake session user -> giả lập đăng nhập
+		User user = new User();
+		user.setId("hieu01");
+		user.setFullname("Admin");
+		user.setAdmin(true);
+		session.setAttribute("user", user);
 
-    if (request.getRequestURI().contains("logout")) {
-      session.setAttribute("user", null);
-    }
+		if (request.getRequestURI().contains("logout")) {
+			session.setAttribute("user", null);
+		}
 
-    String userId = session.getAttribute("user") != null
-        ? ((User) session.getAttribute("user")).getId()
-        : null;
+		String userId = session.getAttribute("user") != null ? ((User) session.getAttribute("user")).getId() : null;
 
-    int offset = 6;
-    int maxPage = videoDAO.countAll() / offset;
-    String prevPage = request.getParameter("page");
-    int page = 1;
+		int offset = 6;
+		int maxPage = videoDAO.countAllVideos() / offset;
+		String prevPage = request.getParameter("page");
+		int page = 1;
 
-    if (prevPage != null) {
-      page = Integer.parseInt(prevPage);
-      if (page < 1) {
-        page = 1;
-      } else if (page > maxPage) {
-        page = maxPage;
-      }
+		if (prevPage != null) {
+			page = Integer.parseInt(prevPage);
+			if (page < 1) {
+				page = 1;
+			} else if (page > maxPage) {
+				page = maxPage;
+			}
 
-      request.setAttribute("targetScrollId", "#skit"); // Khi nào có đổi trang thì mởi để jsp nhảy lên id này
-    }
+			request.setAttribute("targetScrollId", "#skit"); // Khi nào có đổi trang thì mởi để jsp nhảy lên id này
+		}
 
-    List<Video> bannerVideos = videoDAO.getBannerVideo();
-    List<VideoDetailDTO> videos = videoDetailDAO.findByPage(userId, page, offset);
-    System.out.println(bannerVideos.size());
-    request.setAttribute("bannerVideos", bannerVideos);
-    request.setAttribute("videos", videos);
-    request.setAttribute("currentUrl", request.getRequestURI());
-    request.setAttribute("currentPage", page);
-    request.setAttribute("maxPage", maxPage);
+		List<VideoDetailDTO> videos = videoDetailDAO.findByPage(userId, page, offset);
 
-    request.getRequestDispatcher("/views/homePage.jsp").forward(request, response);
-  }
+		request.setAttribute("videos", videos);
+		request.setAttribute("currentUrl", request.getRequestURI());
+		request.setAttribute("currentPage", page);
+		request.setAttribute("maxPage", maxPage);
 
-  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    doGet(request, response);
-  }
+		request.getRequestDispatcher("/views/homePage.jsp").forward(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
 }

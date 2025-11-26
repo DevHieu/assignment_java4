@@ -27,27 +27,83 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
         <header>
           <!-- data-bs-ride="carousel" -->
           <div id="carousel" class="carousel slide">
+            <div class="carousel-indicators">
+              <button
+                type="button"
+                data-bs-target="#carousel"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carousel"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
+              ></button>
+              <button
+                type="button"
+                data-bs-target="#carousel"
+                data-bs-slide-to="2"
+                aria-label="Slide 3"
+              ></button>
+            </div>
             <div class="carousel-inner" style="height: 90vh">
-              <c:forEach var="item" items="${bannerVideos}" varStatus="st">
-                <div class="carousel-item h-100 w-100 ${st.first ? 'active' : ''}">
-                  <img
-                    src="../images/baner3.jpg"
-                    class="d-block w-100 h-100 object-fit-cover"
-                    alt="..."
-                  />
-                  <div
-                    class="carousel-caption d-md-block w-100 text-white p-0"
-                    style="height: 100%"
-                  >
-                    <h1 style="font-size: 80px; margin-bottom: 0.5em">
-                      ${item.title}
-                    </h1>
-                    <h5>
-                      ${item.description}
-                    </h5>
-                  </div>
+              <div class="carousel-item active h-100 w-100">
+                <img
+                  src="../images/baner1.png"
+                  class="d-block w-100 h-100 object-fit-cover"
+                  alt="..."
+                />
+                <div
+                  class="carousel-caption d-md-block w-100 text-white p-0"
+                  style="height: 100%"
+                >
+                  <h1 style="font-size: 80px; margin-bottom: 0.5em">
+                    Interstella
+                  </h1>
+                  <h5>
+                    Some representative placeholder content for the first slide.
+                  </h5>
                 </div>
-              </c:forEach>
+              </div>
+              <div class="carousel-item h-100 w-100">
+                <img
+                  src="../images/baner2.jpg"
+                  class="d-block w-100 h-100 object-fit-cover"
+                  alt="..."
+                />
+                <div
+                  class="carousel-caption d-md-block w-100 text-white p-0"
+                  style="height: 100%"
+                >
+                  <h1 style="font-size: 80px; margin-bottom: 0.5em">
+                    Breaking Bad
+                  </h1>
+                  <h5>
+                    Some representative placeholder content for the first slide.
+                  </h5>
+                </div>
+              </div>
+              <div class="carousel-item h-100 w-100">
+                <img
+                  src="../images/baner3.jpg"
+                  class="d-block w-100 h-100 object-fit-cover"
+                  alt="..."
+                />
+                <div
+                  class="carousel-caption d-md-block w-100 text-white p-0"
+                  style="height: 100%"
+                >
+                  <h1 style="font-size: 80px; margin-bottom: 0.5em">
+                    Chainsaw man
+                  </h1>
+                  <h5>
+                    Some representative placeholder content for the first slide.
+                  </h5>
+                </div>
+              </div>
             </div>
             <button
               class="carousel-control-prev"
@@ -105,6 +161,13 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                       <div
                         class="col-2 text-end d-flex justify-content-end align-items-center"
                       >
+                        <button class="btn btn-sm icon-btn me-3 z-3 ${video.liked ? 'liked-class' : ''}" onclick="likeVideo('${video.id}', this)" data-is-liked="${video.liked}">
+                          <i
+                              class=" fas fa-thumbs-up >"
+                              id="like-icon-${video.id}"
+                          ></i>
+                        </button>
+                        
                         <button class="btn btn-sm icon-btn z-3" 
                         data-bs-toggle="modal" 
                         data-bs-target="#share" 

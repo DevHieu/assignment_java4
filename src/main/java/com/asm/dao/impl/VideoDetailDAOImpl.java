@@ -14,10 +14,10 @@ public class VideoDetailDAOImpl implements VideoDetailDAO {
   EntityManager em = XJpa.getEntityManager();
 
   @Override
-  public VideoDetailDTO findById(String id, String userId) {
-    String jpql = "SELECT NEW com.asm.dto.VideoDetailDTO(v.id,v.title,v.poster,v.views,v.description,SIZE(v.favorites), "
-        + "EXISTS ( SELECT 1 FROM Favorite f WHERE f.video.id = v.id AND f.user.id = :userId)) "
+  public VideoDetailDTO findById(String id) {
+    String jpql = "SELECT new com.asm.dto.VideoDetailDto(v.id, v.title, v.poster, v.views, v.description, ) "
         + "FROM Video v WHERE v.id = :id";
+
     TypedQuery<VideoDetailDTO> query = em.createQuery(jpql, VideoDetailDTO.class);
     query.setParameter("id", id);
 
@@ -26,8 +26,10 @@ public class VideoDetailDAOImpl implements VideoDetailDAO {
 
   @Override
   public List<VideoDetailDTO> findByPage(String userId, int page, int offset) {
-    String jpql = "SELECT new com.asm.dto.VideoDetailDTO(v.id, v.title, v.poster, v.views, v.description, SIZE(v.favorites), "
-        + "EXISTS ( SELECT 1 FROM Favorite f WHERE f.video.id = v.id AND f.user.id = :userId)) "
+    String jpql = "SELECT new com.asm.dto.VideoDetailDTO("
+        + "v.id, v.title, v.poster, v.views, v.description, "
+        + "CASE WHEN EXISTS (SELECT f FROM Favorite f WHERE f.video.id = v.id AND f.user.id = :userId) then true else false END"
+        + ") "
         + "FROM Video v "
         + "WHERE v.active = TRUE ";
 

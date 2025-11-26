@@ -13,6 +13,5 @@ public class VideoDetailDTO {
   private String poster;
   private int views;
   private String description;
-  private int totalLike;
   private boolean liked;
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.asm.entity.Video;
 
 public interface VideoDAO extends CrudDAO<Video, String> {
-  List<Video> getBannerVideo();
+	public int countAllVideos();
 
-  void removeBanner(String videoId);
+	List<Object[]> searchVideo(String textSearch, String JPQL);
 }
