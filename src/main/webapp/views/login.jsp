@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
-uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %> 
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -25,7 +25,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
     </a>
     <div class="login-container">
       <div class="login-card">
-        <h1 class="login-title">Login</h1>
+        <h1 class="login-title">Đăng Nhập</h1>
         <form action="login" method="post">
           <!-- Username Field -->
           <div class="mb-3">
@@ -34,7 +34,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="text"
                 class="form-control"
                 name="username"
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
                 required
               />
               <span class="input-group-text"
@@ -44,20 +44,28 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
           </div>
 
           <!-- Password Field -->
-          <div class="mb-3">
+          <div class="mb-3 position-relative">
             <div class="input-group">
               <input
                 type="password"
                 class="form-control"
                 name="password"
-                placeholder="Password"
+                id="password"
+                placeholder="Mật khẩu"
                 required
               />
-              <span class="input-group-text"
-                ><i class="fa-solid fa-lock"></i
-              ></span>
+              <span class="input-group-text" style="border-radius: 0 50px 50px 0;">
+                <i class="fa-solid fa-lock"></i>
+              </span>
+              <span class="position-absolute top-50 end-0 translate-middle-y pe-5" style="cursor: pointer;"
+                    id="togglePassword">
+                <i class="fa-solid fa-eye" style="color: #e7d8ab;"></i>
+              </span>
+              
+              
             </div>
           </div>
+          
 
           <!-- Remember me & Forgot password -->
           <div
@@ -69,27 +77,44 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 class="form-check-label"
                 for="rememberMe"
                 style="color: #ffc107"
-                >Remember me</label
+                >Nhớ mật khẩu</label
               >
             </div>
             <a
               href="/login?action=forgot_pw"
               class="text-decoration-none"
               style="color: #ffc107"
-              >Forgot Password?</a
+              >Quên mật khẩu?</a
             >
           </div>
 
           <!-- Login Button -->
-          <button type="submit" class="btn btn-login w-100">Login</button>
+          <button type="submit" class="btn btn-login w-100">Đăng Nhập</button>
         </form>
 
         <!-- Register Link -->
         <div class="register-link" style="color: #ffc107">
-          Don't have an account?
-          <a href="/register" class="text-link">Register</a>
+          Bạn chưa có tài khoản?
+          <a href="/register" class="text-link">Đăng ký</a>
         </div>
+        <c:if test="${not empty error}">
+          <div class="text-white">
+            ${error}
+          </div>
+        </c:if>
+        
+        
       </div>
     </div>
+    <script>
+    const togglePassword = document.getElementById('togglePassword');
+    const password = document.getElementById('password');
+
+    togglePassword.addEventListener('click', function() {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+    });
+  </script> 
   </body>
+  
 </html>

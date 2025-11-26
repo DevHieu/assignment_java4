@@ -28,7 +28,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
     </a>
     <div class="register-container">
       <div class="register-card">
-        <h1 class="register-title">Register</h1>
+        <h1 class="register-title">Đăng Ký</h1>
         <form action="register" method="post">
           <!-- Fullname Field -->
           <div class="mb-3">
@@ -37,7 +37,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="text"
                 class="form-control"
                 name="fullname"
-                placeholder="Fullname"
+                placeholder="Họ và Tên"
                 required
               />
               <span class="input-group-text"
@@ -53,7 +53,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="text"
                 class="form-control"
                 name="username"
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
                 required
               />
               <span class="input-group-text"
@@ -85,12 +85,10 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="password"
                 class="form-control"
                 name="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 required
               />
-              <span class="input-group-text"
-                ><i class="fa-solid fa-lock"></i
-              ></span>
+              <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
             </div>
           </div>
 
@@ -101,24 +99,26 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="password"
                 class="form-control"
                 name="confirmPassword"
-                placeholder="Re-enter password"
+                placeholder="Xác nhận mật khẩu"
                 required
               />
-              <span class="input-group-text"
-                ><i class="fa-solid fa-lock"></i
-              ></span>
+              <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
             </div>
           </div>
 
+          <c:if test="${not empty error}">
+            ${error}
+          </c:if>
+          ${success}
           <!-- Register Button -->
           <button type="submit" class="btn btn-register w-100 mt-3">
-            Register
+            Đăng Ký
           </button>
         </form>
 
         <!-- Login Link -->
         <div class="register-link" style="color: #ffc107">
-          Already have an account? <a href="/login" class="text-link">Login</a>
+          Đã có tài khoản hả cưng? <a href="/login" class="text-link">Đăng Nhập</a>
         </div>
       </div>
     </div>

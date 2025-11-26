@@ -50,7 +50,7 @@ body, html {
     color: #ffffff;
 }
 .input-group-text {
-    border-radius: 0 50px 50px 0;
+    border-radius: 0 50px 50px 0; 
     background-color: #a5aeb608;
     border: none;
     border-right: none;

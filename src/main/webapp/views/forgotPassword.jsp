@@ -28,7 +28,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
     </a>
     <div class="forgotPassword-container">
       <div class="forgotPassword-card">
-        <h1 class="forgotPassword-title">Forgot your password?</h1>
+        <h1 class="forgotPassword-title">Quên mật khẩu?</h1>
         <form action="forgotPassword" method="post">
           <!-- Username Field -->
           <div class="mb-3">
@@ -37,7 +37,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="text"
                 class="form-control"
                 name="username"
-                placeholder="Username"
+                placeholder="Tên đăng nhập"
                 required
               />
               <span class="input-group-text"
@@ -64,7 +64,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
           <!-- Login Button -->
           <button type="submit" class="btn btn-retrieve w-100 mt-3">
-            Retrieve
+            Khôi Phục
           </button>
         </form>
       </div>
