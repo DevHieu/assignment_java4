@@ -9,5 +9,4 @@ public interface UserDAO extends CrudDAO<User, String> {
     List<User> searchByKeyword(String keyword);
     List<User> findByRole(boolean admin);
     List<User> findPage(int page, int size);
-    int count();
 }

@@ -16,6 +16,7 @@ import com.asm.dao.impl.VideoDAOImpl;
 import com.asm.dao.impl.VideoDetailDAOImpl;
 import com.asm.dto.VideoDetailDTO;
 import com.asm.entity.User;
+import com.asm.entity.Video;
 
 @WebServlet({ "/home", "logout" })
 public class HomePageServlet extends HttpServlet {
@@ -42,7 +43,7 @@ public class HomePageServlet extends HttpServlet {
         : null;
 
     int offset = 6;
-    int maxPage = videoDAO.countAllVideos() / offset;
+    int maxPage = (int) Math.ceil((double) videoDAO.countAll() / offset);
     String prevPage = request.getParameter("page");
     int page = 1;
 
@@ -57,8 +58,10 @@ public class HomePageServlet extends HttpServlet {
       request.setAttribute("targetScrollId", "#skit"); // Khi nào có đổi trang thì mởi để jsp nhảy lên id này
     }
 
+    List<Video> bannerVideos = videoDAO.getBannerVideo();
     List<VideoDetailDTO> videos = videoDetailDAO.findByPage(userId, page, offset);
-
+    System.out.println(bannerVideos.size());
+    request.setAttribute("bannerVideos", bannerVideos);
     request.setAttribute("videos", videos);
     request.setAttribute("currentUrl", request.getRequestURI());
     request.setAttribute("currentPage", page);

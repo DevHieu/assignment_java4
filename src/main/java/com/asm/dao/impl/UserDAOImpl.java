@@ -9,13 +9,11 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO{
-    private EntityManager getEntityManager() {
-        return XJpa.getEntityManager();
-    }
+    private EntityManager em = XJpa.getEntityManager();
 
     @Override
     public List<User> findAll() {
-        EntityManager em = getEntityManager();
+        
         try {
             String jpql = "SELECT u FROM User u ORDER BY u.id";
             TypedQuery<User> query = em.createQuery(jpql, User.class);
@@ -127,4 +125,11 @@ public class UserDAOImpl implements UserDAO{
             // Không đóng
         }
     }
+
+    @Override
+  public int countAll() {
+    String sql = "SELECT COUNT(u) FROM User u";
+    TypedQuery<Long> query = em.createQuery(sql, Long.class);
+    return query.getSingleResult().intValue();
+  }
 }
