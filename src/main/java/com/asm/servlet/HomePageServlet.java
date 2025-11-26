@@ -43,7 +43,7 @@ public class HomePageServlet extends HttpServlet {
         : null;
 
     int offset = 6;
-    int maxPage = videoDAO.countAll() / offset;
+    int maxPage = (int) Math.ceil((double) videoDAO.countAll() / offset);
     String prevPage = request.getParameter("page");
     int page = 1;
 
