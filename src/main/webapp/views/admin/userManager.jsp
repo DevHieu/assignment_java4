@@ -88,7 +88,7 @@
                         </div>
 
                         <div class="mb-2 d-flex align-items-center">
-                            <label class="form-label mb-0 me-3">Vai trò:</label>
+                            <label class="form-label mb-0 me-3">Role:</label>
                             <div class="form-check form-check-inline mb-0">
                                 <input class="form-check-input" type="radio" name="role" id="roleUser" value="USER" checked>
                                 <label class="form-check-label" for="roleUser">User</label>
@@ -138,63 +138,60 @@
             <table class="table table-hover table-striped align-middle mb-0 table-bordered">
                 <thead class="table-dark">
                     <tr>
-                        <th class="text-center" scope="col" style="width:72px">ID</th>
-                        <th class="text-center" scope="col">Fullname</th>
-                        <th class="text-center" scope="col">Email</th>
-                        <th class="text-center" scope="col" style="width:140px">Role</th>
-                        <th class="text-center" scope="col" style="width:120px">Avatar</th>
-                        <!-- <th scope="col" style="width:120px">Status</th> -->
-                        <th class="text-center" scope="col" class="text-end" style="width:180px">Actions</th>
+                        <th class="text-center" style="width:80px">ID</th>
+                        <th>Họ tên</th>
+                        <th>Email</th>
+                        <th class="text-center" style="width:120px">Vai trò</th>
+                        <th class="text-center" style="width:100px">Avatar</th>
+                        <th class="text-center" style="width:180px">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     <c:choose>
                         <c:when test="${not empty users}">
-                            <tr>
-                                <td>${u.id}</td>
-                                <td class="fw-semibold">${u.fullname}</td>
-                                <td>${u.email}</td>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${u.admin}">
-                                            <span class="badge bg-primary">ADMIN</span>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <span class="badge bg-secondary">USER</span>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </td>
-                                <td>
-                                    <span class="d-inline-flex align-items-center justify-content-center rounded-circle bg-secondary-subtle"
-                                        style="width:36px;height:36px">
-                                        <i class="fa-solid fa-user text-secondary"></i>
-                                    </span>
-                                </td>
-                                <!-- <td>
-                                    <span class="text-muted">—</span>
-                                    <%-- Nếu sau này có u.active (Boolean), dùng:
-                                    <c:choose>
-                                        <c:when test="${u.active}"><span class="badge bg-success">Active</span></c:when>
-                                        <c:otherwise><span class="badge bg-danger">Blocked</span></c:otherwise>
-                                    </c:choose>
-                                    --%>
-                                </td> -->
-                                <td class="text-end">
-                                    <a href="/admin/users/edit?id=${u.id}" class="btn btn-sm btn-warning me-2">
-                                        <i class="fa-solid fa-pen-to-square"></i><span class="ms-1">Edit</span>
-                                    </a>
-                                    <form action="/admin/users/delete" method="post" class="d-inline">
-                                        <input type="hidden" name="id" value="${u.id}" />
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this user?')">
-                                            <i class="fa-solid fa-trash-can"></i><span class="ms-1">Delete</span>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            <!-- ĐÚNG RỒI ĐÂY: DÙNG forEach ĐỂ LẶP DANH SÁCH -->
+                            <c:forEach var="u" items="${users}">
+                                <tr>
+                                    <td class="text-center fw-bold">${u.id}</td>
+                                    <td>${u.fullname}</td>
+                                    <td>${u.email}</td>
+                                    <td class="text-center">
+                                        <c:choose>
+                                            <c:when test="${u.admin}">
+                                                <span class="badge bg-primary">ADMIN</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge bg-secondary">USER</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="bg-secondary-subtle rounded-circle d-inline-flex align-items-center justify-content-center"
+                                             style="width:40px;height:40px;overflow:hidden">
+                                            <i class="fa-solid fa-user text-secondary"></i>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="/admin/users/edit?id=${u.id}" class="btn btn-sm btn-warning me-1">
+                                            <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                        </a>
+                                        <form action="/admin/users/delete" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="${u.id}" />
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Xóa user ${u.id} thật hả bé?')">
+                                                <i class="fa-solid fa-trash-can"></i> Xóa
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">No users found.</td>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="fa-solid fa-users-slash fa-3x mb-3"></i><br>
+                                    Chưa có người dùng nào hết bé ơi
+                                </td>
                             </tr>
                         </c:otherwise>
                     </c:choose>
@@ -202,13 +199,14 @@
             </table>
         </div>
 
-        <c:if test="${not empty pageCount}">
-            <nav class="mt-3" aria-label="Pagination">
-                <ul class="pagination justify-content-end mb-0">
+        <!-- Phân trang -->
+        <c:if test="${pageCount > 1}">
+            <nav class="mt-4" aria-label="Pagination">
+                <ul class="pagination justify-content-center mb-0">
                     <c:forEach var="p" begin="1" end="${pageCount}">
                         <li class="page-item ${p == currentPage ? 'active' : ''}">
                             <a class="page-link"
-                               href="/admin/users?page=${p}&q=${fn:escapeXml(param.q)}&role=${param.role}">${p}</a>
+                               href="/admin/users?page=${p}&q=${fn:escapeXml(paramQ)}&role=${paramRole}">${p}</a>
                         </li>
                     </c:forEach>
                 </ul>
