@@ -40,10 +40,10 @@ public class HomePageServlet extends HttpServlet {
 
 		String userId = session.getAttribute("user") != null ? ((User) session.getAttribute("user")).getId() : null;
 
-		int offset = 6;
-		int maxPage = videoDAO.countAllVideos() / offset;
-		String prevPage = request.getParameter("page");
-		int page = 1;
+    int offset = 6;
+    int maxPage = (int) Math.ceil((double) videoDAO.countAll() / offset);
+    String prevPage = request.getParameter("page");
+    int page = 1;
 
 		if (prevPage != null) {
 			page = Integer.parseInt(prevPage);
