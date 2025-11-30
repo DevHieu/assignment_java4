@@ -16,6 +16,7 @@
 
     <link href="../../styles/NavBar.css" rel="stylesheet" />
     <link href="../../styles/UserManager.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/history.css" />
 </head>
 
 <body>
@@ -254,6 +255,32 @@
                 </tbody>
             </table>
         </div>
+
+        <c:if test="${pageCount > 1}">
+            <nav class="mt-4" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="?page=${currentPage - 1}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if><c:if test="${not empty paramRole}">&role=<c:out value="${paramRole}" /></c:if>">
+                            <i class="fa-solid fa-angle-left text-primary fs-6"></i>
+                        </a>
+                    </li>
+
+                    <c:forEach begin="1" end="${pageCount}" var="p">
+                        <li class="page-item ${p == currentPage ? 'active' : ''}">
+                            <a class="page-link" href="?page=${p}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if><c:if test="${not empty paramRole}">&role=<c:out value="${paramRole}" /></c:if>">
+                                ${p}
+                            </a>
+                        </li>
+                    </c:forEach>
+
+                    <li class="page-item ${currentPage >= pageCount ? 'disabled' : ''}">
+                        <a class="page-link" href="?page=${currentPage + 1}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if><c:if test="${not empty paramRole}">&role=<c:out value="${paramRole}" /></c:if>">
+                            <i class="fa-solid fa-angle-right text-primary fs-6"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </c:if>
 
     </main>
 
