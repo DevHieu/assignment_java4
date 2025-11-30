@@ -76,6 +76,8 @@
                                     <label class="form-check-label" for="statusActive">Active</label>
                                 </div>
 
+
+
                                 <div class="form-check form-check-inline mb-0">
                                     <input class="form-check-input"
                                            type="radio"
@@ -83,6 +85,31 @@
                                            id="statusInactive"
                                            value="INACTIVE">
                                     <label class="form-check-label" for="statusInactive">Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center gap-3">
+                                <label class="form-label mb-0 me-2">Do you want the video to appear on the banner?
+                                    <br>
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input"
+                                        type="radio"
+                                        name="isBanner"
+                                        id="bannerYes"
+                                        value="true">
+                                    <label class="form-check-label" for="bannerYes">Yes</label>
+                                </div>
+
+                                <div class="form-check form-check-inline mb-0">
+                                    <input class="form-check-input"
+                                        type="radio"
+                                        name="isBanner"
+                                        id="bannerNo"
+                                        value="false"
+                                        checked>
+                                    <label class="form-check-label" for="bannerNo">No</label>
                                 </div>
                             </div>
                         </div>

@@ -86,6 +86,44 @@ public class UserDAOImpl implements UserDAO {
     query.setParameter("email", email);
     return !query.getResultList().isEmpty();
   }
+  
+  @Override
+    public List<User> searchByKeyword(String keyword) {
+        try {
+            if (keyword == null || keyword.trim().isEmpty()) {
+                return findAll();
+            }
+            String jpql = "SELECT u FROM User u WHERE LOWER(u.fullname) LIKE LOWER(:kw) OR LOWER(u.email) LIKE LOWER(:kw)";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setParameter("kw", "%" + keyword.trim() + "%");
+            return query.getResultList();
+        } finally {
+        }
+    }
+
+    @Override
+    public List<User> findByRole(boolean admin) {
+        try {
+            String jpql = "SELECT u FROM User u WHERE u.admin = :role ORDER BY u.id";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setParameter("role", admin);
+            return query.getResultList();
+        } finally {
+        }
+    }
+
+    @Override
+    public List<User> findPage(int page, int size) {
+        try {
+            String jpql = "SELECT u FROM User u ORDER BY u.id";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            return query.getResultList();
+        } finally {
+            // Không đóng
+        }
+    }
 
   @Override
   public int countAll() {
