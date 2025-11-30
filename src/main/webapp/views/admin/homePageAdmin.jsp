@@ -43,22 +43,23 @@
             </button>
 
             <div class="collapse navbar-collapse justify-content-end" id="adminNavbar" >
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-4">
-                <li class="nav-item">
-                    <a class="nav-link fw-semibold" aria-current="page" href="/home"
-                        >Trang chủ</a
-                    >
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-semibold"  href="/admin/skit">Tiểu phẩm</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-semibold" href="/admin/users">Người dùng</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link fw-semibold" href="/admin/statistics">Thống kê</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-4">
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" aria-current="page" href="/home"
+                            >Trang chủ</a
+                        >
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold"  href="/admin/skit">Tiểu phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="/admin/users">Người dùng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="/admin/statistics">Thống kê</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 

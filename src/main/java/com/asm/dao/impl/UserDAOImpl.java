@@ -1,74 +1,116 @@
 package com.asm.dao.impl;
 
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-
 import com.asm.dao.UserDAO;
 import com.asm.entity.User;
 import com.asm.utils.XJpa;
 
-public class UserDAOImpl implements UserDAO {
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
-  EntityManager em = XJpa.getEntityManager();
+public class UserDAOImpl implements UserDAO{
+    private EntityManager em = XJpa.getEntityManager();
 
-  @Override
-  protected void finalize() throws Throwable {
-    em.close();
-  }
-
-  @Override
-  public List<User> findAll() {
-    String sql = "SELECT f FROM Favorite f";
-    TypedQuery<User> query = em.createQuery(sql, User.class);
-    return query.getResultList();
-  }
-
-  @Override
-  public User findById(String id) {
-    return em.find(User.class, id);
-  }
-
-  @Override
-  public void create(User item) {
-    try {
-      em.getTransaction().begin();
-      em.persist(item);
-      em.getTransaction().commit();
-    } catch (Exception e) {
-      em.getTransaction().rollback();
+    @Override
+    public List<User> findAll() {
+        
+        try {
+            String jpql = "SELECT u FROM User u ORDER BY u.id";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            return query.getResultList();
+        } finally {
+        }
     }
-  }
 
-  @Override
-  public void update(User item) {
-    try {
-      em.getTransaction().begin();
-      em.merge(item);
-      em.getTransaction().commit();
-    } catch (Exception e) {
-      em.getTransaction().rollback();
+    @Override
+    public User findById(String id) {
+        try {
+            return em.find(User.class, id);
+        } finally {
+        }
     }
-  }
 
-  @Override
-  public void deleteById(String id) {
-    User user = em.find(User.class, id);
-    try {
-      em.getTransaction().begin();
-      em.remove(user);
-      em.getTransaction().commit();
-    } catch (Exception e) {
-      em.getTransaction().rollback();
+    @Override
+    public void create(User user) {
+        try {
+            em.getTransaction().begin();
+            em.persist(user);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Lỗi khi thêm user", e);
+        }
     }
-  }
 
-  @Override
+    @Override
+    public void update(User user) {
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw new RuntimeException("Lỗi khi cập nhật user", e);
+        }
+    }
+
+    @Override
+    public void deleteById(String id) {
+        User user = em.find(User.class, id);
+        if (user != null) {
+            try {
+                em.getTransaction().begin();
+                em.remove(user);
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                em.getTransaction().rollback();
+                throw new RuntimeException("Lỗi khi xóa user", e);
+            }
+        }
+    }
+
+    @Override
+    public List<User> searchByKeyword(String keyword) {
+        try {
+            if (keyword == null || keyword.trim().isEmpty()) {
+                return findAll();
+            }
+            String jpql = "SELECT u FROM User u WHERE LOWER(u.fullname) LIKE LOWER(:kw) OR LOWER(u.email) LIKE LOWER(:kw)";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setParameter("kw", "%" + keyword.trim() + "%");
+            return query.getResultList();
+        } finally {
+        }
+    }
+
+    @Override
+    public List<User> findByRole(boolean admin) {
+        try {
+            String jpql = "SELECT u FROM User u WHERE u.admin = :role ORDER BY u.id";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setParameter("role", admin);
+            return query.getResultList();
+        } finally {
+        }
+    }
+
+    @Override
+    public List<User> findPage(int page, int size) {
+        try {
+            String jpql = "SELECT u FROM User u ORDER BY u.id";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setFirstResult(page * size);
+            query.setMaxResults(size);
+            return query.getResultList();
+        } finally {
+            // Không đóng
+        }
+    }
+
+    @Override
   public int countAll() {
     String sql = "SELECT COUNT(u) FROM User u";
     TypedQuery<Long> query = em.createQuery(sql, Long.class);
     return query.getSingleResult().intValue();
   }
-
 }
