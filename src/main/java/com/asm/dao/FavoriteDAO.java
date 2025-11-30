@@ -7,6 +7,9 @@ import com.asm.dto.VideoDetailDTO;
 import com.asm.entity.Favorite;
 
 public interface FavoriteDAO extends CrudDAO<Favorite, Long> {
+
+  Favorite findByUserAndVideo(String userId, String videoId);
+
   List<VideoDetailDTO> get10MostLikeVideo();
 
   List<FavoriteStatisDTO> getFavoriteStatis();
