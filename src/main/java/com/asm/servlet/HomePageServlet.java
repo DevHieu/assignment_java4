@@ -18,7 +18,7 @@ import com.asm.dto.VideoDetailDTO;
 import com.asm.entity.User;
 import com.asm.entity.Video;
 
-@WebServlet({ "/home", "logout" })
+@WebServlet({ "/home", "/logout" })
 public class HomePageServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
