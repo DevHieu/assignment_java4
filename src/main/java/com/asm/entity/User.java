@@ -33,10 +33,10 @@ public class User {
   private String email;
 
   @Column(name = "admin")
-  private Boolean admin = false;
+  private boolean admin = false;
 
   @Column(name = "Avatar")
-    private String avatar;
+  private String avatar;
 
   @OneToMany(mappedBy = "user")
   private List<Favorite> favorites;

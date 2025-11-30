@@ -23,14 +23,16 @@ public class Video {
   private String title;
   @Column(name = "poster")
   private String poster;
+  @Column(name = "video")
+  private String video;
   @Column(name = "views")
-  private int views;
+  private int views = 0;
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;
   @Column(name = "isBanner")
-  private Boolean isBanner;
+  private boolean isBanner = false;
   @Column(name = "active")
-  private Boolean active;
+  private boolean active = false;
 
   @OneToMany(mappedBy = "video")
   private List<Favorite> favorites;

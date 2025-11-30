@@ -82,12 +82,12 @@
                             <div class="input-group">
                                 <c:choose>
                                     <c:when test="${videoEdit == null}">
-                                        <input type="text" name="id" id="youtubeId" class="form-control" 
+                                        <input type="text" name="youtubeId" id="youtubeId" class="form-control" 
                                             placeholder="" required>
                                     </c:when>
                                     <c:otherwise>
                                         <input type="hidden" name="id" value="${videoEdit.id}" />
-                                        <input type="text" id="youtubeId" class="form-control" 
+                                        <input type="text" id="youtubeId" name="youtubeId" class="form-control" 
                                             value="${videoEdit.id}" readonly>
                                     </c:otherwise>
                                 </c:choose>

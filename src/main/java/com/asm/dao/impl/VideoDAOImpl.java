@@ -52,7 +52,8 @@ public class VideoDAOImpl implements VideoDAO {
     public void deleteById(String id) {
         Video video = em.find(Video.class, id);
 
-        if (video == null) return;
+        if (video == null)
+            return;
 
         try {
             em.getTransaction().begin();
@@ -80,8 +81,8 @@ public class VideoDAOImpl implements VideoDAO {
     public List<Video> findPage(int offset, int size) {
         String jpql = "SELECT v FROM Video v ORDER BY v.title";
         TypedQuery<Video> query = em.createQuery(jpql, Video.class);
-        query.setFirstResult(offset);   // offset đúng
-        query.setMaxResults(size);      // số lượng mỗi trang
+        query.setFirstResult(offset); // offset đúng
+        query.setMaxResults(size); // số lượng mỗi trang
         return query.getResultList();
     }
 
@@ -101,11 +102,12 @@ public class VideoDAOImpl implements VideoDAO {
     public void removeBanner(String videoId) {
         Video video = em.find(Video.class, videoId);
 
-        if (video == null) return;
+        if (video == null)
+            return;
 
         try {
             em.getTransaction().begin();
-            video.setIsBanner(false);
+            video.setBanner(false);
             em.merge(video);
             em.getTransaction().commit();
         } catch (Exception e) {
