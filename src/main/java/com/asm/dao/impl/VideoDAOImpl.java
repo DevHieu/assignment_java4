@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.asm.dao.VideoDAO;
-import com.asm.entity.User;
 import com.asm.entity.Video;
 import com.asm.utils.XJpa;
 
@@ -32,7 +31,7 @@ public class VideoDAOImpl implements VideoDAO {
   }
 
   @Override
-  public User create(Video item) {
+  public void create(Video item) {
     try {
       em.getTransaction().begin();
       em.persist(item);
@@ -40,7 +39,6 @@ public class VideoDAOImpl implements VideoDAO {
     } catch (Exception e) {
       em.getTransaction().rollback();
     }
-    return null;
   }
 
   @Override

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../bootstrap/css/custom-dark.css" />
     <script defer src="../bootstrap/js/bootstrap.bundle.min.js"></script>
-    <link href="../styles/Login.css" rel="stylesheet" />
+    <link href="../styles/Auth.css" rel="stylesheet" />
   </head>
   <body class="container">
     <a href="<c:url value='/home' />" class="logo">
@@ -23,9 +23,9 @@
         style="width: 200px; margin-top: 20px; position: absolute"
       />
     </a>
-    <div class="login-container">
-      <div class="login-card">
-        <h1 class="login-title">Đăng Nhập</h1>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1 class="auth-title">Đăng Nhập</h1>
         <form action="login" method="post">
           <!-- Username Field -->
           <div class="mb-3">
@@ -35,6 +35,7 @@
                 class="form-control"
                 name="username"
                 placeholder="Tên đăng nhập"
+                value="${username}"
                 required
               />
               <span class="input-group-text"
@@ -52,6 +53,7 @@
                 name="password"
                 id="password"
                 placeholder="Mật khẩu"
+                value="${password}"
                 required
               />
               <span class="input-group-text" style="border-radius: 0 50px 50px 0;">
@@ -61,8 +63,6 @@
                     id="togglePassword">
                 <i class="fa-solid fa-eye" style="color: #e7d8ab;"></i>
               </span>
-              
-              
             </div>
           </div>
           
@@ -72,36 +72,32 @@
             class="d-flex justify-content-between align-items-center mb-3 mt-2 w-100"
           >
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="rememberMe" />
+              <input class="form-check-input" name="remember" value="on" type="checkbox" id="rememberMe" ${cookie.rememberUser != null ? 'checked' : ''}/>
               <label
                 class="form-check-label"
                 for="rememberMe"
                 style="color: #ffc107"
-                >Nhớ mật khẩu</label
+                >Ghi nhớ đăng nhập</label
               >
             </div>
             <a
-              href="/login?action=forgot_pw"
-              class="text-decoration-none"
-              style="color: #ffc107"
-              >Quên mật khẩu?</a
-            >
+              href="/forgot_pw" class="text-decoration-none" style="color: #ffc107">Quên mật khẩu?</a>
           </div>
-
+          <c:if test="${not empty message}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          </c:if>
           <!-- Login Button -->
-          <button type="submit" class="btn btn-login w-100">Đăng Nhập</button>
+          <button type="submit" class="btn btn-auth w-100">Đăng Nhập</button>
         </form>
 
         <!-- Register Link -->
-        <div class="register-link" style="color: #ffc107">
+        <div class="auth-link" style="color: #ffc107">
           Bạn chưa có tài khoản?
           <a href="/register" class="text-link">Đăng ký</a>
         </div>
-        <c:if test="${not empty error}">
-          <div class="text-white">
-            ${error}
-          </div>
-        </c:if>
         
         
       </div>

@@ -16,7 +16,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       referrerpolicy="no-referrer"
     />
     <link href="../styles/NavBar.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../styles/History.css" />
+    <link rel="stylesheet" href="../styles/history.css" />
   </head>
 
   <body>

@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
-uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %> 
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -16,7 +16,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       rel="stylesheet"
     />
     <!-- Custom CSS -->
-    <link href="../styles/Register.css" rel="stylesheet" />
+    <link href="../styles/Auth.css" rel="stylesheet" />
   </head>
   <body class="container">
     <a href="<c:url value='/home' />" class="logo">
@@ -26,9 +26,9 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
         style="width: 200px; margin-top: 20px; position: absolute"
       />
     </a>
-    <div class="register-container">
-      <div class="register-card">
-        <h1 class="register-title">Đăng Ký</h1>
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1 class="auth-title">Đăng Ký</h1>
         <form action="register" method="post">
           <!-- Fullname Field -->
           <div class="mb-3">
@@ -85,10 +85,15 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="password"
                 class="form-control"
                 name="password"
+                id="password"
                 placeholder="Mật khẩu"
                 required
               />
               <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+              <span class="position-absolute top-50 end-0 translate-middle-y pe-5" style="cursor: pointer;"
+                    id="togglePassword">
+                <i class="fa-solid fa-eye" style="color: #e7d8ab;"></i>
+              </span>
             </div>
           </div>
 
@@ -99,29 +104,53 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 type="password"
                 class="form-control"
                 name="confirmPassword"
+                id="confirmPassword"
                 placeholder="Xác nhận mật khẩu"
                 required
               />
               <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+              <span class="position-absolute top-50 end-0 translate-middle-y pe-5" style="cursor: pointer;"
+                    id="togglePassword2">
+                <i class="fa-solid fa-eye" style="color: #e7d8ab;"></i>
+              </span>
             </div>
           </div>
 
-          <c:if test="${not empty error}">
-            ${error}
+          <c:if test="${not empty message}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+              ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
           </c:if>
-          ${success}
+
           <!-- Register Button -->
-          <button type="submit" class="btn btn-register w-100 mt-3">
+          <button type="submit" class="btn btn-auth w-100 mt-3">
             Đăng Ký
           </button>
         </form>
 
         <!-- Login Link -->
-        <div class="register-link" style="color: #ffc107">
-          Đã có tài khoản hả cưng? <a href="/login" class="text-link">Đăng Nhập</a>
+        <div class="auth-link" style="color: #ffc107">
+          Bạn đã có tài khoản? <a href="/login" class="text-link">Đăng Nhập</a>
         </div>
       </div>
     </div>
+    <script>
+      const togglePassword = document.getElementById('togglePassword');
+      const togglePassword2 = document.getElementById('togglePassword2');
+      const password = document.getElementById('password');
+      const confirmPassword = document.getElementById('confirmPassword');
+
+      togglePassword.addEventListener('click', function() {
+          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+          password.setAttribute('type', type);
+      });
+
+      togglePassword2.addEventListener('click', function() {
+          const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+          confirmPassword.setAttribute('type', type);
+      });
+    </script> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

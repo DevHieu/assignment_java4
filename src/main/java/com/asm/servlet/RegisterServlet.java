@@ -27,16 +27,16 @@ public class RegisterServlet extends HttpServlet {
         String confirmPassword = request.getParameter("confirmPassword");
         
         UserDAO userDAO = new UserDAOImpl();
-        String error = null;
+
         try {
             if(fullname.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
-                error = "Vui lòng điền đầy đủ thông tin!";
+                request.setAttribute("message", "Vui lòng điền đầy đủ thông tin!");
             } else if(!password.equals(confirmPassword)){
-                error = "Mật khẩu xác nhận không khớp!";
+                request.setAttribute("message", "Mật khẩu xác nhận không khớp!");
             } else if(userDAO.checkUsernameExist(username)){
-                error = "Tên đăng nhập đã tồn tại!";
+                request.setAttribute("message", "Tên đăng nhập đã tồn tại!");
             } else if(userDAO.checkEmailExist(email)){
-                error = "Email đã tồn tại!";
+                request.setAttribute("message", "Email đã tồn tại!");
             } else {
                 User user = new User();
                 user.setFullname(fullname);
@@ -46,12 +46,11 @@ public class RegisterServlet extends HttpServlet {
 
                 userDAO.create(user);
 
-                request.setAttribute("success", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
+                request.setAttribute("message", "Đăng ký thành công! Bạn có thể đăng nhập ngay.");
                 request.getRequestDispatcher("/views/register.jsp").forward(request, response);
                 return;
             }
             
-            request.setAttribute("error", error);
             request.setAttribute("fullname", fullname);
             request.setAttribute("username", username);
             request.setAttribute("email", email);
@@ -60,7 +59,7 @@ public class RegisterServlet extends HttpServlet {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
-            request.setAttribute("error", "Có lỗi xảy ra, vui lòng thử lại!");
+            request.setAttribute("message", "Có lỗi xảy ra, vui lòng thử lại!");
             request.getRequestDispatcher("/views/register.jsp").forward(request, response);
         }
     }
