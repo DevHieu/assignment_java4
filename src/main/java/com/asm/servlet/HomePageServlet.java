@@ -5,13 +5,16 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.asm.dao.UserDAO;
 import com.asm.dao.VideoDAO;
 import com.asm.dao.VideoDetailDAO;
+import com.asm.dao.impl.UserDAOImpl;
 import com.asm.dao.impl.VideoDAOImpl;
 import com.asm.dao.impl.VideoDetailDAOImpl;
 import com.asm.dto.VideoDetailDTO;
@@ -26,16 +29,36 @@ public class HomePageServlet extends HttpServlet {
   VideoDAO videoDAO = new VideoDAOImpl();
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    HttpSession session = request.getSession(true);
+    HttpSession session = request.getSession();
     // fake session user -> giả lập đăng nhập
-    User user = new User();
-    user.setId("hieu01");
-    user.setFullname("Admin");
-    user.setAdmin(true);
-    session.setAttribute("user", user);
-
+    // User user = new User();
+    // user.setId("hieu01");
+    // user.setFullname("Admin");
+    // user.setAdmin(true);
+    // session.setAttribute("user", user);
     if (request.getRequestURI().contains("logout")) {
       session.setAttribute("user", null);
+    }
+
+    // Kiểm tra đã đăng nhập chưa
+    if (session.getAttribute("user") == null) {
+        // Chưa đăng nhập → kiểm tra cookie remember
+        Cookie[] cookies = request.getCookies();
+        String username = null;
+
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if ("rememberUsername".equals(c.getName())) username = c.getValue();
+            }
+        }
+        if (username != null) {
+            // Kiểm tra user có tồn tại không (có thể thêm kiểm tra token hợp lệ hơn)
+            UserDAO userDAO = new UserDAOImpl();
+            User user = userDAO.findById(username);
+            if (user != null) {
+                session.setAttribute("user", user); // tự động đăng nhập
+            }
+        }
     }
 
     String userId = session.getAttribute("user") != null

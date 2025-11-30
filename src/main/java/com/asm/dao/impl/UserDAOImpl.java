@@ -1,75 +1,93 @@
 package com.asm.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
 import com.asm.dao.UserDAO;
 import com.asm.entity.User;
 import com.asm.utils.XJpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
-import java.util.List;
+public class UserDAOImpl implements UserDAO {
 
-public class UserDAOImpl implements UserDAO{
-    private EntityManager em = XJpa.getEntityManager();
+  EntityManager em = XJpa.getEntityManager();
 
-    @Override
-    public List<User> findAll() {
-        
-        try {
-            String jpql = "SELECT u FROM User u ORDER BY u.id";
-            TypedQuery<User> query = em.createQuery(jpql, User.class);
-            return query.getResultList();
-        } finally {
-        }
+  @Override
+  public List<User> findAll() {
+    // TODO Auto-generated method stub
+    String sql = "SELECT u FROM User u";
+    TypedQuery<User> query = em.createQuery(sql, User.class);
+    return query.getResultList();
+  }
+
+  @Override
+  public User findById(String id) {
+    // TODO Auto-generated method stub
+    return em.find(User.class, id);
+  }
+
+  @Override
+  public void create(User item) {
+    // TODO Auto-generated method stub
+    try {
+      em.getTransaction().begin();
+      em.persist(item);
+      em.getTransaction().commit();
+      System.out.println("User created: " + item.getFullname());
+
+    } catch (Exception e) {
+      // TODO: handle exception
+      em.getTransaction().rollback();
     }
+  }
 
-    @Override
-    public User findById(String id) {
-        try {
-            return em.find(User.class, id);
-        } finally {
-        }
+  @Override
+  public void update(User item) {
+    // TODO Auto-generated method stub
+    try {
+      em.getTransaction().begin();
+      em.merge(item);
+      em.getTransaction().commit();
+    } catch (Exception e) {
+      // TODO: handle exception
+      em.getTransaction().rollback();
     }
+  }
 
-    @Override
-    public void create(User user) {
-        try {
-            em.getTransaction().begin();
-            em.persist(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            throw new RuntimeException("Lỗi khi thêm user", e);
-        }
+  @Override
+  public void deleteById(String id) {
+    // TODO Auto-generated method stub
+    User user = em.find(User.class, id);
+    try {
+      em.getTransaction().begin();
+      em.remove(user);
+      em.getTransaction().commit();
+    } catch (Exception e) {
+      // TODO: handle exception
+      em.getTransaction().rollback();
     }
+  }
 
-    @Override
-    public void update(User user) {
-        try {
-            em.getTransaction().begin();
-            em.merge(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            throw new RuntimeException("Lỗi khi cập nhật user", e);
-        }
-    }
+  @Override
+  public boolean checkUsernameExist(String username) {
+    // TODO Auto-generated method stub
+    String jpql = "SELECT u FROM User u WHERE u.id = :id";
+    TypedQuery<User> query = em.createQuery(jpql, User.class);
+    query.setParameter("id", username);
+    return !query.getResultList().isEmpty();
+  }
 
-    @Override
-    public void deleteById(String id) {
-        User user = em.find(User.class, id);
-        if (user != null) {
-            try {
-                em.getTransaction().begin();
-                em.remove(user);
-                em.getTransaction().commit();
-            } catch (Exception e) {
-                em.getTransaction().rollback();
-                throw new RuntimeException("Lỗi khi xóa user", e);
-            }
-        }
-    }
-
-    @Override
+  @Override
+  public boolean checkEmailExist(String email) {
+    // TODO Auto-generated method stub
+    String jpql = "SELECT u FROM User u WHERE u.email = :email";
+    TypedQuery<User> query = em.createQuery(jpql, User.class);
+    query.setParameter("email", email);
+    return !query.getResultList().isEmpty();
+  }
+  
+  @Override
     public List<User> searchByKeyword(String keyword) {
         try {
             if (keyword == null || keyword.trim().isEmpty()) {
@@ -107,7 +125,7 @@ public class UserDAOImpl implements UserDAO{
         }
     }
 
-    @Override
+  @Override
   public int countAll() {
     String sql = "SELECT COUNT(u) FROM User u";
     TypedQuery<Long> query = em.createQuery(sql, Long.class);

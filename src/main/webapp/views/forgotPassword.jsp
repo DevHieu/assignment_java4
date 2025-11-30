@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
-uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %> 
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -16,55 +16,42 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       rel="stylesheet"
     />
     <!-- Custom CSS -->
-    <link href="../styles/ForgotPw.css" rel="stylesheet" />
+    <link href="../styles/Auth.css" rel="stylesheet" />
   </head>
   <body class="container">
     <a href="<c:url value='/home' />" class="logo">
-      <img
-        src="../icons/logo2.png"
-        alt=""
-        style="width: 200px; margin-top: 20px; position: absolute"
-      />
+      <img src="../icons/logo2.png" alt="" style="width: 200px; margin-top: 20px; position: absolute"/>
     </a>
-    <div class="forgotPassword-container">
-      <div class="forgotPassword-card">
-        <h1 class="forgotPassword-title">Forgot your password?</h1>
-        <form action="forgotPassword" method="post">
+    <div class="auth-container">
+      <div class="auth-card">
+        <h1 class="auth-title">Quên mật khẩu?</h1>
+        <form action="forgot_pw" method="post">
           <!-- Username Field -->
           <div class="mb-3">
             <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                name="username"
-                placeholder="Username"
-                required
-              />
-              <span class="input-group-text"
-                ><i class="fa-solid fa-user"></i
-              ></span>
+              <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" required/>
+              <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
             </div>
           </div>
 
-          <!-- Password Field -->
+          <!-- Email Field -->
           <div class="mb-3">
             <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                name="email"
-                placeholder="Email"
-                required
-              />
-              <span class="input-group-text"
-                ><i class="fa-solid fa-at"></i
-              ></span>
+              <input type="text" class="form-control" name="email" placeholder="Email" required/>
+              <span class="input-group-text"><i class="fa-solid fa-at"></i></span>
             </div>
           </div>
 
+          <c:if test="${not empty message}">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </c:if>
+
           <!-- Login Button -->
-          <button type="submit" class="btn btn-retrieve w-100 mt-3">
-            Retrieve
+          <button type="submit" class="btn btn-auth w-100 mt-3">
+            Khôi Phục
           </button>
         </form>
       </div>

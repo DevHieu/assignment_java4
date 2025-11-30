@@ -1,11 +1,19 @@
 package com.asm.servlet;
 
 import java.io.IOException;
+import java.util.Base64;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.asm.dao.UserDAO;
+import com.asm.dao.impl.UserDAOImpl;
+import com.asm.entity.User;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -13,11 +21,18 @@ public class LoginServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
 
-        if ("forgot_pw".equals(action)) {
-            request.getRequestDispatcher("/views/forgotPassword.jsp").forward(request, response);
-            return;
+        Cookie[] cookies = request.getCookies();
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("user")){
+                    String encoded = cookie.getValue();
+                    byte[] bytes = Base64.getDecoder().decode(encoded);
+                    String[] userInfo = new String(bytes).split(",");
+                    request.setAttribute("username", userInfo[0]);
+                    request.setAttribute("password", userInfo[1]);
+                }
+            }
         }
 
         request.getRequestDispatcher("/views/login.jsp").forward(request, response);
@@ -25,6 +40,38 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        doGet(request, response);
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String remember = request.getParameter("remember");
+
+        try {
+            UserDAO userDAO = new UserDAOImpl();
+
+            User user = userDAO.findById(username);
+
+            if (user != null && user.getPassword().equals(password)) {
+                //đăng nhập thành công
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+
+                if(remember != null){
+                    byte[] bytes = (username+","+password).getBytes();
+                    String userInfo = Base64.getEncoder().encodeToString(bytes);
+                    Cookie cookie = new Cookie("user", userInfo);
+                    cookie.setMaxAge(30*24*60*60);
+                    cookie.setPath("/"); //hịệu ứng từng ứng dụng
+
+                    response.addCookie(cookie); //gửi trình duyệt
+                }
+                response.sendRedirect("home");
+            } else {
+                request.setAttribute("message", "Sai tên đăng nhập hoặc mật khẩu!");
+                request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+            }
+
+        } catch (Exception e) {
+            request.setAttribute("message", "Lỗi hệ thống. Vui lòng thử lại!");
+            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+        }
     }
 }
