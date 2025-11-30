@@ -199,9 +199,9 @@
                     <th class="text-center" style="width:80px">ID</th>
                     <th>Họ tên</th>
                     <th>Email</th>
-                    <th class="text-center">Vai trò</th>
+                    <th class="text-center">Role</th>
                     <th class="text-center">Avatar</th>
-                    <th class="text-center" style="width:180px">Hành động</th>
+                    <th class="text-center" style="width:180px">Action</th>
                 </tr>
                 </thead>
 
@@ -227,7 +227,7 @@
                                 <td class="text-center">
                                     <a href="/admin/users/edit?id=${u.id}"
                                     class="btn btn-sm btn-warning me-1">
-                                        <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                        <i class="fa-solid fa-pen-to-square"></i> edit
                                     </a>
 
                                     <form action="/admin/users/delete" method="post"
@@ -235,7 +235,7 @@
                                         <input type="hidden" name="id" value="${u.id}" />
                                         <button type="submit" class="btn btn-sm btn-danger"
                                                 onclick="return confirm('Xóa user ${u.id}?')">
-                                            <i class="fa-solid fa-trash-can"></i> Xóa
+                                            <i class="fa-solid fa-trash-can"></i> delete
                                         </button>
                                     </form>
                                 </td>

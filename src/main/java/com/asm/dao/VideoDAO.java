@@ -6,6 +6,11 @@ import com.asm.entity.Video;
 
 public interface VideoDAO extends CrudDAO<Video, String> {
   List<Video> getBannerVideo();
+  List<Video> findAll();
+  List<Video> searchByTitle(String keyword);
+  List<Video> findPage(int page, int size);
 
+  int countAll();
   void removeBanner(String videoId);
+  
 }
