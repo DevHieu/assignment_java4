@@ -8,14 +8,14 @@ body, html {
     background-repeat: no-repeat;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.login-container {
+.auth-container {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 90vh;
     padding: 20px;
 }
-.login-card {
+.auth-card {
     border-radius: 20px;
     box-shadow: 0 0 20px rgba(241, 175, 52, 0.4);
     padding: 40px;
@@ -24,7 +24,7 @@ body, html {
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
 }
-.login-title {
+.auth-title {
     text-align: center;
     margin-bottom: 30px;
     color: #ffc107;
@@ -50,14 +50,14 @@ body, html {
     color: #ffffff;
 }
 .input-group-text {
-    border-radius: 0 50px 50px 0;
+    border-radius: 0 50px 50px 0; 
     background-color: #a5aeb608;
     border: none;
     border-right: none;
     color: #e7d8ab;
 }
 
-.btn-login {
+.btn-auth {
     border-radius: 5px !important;
     padding: 9px;
     font-weight: 600;
@@ -66,7 +66,7 @@ body, html {
     transition: all 0.3s ease;
     color: black;
 }
-.btn-login:hover {
+.btn-auth:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(241, 175, 52, 0.4);
 }
@@ -87,13 +87,13 @@ body, html {
 .text-link:hover {
     text-decoration: underline;
 }
-.register-link {
+.auth-link {
     text-align: center;
     margin-top: 20px;
     font-size: 0.9rem;
     width: 100%;       
     display: block; 
 } 
-.register-link a {
+.auth-link a {
     font-size: 0.95rem;
 }
