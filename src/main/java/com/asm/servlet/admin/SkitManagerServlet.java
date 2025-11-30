@@ -1,6 +1,5 @@
 package com.asm.servlet.admin;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -19,11 +18,7 @@ import com.asm.dao.impl.VideoDAOImpl;
 import com.asm.entity.Video;
 import java.util.List;
 
-@MultipartConfig(
-    fileSizeThreshold = 2 * 1024 * 1024,
-    maxFileSize = 10 * 1024 * 1024,
-    maxRequestSize = 50 * 1024 * 1024
-)
+@MultipartConfig(fileSizeThreshold = 2 * 1024 * 1024, maxFileSize = 10 * 1024 * 1024, maxRequestSize = 50 * 1024 * 1024)
 @WebServlet("/admin/skit/*")
 public class SkitManagerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -50,8 +45,10 @@ public class SkitManagerServlet extends HttpServlet {
         if (pageStr != null && !pageStr.isEmpty()) {
             try {
                 page = Integer.parseInt(pageStr);
-                if (page < 1) page = 1;
-            } catch (Exception ignored) {}
+                if (page < 1)
+                    page = 1;
+            } catch (Exception ignored) {
+            }
         }
 
         List<Video> videos;
@@ -84,26 +81,26 @@ public class SkitManagerServlet extends HttpServlet {
 
         try {
             if ("/save".equals(type)) {
-                String id = request.getParameter("id");
+                String youtubeId = request.getParameter("youtubeId");
                 String title = request.getParameter("title");
                 String description = request.getParameter("description");
-
+                System.out.println("Youtube ID: " + youtubeId);
                 String status = request.getParameter("status");
                 boolean active = "ACTIVE".equalsIgnoreCase(status);
-
                 boolean isBanner = "true".equals(request.getParameter("isBanner"));
+
                 Part posterPart = request.getPart("posterFile");
-                
-                if (id == null || id.trim().isEmpty() || title == null || title.trim().isEmpty()) {
+
+                if (youtubeId == null || youtubeId.trim().isEmpty() || title == null || title.trim().isEmpty()) {
                     request.getSession().setAttribute("error", "Vui lòng nhập ID và tiêu đề!");
                     response.sendRedirect(request.getContextPath() + "/admin/skit");
                     return;
                 }
 
-                Video video = videoDAO.findById(id);
+                Video video = videoDAO.findById(youtubeId);
                 boolean isUpdate = (video != null);
 
-                if (!isUpdate && videoDAO.findById(id) != null) {
+                if (!isUpdate && videoDAO.findById(youtubeId) != null) {
                     request.getSession().setAttribute("error", "ID video đã tồn tại!");
                     response.sendRedirect(request.getContextPath() + "/admin/skit");
                     return;
@@ -111,16 +108,14 @@ public class SkitManagerServlet extends HttpServlet {
 
                 if (video == null) {
                     video = new Video();
-                    video.setViews(0);
-                    video.setActive(false);
-                    video.setIsBanner(false);
                 }
 
-                video.setId(id.trim());
+                video.setId(youtubeId.trim());
                 video.setTitle(title);
                 video.setDescription(description != null ? description : "");
+                video.setVideo(youtubeId);
                 video.setActive(active);
-                video.setIsBanner(isBanner);
+                video.setBanner(isBanner);
 
                 if (posterPart != null && posterPart.getSize() > 0) {
                     String fileName = uploadFile(posterPart, request, "posters");
@@ -162,7 +157,7 @@ public class SkitManagerServlet extends HttpServlet {
 
     private String uploadFile(Part part, HttpServletRequest request, String folder) throws IOException {
         java.io.File webappDir = new java.io.File(request.getServletContext().getRealPath("/"));
-        
+
         java.io.File uploadsDir = new java.io.File(webappDir, "uploads/" + folder);
         if (!uploadsDir.exists()) {
             uploadsDir.mkdirs();
