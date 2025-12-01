@@ -84,6 +84,16 @@ public class FavoriteDAOImpl implements FavoriteDAO {
   }
 
   @Override
+  public Favorite findByUserAndVideo(String userId, String videoId) {
+    String jpql = "SELECT f FROM Favorite f WHERE f.user.id = :userId AND f.video.id = :videoId";
+    TypedQuery<Favorite> query = em.createQuery(jpql, Favorite.class);
+    query.setParameter("userId", userId);
+    query.setParameter("videoId", videoId);
+    List<Favorite> results = query.getResultList();
+    return results.isEmpty() ? null : results.get(0);
+  }
+
+  @Override
   public List<FavoriteStatisDTO> getFavoriteStatis() {
     String jpql = "SELECT new com.asm.dto.FavoriteStatisDTO(v.title, COUNT(f), MIN(f.likeDate), MAX(f.likeDate)) from Favorite f JOIN f.video v GROUP BY v.title";
     TypedQuery<FavoriteStatisDTO> query = em.createQuery(jpql, FavoriteStatisDTO.class);

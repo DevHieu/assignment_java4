@@ -28,9 +28,9 @@ public class Video {
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;
   @Column(name = "isBanner")
-  private boolean isBanner;
+  private boolean isBanner = false;
   @Column(name = "active")
-  private boolean active;
+  private boolean active = false;
 
   @OneToMany(mappedBy = "video")
   private List<Favorite> favorites;
