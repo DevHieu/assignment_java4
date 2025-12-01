@@ -18,23 +18,23 @@ import lombok.Data;
 @Entity
 @Table(name = "share")
 public class Share {
-  @Id
-  @GeneratedValue
-  @Column(name = "id")
-  private long id;
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
+	private long id;
 
-  @ManyToOne
-  @JoinColumn(name = "userId")
-  private User user;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User users;
 
-  @ManyToOne
-  @JoinColumn(name = "videoId")
-  private Video video;
+	@ManyToOne
+	@JoinColumn(name = "videoId")
+	private Video video;
 
-  @Column(name = "emails")
-  private String emails;
+	@Column(name = "emails")
+	private String emails;
 
-  @Column(name = "shareDate")
-  @Temporal(TemporalType.DATE)
-  private Date shareDate;
+	@Column(name = "shareDate")
+	@Temporal(TemporalType.DATE)
+	private Date shareDate;
 }

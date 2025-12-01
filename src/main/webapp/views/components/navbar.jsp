@@ -41,7 +41,7 @@
       </ul>
 
           <div class="d-flex align-items-center me-5">
-            <form class="d-flex position-relative me-2" role="search" action="/search" method="get">
+            <form class="d-flex position-relative me-2" role="search" action="${pageContext.request.contextPath}/search" method="get">
               <input class="form-control rounded-pill" name="query" type="search" placeholder="Tìm kiếm"
                 aria-label="Search" style="padding-right: 3rem" />
 

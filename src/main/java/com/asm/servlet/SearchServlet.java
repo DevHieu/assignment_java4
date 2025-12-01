@@ -28,8 +28,12 @@ public class SearchServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
 
-		String searchTestString = "sql";
+		String query = request.getParameter("query");
+
+		String searchTestString = (query != null && !query.trim().isEmpty()) ? "%" + query.trim() + "%" : "%%";
 		VideoDAO daoVid = new VideoDAOImpl();
 
 		String pathString = request.getServletPath();
@@ -84,12 +88,14 @@ public class SearchServlet extends HttpServlet {
 			request.setAttribute("listVideoSearchList", listVideoSearchList);
 
 		} else {
-			String JQPL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
+			String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
 					+ "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id left join Share s on v.id = s.video.id WHERE v.title LIKE :text GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active";
-			List<Object[]> listVideoSearchList = daoVid.searchVideo(searchTestString, JQPL);
+
+			List<Object[]> listVideoSearchList = daoVid.searchVideo(searchTestString, JPQL);
 			request.setAttribute("listVideoSearchList", listVideoSearchList);
 		}
 
+		request.setAttribute("currentQuery", query);
 		request.getRequestDispatcher("/views/searchPage.jsp").forward(request, response);
 
 	}

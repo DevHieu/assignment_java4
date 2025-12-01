@@ -20,7 +20,7 @@ public class VideoDAOImpl implements VideoDAO {
 
 	@Override
 	public List<Video> findAll() {
-		String sql = "SELECT f FROM Favorite f";
+		String sql = "SELECT f FROM Video f";
 		TypedQuery<Video> query = em.createQuery(sql, Video.class);
 		return query.getResultList();
 	}

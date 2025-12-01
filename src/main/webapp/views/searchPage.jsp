@@ -44,7 +44,9 @@
 
     <body>
       <div class="position-relative">
+      <core:set var="currentQuery" value="${currentQuery != null ? currentQuery : ''}"></core:set>
         <core:set var="path" value="${pageContext.request.contextPath}/search"></core:set>
+        <core:set var="pathMain" value="${pageContext.request.contextPath}"></core:set>
         <%@ include file="./components/navbar.jsp" %>
 
           <div class="container-fluid p-0">
@@ -65,28 +67,28 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li>
-                            <a class="dropdown-item" href="${path}/viewHtoL"><i class="fas fa-eye me-2"></i>Nhiều
+                            <a class="dropdown-item" href="${path}/viewHtoL?query=${currentQuery}"><i class="fas fa-eye me-2"></i>Nhiều
                               views</a>
                           </li>
                           <li>
-                            <a class="dropdown-item" href="${path}/viewLtoH"><i class="fas fa-eye me-2"></i>Ít views</a>
+                            <a class="dropdown-item" href="${path}/viewLtoH?query=${currentQuery}"><i class="fas fa-eye me-2"></i>Ít views</a>
                           </li>
                           <li>
-                            <a class="dropdown-item" href="${path}/likeHtoL"><i class="fas fa-heart me-2"></i>Nhiều
+                            <a class="dropdown-item" href="${path}/likeHtoL?query=${currentQuery}"><i class="fas fa-heart me-2"></i>Nhiều
                               likes</a>
                           </li>
                           <li>
-                            <a class="dropdown-item" href="${path}/likeLtoH"><i class="fas fa-heart me-2"></i>Ít
+                            <a class="dropdown-item" href="${path}/likeLtoH?query=${currentQuery}"><i class="fas fa-heart me-2"></i>Ít
                               likes</a>
                           </li>
                           <li>
                             <hr class="dropdown-divider" />
                           </li>
                           <li>
-                            <a class="dropdown-item" href="${path}/AZ"><i class="fas fa-font me-2"></i>(A-Z)</a>
+                            <a class="dropdown-item" href="${path}/AZ?query=${currentQuery}"><i class="fas fa-font me-2"></i>(A-Z)</a>
                           </li>
                           <li>
-                            <a class="dropdown-item" href="${path}/ZA"><i class="fas fa-font me-2"></i>(Z-A)</a>
+                            <a class="dropdown-item" href="${path}/ZA?query=${currentQuery}"><i class="fas fa-font me-2"></i>(Z-A)</a>
                           </li>
                         </ul>
                       </div>
@@ -108,7 +110,7 @@
                           <span class="text-muted small">25:10</span>
 
                           <h5 class="card-title">
-                            <a class="text-decoration-none text-reset" href="/watch?query=123">${list[0].title}</a>
+                            <a class="text-decoration-none text-reset" href="${pathMain}/watch/${list[0].id}">${list[0].title}</a>
                           </h5>
                           <p class="card-text text-muted flex-grow-1">
                             ${list[0].description}

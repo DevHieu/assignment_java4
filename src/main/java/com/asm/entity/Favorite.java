@@ -20,20 +20,20 @@ import lombok.Setter;
 @Entity
 @Table(name = "favorite")
 public class Favorite {
-  @Id
-  @GeneratedValue
-  @Column(name = "id")
-  private Long id;
+	@Id
+	@GeneratedValue
+	@Column(name = "id")
+	private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "userId")
-  private User user;
+	@ManyToOne
+	@JoinColumn(name = "userId")
+	private User users;
 
-  @ManyToOne
-  @JoinColumn(name = "videoId")
-  private Video video;
+	@ManyToOne
+	@JoinColumn(name = "videoId")
+	private Video video;
 
-  @Column(name = "likeDate")
-  @Temporal(TemporalType.DATE)
-  private Date LikeDate;
+	@Column(name = "likeDate")
+	@Temporal(TemporalType.DATE)
+	private Date LikeDate;
 }

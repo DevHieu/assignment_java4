@@ -7,37 +7,38 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
-  @Id
-  @Column(name = "id")
-  private String id;
+	@Id
+	@Column(name = "id")
+	private String id;
 
-  @Column(name = "password")
-  private String password;
+	@Column(name = "password")
+	private String password;
 
-  @Column(name = "fullname")
-  private String fullname;
+	@Column(name = "fullname")
+	private String fullname;
 
-  @Column(name = "email")
-  private String email;
+	@Column(name = "email")
+	private String email;
 
-  @Column(name = "admin")
-  private Boolean admin = false;
+	@Column(name = "admin")
+	private Boolean admin = false;
 
-  @OneToMany(mappedBy = "user")
-  private List<Favorite> favorites;
+	@OneToMany(mappedBy = "users")
+	private List<Favorite> favorites;
 
-  @OneToMany(mappedBy = "user")
-  private List<Share> shares;
+	@OneToMany(mappedBy = "users")
+	private List<Share> shares;
 }
