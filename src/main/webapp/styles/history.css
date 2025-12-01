@@ -73,3 +73,13 @@ body {
 .page-control {
     font-weight: bold;
 }
+
+.btn-liked {
+    background-color: var(--orange-color) !important; 
+    border-color: var(--orange-color) !important; 
+    color: var(--black-dark) !important; 
+}
+
+.btn-liked i {
+    color: var(--black-dark) !important; 
+}

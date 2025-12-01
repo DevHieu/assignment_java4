@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-  <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
 <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">

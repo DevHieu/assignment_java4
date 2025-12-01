@@ -34,6 +34,9 @@ public class User {
   @Column(name = "email")
   private String email;
 
+  @Column (name = "avatar")
+  private String avatar ;
+
   @Column(name = "admin")
   private boolean admin = false;
 
