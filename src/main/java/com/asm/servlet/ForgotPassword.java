@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.asm.dao.UserDAO;
 import com.asm.dao.impl.UserDAOImpl;
 import com.asm.entity.User;
-import com.asm.model.Mailer;
+import com.asm.utils.XMailer;
 
 @WebServlet("/forgot_pw")
 public class ForgotPassword extends HttpServlet {
@@ -48,7 +48,7 @@ public class ForgotPassword extends HttpServlet {
                 String subject = "Khôi phục mật khẩu";
                 String body = "Xin chào " + username + ". Mật khẩu của bạn là: " + user.getPassword();
 
-                Mailer.send("thuyvy240706@gmail.com", to, subject, body);
+                XMailer.send(to, subject, body);
                 request.setAttribute("message", "Mật khẩu đã được gửi về email!");
             }
 
