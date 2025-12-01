@@ -9,7 +9,8 @@ public interface CrudDAO<T, ID> {
   /** Truy vấn theo mã */
   T findById(ID id);
 
-  /** Thêm mới */
+  /** Thêm mới 
+ * @return */
   void create(T item);
 
   /** Cập nhật */

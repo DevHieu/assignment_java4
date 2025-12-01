@@ -89,7 +89,7 @@
 
                     <c:if test="${sessionScope.user.admin}">
                       <li>
-                        <a class="dropdown-item " href="<c:url value='/admin/home' />">
+                        <a class="dropdown-item " href="<c:url value='/admin/home'  />">
                           <i class="fa-brands fa-black-tie me-2 text-primary "></i>
                           Quản lí trang web
                         </a>

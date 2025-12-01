@@ -139,8 +139,8 @@
                                         name="isBanner"
                                         id="bannerYes"
                                         value="true"
-                                        ${videoEdit != null && videoEdit.isBanner ? 'checked' : ''}>
-                                    <label class="form-check-label" for="bannerYes">Có</label>
+                                        ${videoEdit != null && videoEdit.banner ? 'checked' : ''}>
+                                    <label class="form-check-label" for="bannerYes">Yes</label>
                                 </div>
 
                                 <div class="form-check form-check-inline mb-0">
@@ -149,8 +149,8 @@
                                         name="isBanner"
                                         id="bannerNo"
                                         value="false"
-                                        ${videoEdit == null || !videoEdit.isBanner ? 'checked' : ''}>
-                                    <label class="form-check-label" for="bannerNo">Không</label>
+                                        ${videoEdit == null || !videoEdit.banner ? 'checked' : ''}>
+                                    <label class="form-check-label" for="bannerNo">No</label>
                                 </div>
                             </div>
                         </div>
@@ -235,8 +235,8 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <span class="badge ${v.isBanner ? 'bg-info' : 'bg-secondary'}">
-                                            ${v.isBanner ? 'Yes' : 'No'}
+                                        <span class="badge ${v.banner ? 'bg-info' : 'bg-secondary'}">
+                                            ${v.banner ? 'Yes' : 'No'}
                                         </span>
                                     </td>
                                     <td class="text-center">

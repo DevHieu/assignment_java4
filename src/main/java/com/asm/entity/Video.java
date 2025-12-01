@@ -19,18 +19,25 @@ public class Video {
   @Id
   @Column(name = "id")
   private String id;
+
   @Column(name = "title")
   private String title;
+  
   @Column(name = "poster")
   private String poster;
+  
   @Column(name = "video")
   private String video;
+  
   @Column(name = "views")
   private int views = 0;
+  
   @Column(name = "description", columnDefinition = "TEXT")
   private String description;
+  
   @Column(name = "isBanner")
   private boolean isBanner = false;
+  
   @Column(name = "active")
   private boolean active = false;
 
