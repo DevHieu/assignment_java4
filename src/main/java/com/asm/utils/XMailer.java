@@ -10,7 +10,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class XMailer {
-  public boolean send(String to, String subject, String body) {
+  public static boolean send(String to, String subject, String body) {
     final String username = "hieudd2090@gmail.com";
     final String password = "nqhuaimewllmvfcu";
 
