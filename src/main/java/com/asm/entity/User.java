@@ -34,11 +34,11 @@ public class User {
   @Column(name = "email")
   private String email;
 
+  @Column (name = "avatar")
+  private String avatar ;
+
   @Column(name = "admin")
   private boolean admin = false;
-
-  @Column(name = "Avatar")
-  private String avatar;
 
   @OneToMany(mappedBy = "user")
   private List<Favorite> favorites;

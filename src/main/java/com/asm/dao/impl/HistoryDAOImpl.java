@@ -78,4 +78,12 @@ public class HistoryDAOImpl implements HistoryDAO {
         .getResultList();
     return results.isEmpty() ? null : results.get(0);
   }
+
+  @Override
+  public List<History> findByUserId(String userId) {
+    String jpql = "SELECT h FROM History h WHERE h.userId = :userId ORDER BY h.viewDate DESC";
+    return em.createQuery(jpql, History.class)
+        .setParameter("userId", userId)
+        .getResultList();
+  }
 }

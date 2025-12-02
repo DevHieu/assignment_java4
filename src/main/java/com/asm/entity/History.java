@@ -31,4 +31,5 @@ public class History {
   @Column(name = "ViewDate")
   @Temporal(TemporalType.DATE)
   private Date viewDate = new Date();
+
 }

@@ -108,5 +108,4 @@ public class FavoriteDAOImpl implements FavoriteDAO {
     query.setParameter("title", "%" + title + "%");
     return query.getResultList();
   }
-
 }
