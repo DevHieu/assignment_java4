@@ -11,10 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.asm.dao.UserDAO;
 import com.asm.dao.VideoDAO;
 import com.asm.dao.VideoDetailDAO;
-import com.asm.dao.impl.UserDAOImpl;
 import com.asm.dao.impl.VideoDAOImpl;
 import com.asm.dao.impl.VideoDetailDAOImpl;
 import com.asm.dto.VideoDetailDTO;

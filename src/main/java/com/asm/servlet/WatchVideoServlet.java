@@ -37,9 +37,11 @@ public class WatchVideoServlet extends HttpServlet {
     VideoDAO daoVid = new VideoDAOImpl();
     List<Video> list10Vid = daoVid.find10RandomVideo();
     String id = request.getParameter("id");
-    Video video = daoVid.findById(id);
-    video.setViews(video.getViews() + 1);
 
+    Video video = daoVid.findById(id);
+    daoVid.increaseViews(id);
+
+    boolean isLiked = false;
     User user = (User) session.getAttribute("user");
     if (user != null) {
       History history = historyDAO.existsByUserIdAndVideoId(user.getId(), id);
@@ -52,10 +54,13 @@ public class WatchVideoServlet extends HttpServlet {
         history.setViewDate(new Date());
         historyDAO.update(history);
       }
+
+      isLiked = daoVid.isLiked(id, user.getId());
     }
 
     request.setAttribute("video", video);
     request.setAttribute("list10Vid", list10Vid);
+    request.setAttribute("isLiked", isLiked);
     request.getRequestDispatcher("/views/videoPage.jsp").forward(request, response);
   }
 

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %> 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
 <!DOCTYPE html>
 <html lang="vi" data-bs-theme="dark">
   <head>
@@ -102,29 +102,36 @@
               <h2 class="text-white mb-5 fw-bold">Thông Tin Hồ Sơ</h2>
 
               <div class="d-flex align-items-center gap-4 mb-5">
-                <div
-                  class="avatar-placeholder"
-                  style="
-                    background-image: url('${user.avatar != null ? user.avatar : 'https://via.placeholder.com/150'}');
-                    background-size: cover;
-                    background-position: center;
-                  "
-                >
-                  <c:if test="${user.avatar == null}">
-                    <span class="small">Avatar</span>
-                  </c:if>
+                <div class="avatar-placeholder overflow-hidden">
+                  <c:choose>
+                    <c:when test="${user.avatar != null}">
+                      <img 
+                        id="avatar-preview"
+                        class="w-100 h-100 object-fit-cover" 
+                        src="..${user.avatar}" 
+                        alt="user avatar">
+                    </c:when>
+                    <c:otherwise>
+                      <img 
+                        id="avatar-preview"
+                        class="w-100 h-100 object-fit-cover d-none"
+                        alt="avatar preview">
+                      <span id="avatar-text" class="small">Avatar</span>
+                    </c:otherwise>
+                  </c:choose>
                 </div>
                 
                 <div class="d-flex gap-2 align-items-center">
                   <form action="profile" method="POST" enctype="multipart/form-data" id="avatar-form">
                     <input type="hidden" name="action" value="updateAvatar" />
                     <input
-                      type="file"
-                      id="avatar-file"
-                      name="avatar-file"
-                      class="d-none"
-                      accept="image/*"
-                      required
+                        type="file"
+                        id="avatar-file"
+                        name="avatar-file"
+                        class="d-none"
+                        accept="image/*"
+                        required
+                        onchange="document.getElementById('avatar-form').submit();"
                     />
                     <button
                       type="button"
@@ -314,8 +321,6 @@
       const passwordTabBtn = document.getElementById("password-tab-button");
       const profileSection = document.getElementById("profile-section");
       const passwordSection = document.getElementById("password-section");
-      const avatarInput = document.getElementById('avatar-file');
-      const avatarForm = document.getElementById('avatar-form');
 
       // Logic chuyển tab Hồ sơ
       profileTabBtn.addEventListener("click", function () {
@@ -343,5 +348,7 @@
         });
       });
     });
+
+    
   </script>
 </html>
