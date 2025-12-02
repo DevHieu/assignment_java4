@@ -10,6 +10,7 @@ public interface UserDAO extends CrudDAO<User, String> {
     boolean checkEmailExist(String email);
 
     List<User> searchByKeyword(String keyword);
+    List<User> searchByKeywordAndRole(String keyword, boolean admin);
 
     List<User> findByRole(boolean admin);
 

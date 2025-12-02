@@ -102,6 +102,21 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public List<User> searchByKeywordAndRole(String keyword, boolean admin) {
+        try {
+            if (keyword == null || keyword.trim().isEmpty()) {
+                return findByRole(admin);
+            }
+            String jpql = "SELECT u FROM User u WHERE (LOWER(u.fullname) LIKE LOWER(:kw) OR LOWER(u.email) LIKE LOWER(:kw)) AND u.admin = :role ORDER BY u.id";
+            TypedQuery<User> query = em.createQuery(jpql, User.class);
+            query.setParameter("kw", "%" + keyword.trim() + "%");
+            query.setParameter("role", admin);
+            return query.getResultList();
+        } finally {
+        }
+    }
+
+    @Override
     public List<User> findByRole(boolean admin) {
         try {
             String jpql = "SELECT u FROM User u WHERE u.admin = :role ORDER BY u.id";
