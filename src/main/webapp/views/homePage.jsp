@@ -30,11 +30,13 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
             <div class="carousel-inner" style="height: 90vh">
               <c:forEach var="item" items="${bannerVideos}" varStatus="st">
                 <div class="carousel-item h-100 w-100 ${st.first ? 'active' : ''}">
-                  <img
-                    src="../images/baner3.jpg"
-                    class="d-block w-100 h-100 object-fit-cover"
-                    alt="..."
-                  />
+                <a href="/watch?id=${item.id}" class="stretched-link">
+                    <img
+                      src="..${item.poster}"
+                      class="d-block w-100 h-100 object-fit-cover"
+                      alt="..."
+                    />
+                </a>
                   <div
                     class="carousel-caption d-md-block w-100 text-white p-0"
                     style="height: 100%"
@@ -87,7 +89,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                   >
                     <a href="/watch?id=${video.id}" class="stretched-link">
                       <img
-                        src="../images/baner1.png"
+                        src="..${video.poster}"
                         alt="thumbnail"
                         class="h-100"
                       />
@@ -108,7 +110,8 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                         <button class="btn btn-sm icon-btn z-3" 
                         data-bs-toggle="modal" 
                         data-bs-target="#share" 
-                        data-video-id="${video.id}" >
+                        data-video-id="${video.id}"
+                        data-is-login="${sessionScope.user != null}" >
                           <i class="fas fa-share"></i>
                         </button>
   

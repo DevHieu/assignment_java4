@@ -58,33 +58,52 @@ public class VideoActionServlet extends HttpServlet {
     }
   }
 
-  private void handleLikeVideo(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      User user,
-      Video video) throws IOException {
+  private void handleLikeVideo(HttpServletRequest request, HttpServletResponse response, User user, Video video)
+      throws IOException {
 
     String action = request.getParameter("action");
 
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
 
-    if ("like".equals(action)) {
-      Favorite f = new Favorite();
-      f.setUser(user);
-      f.setVideo(video);
-      favoriteDAO.create(f);
-      System.out.println("Liked video: " + video.getTitle());
-    } else if ("unlike".equals(action)) {
-      Favorite f = favoriteDAO.findByUserAndVideo(user.getId(), video.getId());
-      if (f != null) {
-        favoriteDAO.deleteById(f.getId());
-        System.out.println("Unliked video: " + video.getTitle());
-      }
-    }
-
     try (PrintWriter out = response.getWriter()) {
+
+      if (user == null) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // HTTP 401
+        out.print("{\"status\":\"error\", \"message\":\"Vui lòng đăng nhập để thích video.\"}");
+        return;
+      }
+
+      if ("like".equals(action)) {
+        Favorite f = new Favorite();
+        f.setUser(user);
+        f.setVideo(video);
+        favoriteDAO.create(f);
+        System.out.println("Liked video: " + video.getTitle());
+      } else if ("unlike".equals(action)) {
+        Favorite f = favoriteDAO.findByUserAndVideo(user.getId(), video.getId());
+        if (f != null) {
+          favoriteDAO.deleteById(f.getId());
+          System.out.println("Unliked video: " + video.getTitle());
+        }
+      }
+
+      response.setStatus(HttpServletResponse.SC_OK); // HTTP 200
       out.print("{\"status\":\"success\",\"action\":\"" + action + "\"}");
+
+    } catch (NullPointerException e) {
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // HTTP 400
+      try (PrintWriter out = response.getWriter()) {
+        out.print("{\"status\":\"error\", \"message\":\"Lỗi dữ liệu đầu vào. Video không hợp lệ.\"}");
+      }
+      e.printStackTrace();
+    } catch (Exception e) {
+      response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // HTTP 500
+      try (PrintWriter out = response.getWriter()) {
+        out.print(
+            "{\"status\":\"error\", \"message\":\"Lỗi hệ thống: Không thể ghi nhận thao tác. Vui lòng kiểm tra cấu hình DB/Entity.\"}");
+      }
+      e.printStackTrace();
     }
   }
 

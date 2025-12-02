@@ -1,5 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %> 
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %> <%@ taglib
+uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <!DOCTYPE html>
 <html lang="vi">
   <head>
@@ -35,7 +35,6 @@
                 class="form-control"
                 name="username"
                 placeholder="Tên đăng nhập"
-                value="${username}"
                 required
               />
               <span class="input-group-text"
@@ -53,26 +52,36 @@
                 name="password"
                 id="password"
                 placeholder="Mật khẩu"
-                value="${password}"
                 required
               />
-              <span class="input-group-text" style="border-radius: 0 50px 50px 0;">
+              <span
+                class="input-group-text"
+                style="border-radius: 0 50px 50px 0"
+              >
                 <i class="fa-solid fa-lock"></i>
               </span>
-              <span class="position-absolute top-50 end-0 translate-middle-y pe-5" style="cursor: pointer;"
-                    id="togglePassword">
-                <i class="fa-solid fa-eye" style="color: #e7d8ab;"></i>
+              <span
+                class="position-absolute top-50 end-0 translate-middle-y pe-5"
+                style="cursor: pointer"
+                id="togglePassword"
+              >
+                <i class="fa-solid fa-eye" style="color: #e7d8ab"></i>
               </span>
             </div>
           </div>
-          
 
           <!-- Remember me & Forgot password -->
           <div
             class="d-flex justify-content-between align-items-center mb-3 mt-2 w-100"
           >
             <div class="form-check">
-              <input class="form-check-input" name="remember" value="on" type="checkbox" id="rememberMe" ${cookie.rememberUser != null ? 'checked' : ''}/>
+              <input
+                class="form-check-input"
+                name="remember"
+                value="on"
+                type="checkbox"
+                id="rememberMe"
+              />
               <label
                 class="form-check-label"
                 for="rememberMe"
@@ -81,12 +90,23 @@
               >
             </div>
             <a
-              href="/forgot_pw" class="text-decoration-none" style="color: #ffc107">Quên mật khẩu?</a>
+              href="/forgot_pw"
+              class="text-decoration-none"
+              style="color: #ffc107"
+              >Quên mật khẩu?</a
+            >
           </div>
           <c:if test="${not empty message}">
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div
+              class="alert alert-warning alert-dismissible fade show"
+              role="alert"
+            >
               ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+              ></button>
             </div>
           </c:if>
           <!-- Login Button -->
@@ -98,19 +118,17 @@
           Bạn chưa có tài khoản?
           <a href="/register" class="text-link">Đăng ký</a>
         </div>
-        
-        
       </div>
     </div>
     <script>
-    const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('password');
+      const togglePassword = document.getElementById("togglePassword");
+      const password = document.getElementById("password");
 
-    togglePassword.addEventListener('click', function() {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-    });
-  </script> 
+      togglePassword.addEventListener("click", function () {
+        const type =
+          password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+      });
+    </script>
   </body>
-  
 </html>
