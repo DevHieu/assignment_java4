@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,7 +20,7 @@ import lombok.Data;
 @Table(name = "share")
 public class Share {
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private long id;
 
@@ -36,5 +37,5 @@ public class Share {
 
   @Column(name = "shareDate")
   @Temporal(TemporalType.DATE)
-  private Date shareDate;
+  private Date shareDate = new Date();
 }
