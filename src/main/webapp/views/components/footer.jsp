@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <style>
   .footer-info {
     font-size: 0.9rem;
@@ -9,13 +8,13 @@
 <footer id="footer" class="row m-5">
   <div class="col-sm-6 d-flex flex-column justify-content-center gap-5">
     <img
-      src="<c:url value='/icons/logo2.png' />"
+      src="../../icons/logo2.png"
       alt="logo"
       style="width: 15em"
       class="ms-5"
     />
     <img
-   src="<c:url value='/icons/FPT_Polytechnic.png' />"
+      src="../../icons/FPT_Polytechnic.png"
       alt="logo"
       style="width: 15em"
       class="ms-5"

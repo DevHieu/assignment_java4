@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="../bootstrap/css/custom-dark.css" />
     <script defer src="../bootstrap/js/bootstrap.bundle.min.js"></script>
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
-      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
     />
     <link href="../styles/NavBar.css" rel="stylesheet" />
     <link href="../styles/Statistics.css" rel="stylesheet" />
@@ -23,7 +23,7 @@
 <body>
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid px-5">
-            <a class="navbar-brand" href="/home">
+            <a class="navbar-brand" href="/admin/home">
                 <img src="../../icons/logoAdmin.png" alt="logo" style="height: 60px" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -46,52 +46,27 @@
         <main class="container-fluid px-5 py-4">
 
         <div class="row g-0">
-            <!-- Sidebar tabs -->
             <div class="col-md-3 col-lg-2 border-end">
                 <div class="nav flex-column nav-pills p-3 gap-2" id="statTabs" role="tablist">
-                    <button class="nav-link active text-start text-warning" id="favorites-tab"
+                    <button class="nav-link text-start text-warning ${activeTab == 'tab1' ? 'active' : ''}" id="favorites-tab"
                             data-bs-toggle="tab" data-bs-target="#favorites" type="button" role="tab">
                         <i class="fa-solid fa-star me-2"></i>Favorites
                     </button>
-                    <button class="nav-link text-start text-warning" id="favorite-users-tab"
+                    <button class="nav-link text-start text-warning ${activeTab == 'tab2' ? 'active' : ''}" id="favorite-users-tab"
                             data-bs-toggle="tab" data-bs-target="#favorite-users" type="button" role="tab">
                         <i class="fa-solid fa-user me-2"></i>Favorite Users
                     </button>
-                    <button class="nav-link text-start text-warning" id="shared-friends-tab"
+                    <button class="nav-link text-start text-warning ${activeTab == 'tab3' ? 'active' : ''}" id="shared-friends-tab"
                             data-bs-toggle="tab" data-bs-target="#shared-friends" type="button" role="tab">
                         <i class="fa-solid fa-share-nodes me-2"></i>Shared Friends
                     </button>
                 </div>
             </div>
 
-            <!-- Nội dung từng tab -->
             <div class="col-md-9 col-lg-10">
                 <div class="tab-content p-4" id="statTabsContent">
 
-                    <!-- Favorites summary -->
-                    <div class="tab-pane fade show active" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
-                        <form class="row g-2 align-items-center mb-3" action="/admin/statistics" method="get">
-                            <input type="hidden" name="tab" value="favorites" />
-                            <div class="col-sm-6 col-md-4">
-                                <label class="form-label mb-1 text-warning">Tiêu đề video</label>
-                                <input class="form-control" name="title" value="${param.title}"
-                                       placeholder="Nhập tiêu đề video..." />
-                            </div>
-                            <div class="col-sm-6 col-md-4">
-                                <label class="form-label mb-1 text-warning">Khoảng thời gian</label>
-                                <input class="form-control" name="range" value="${param.range}"
-                                       placeholder="VD: 2020-01-01..2020-12-31" />
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label mb-1 d-none d-md-block">&nbsp;</label>
-                                <div class="d-flex gap-2">
-                                    <button class="btn btn-warning" type="submit">
-                                        <i class="fa-solid fa-magnifying-glass me-1"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-
+                    <div class="tab-pane fade ${activeTab == 'tab1' ? 'show active' : ''}" id="favorites" role="tabpanel" aria-labelledby="favorites-tab">
                         <div class="table-responsive rounded-3 overflow-hidden border">
                             <table class="table table-hover table-striped table-bordered align-middle mb-0">
                                 <thead class="table-dark">
@@ -104,11 +79,11 @@
                                 </thead>
                                 <tbody>
                                     <c:choose>
-                                        <c:when test="${not empty favorites}">
-                                            <c:forEach var="f" items="${favorites}">
+                                        <c:when test="${not empty favoriteStatis}">
+                                            <c:forEach var="f" items="${favoriteStatis}">
                                                 <tr>
-                                                    <td class="fw-semibold">${f.videoTitle}</td>
-                                                    <td>${f.favoriteCount}</td>
+                                                    <td class="fw-semibold">${f.title}</td>
+                                                    <td>${f.likeCount}</td>
                                                     <td><fmt:formatDate value="${f.latestDate}" pattern="dd/MM/yyyy" /></td>
                                                     <td><fmt:formatDate value="${f.oldestDate}" pattern="dd/MM/yyyy" /></td>
                                                 </tr>
@@ -125,14 +100,13 @@
                         </div>
                     </div>
 
-                    <!-- Favorite Users -->
-                    <div class="tab-pane fade" id="favorite-users" role="tabpanel" aria-labelledby="favorite-users-tab">
+                    <div class="tab-pane fade ${activeTab == 'tab2' ? 'show active' : ''}" id="favorite-users" role="tabpanel" aria-labelledby="favorite-users-tab">
                         <form class="row g-2 align-items-center mb-3" action="/admin/statistics" method="get">
                             <input type="hidden" name="tab" value="favorite-users" />
                             <div class="col-sm-6 col-md-6">
                                 <label class="form-label mb-1 text-warning">Video title</label>
-                                <input class="form-control" name="title" value="${param.title}"
-                                       placeholder="Nhập tiêu đề video..." />
+                                <input class="form-control" name="favTitle" value="${param.favTitle}"
+                                        placeholder="Nhập tiêu đề video..." />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label mb-1 d-none d-md-block">&nbsp;</label>
@@ -157,12 +131,12 @@
                                 <tbody>
                                     <c:choose>
                                         <c:when test="${not empty favoriteUsers}">
-                                            <c:forEach var="u" items="${favoriteUsers}">
+                                            <c:forEach var="item" items="${favoriteUsers}">
                                                 <tr>
-                                                    <td>${u.username}</td>
-                                                    <td class="fw-semibold">${u.fullname}</td>
-                                                    <td>${u.email}</td>
-                                                    <td><fmt:formatDate value="${u.favoriteDate}" pattern="dd/MM/yyyy" /></td>
+                                                    <td>${item.user.id}</td>
+                                                    <td class="fw-semibold">${item.user.fullname}</td>
+                                                    <td>${item.user.email}</td>
+                                                    <td><fmt:formatDate value="${item.likeDate}" pattern="dd/MM/yyyy" /></td>
                                                 </tr>
                                             </c:forEach>
                                         </c:when>
@@ -177,13 +151,12 @@
                         </div>
                     </div>
 
-                    <!-- Shared Friends -->
-                    <div class="tab-pane fade" id="shared-friends" role="tabpanel" aria-labelledby="shared-friends-tab">
+                    <div class="tab-pane fade ${activeTab == 'tab3' ? 'show active' : ''}" id="shared-friends" role="tabpanel" aria-labelledby="shared-friends-tab">
                         <form class="row g-2 align-items-center mb-3" action="/admin/statistics" method="get">
                             <input type="hidden" name="tab" value="shared-friends" />
                             <div class="col-sm-6 col-md-6">
                                 <label class="form-label mb-1 text-warning">Video title</label>
-                                <input class="form-control" name="title" value="${param.title}"
+                                <input class="form-control" name="shareTitle" value="${param.shareTitle}"
                                        placeholder="Nhập tiêu đề video..." />
                             </div>
                             <div class="col-md-6">
@@ -211,10 +184,10 @@
                                         <c:when test="${not empty sharedFriends}">
                                             <c:forEach var="s" items="${sharedFriends}">
                                                 <tr>
-                                                    <td class="fw-semibold">${s.senderName}</td>
-                                                    <td>${s.senderEmail}</td>
-                                                    <td>${s.receiverEmail}</td>
-                                                    <td><fmt:formatDate value="${s.sentDate}" pattern="dd/MM/yyyy" /></td>
+                                                    <td class="fw-semibold">${s.user.fullname}</td>
+                                                    <td>${s.user.email}</td>
+                                                    <td>${s.emails}</td>
+                                                    <td><fmt:formatDate value="${s.shareDate}" pattern="dd/MM/yyyy" /></td>
                                                 </tr>
                                             </c:forEach>
                                         </c:when>

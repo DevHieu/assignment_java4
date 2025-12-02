@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="<c:url value='/home' />">
       <img
-      src="<c:url value='/icons/logo2.png' />"
+        src="../../icons/logo2.png"
         alt="logo"
         class="mx-5"
         style="height: 60px"
@@ -41,7 +41,7 @@
       </ul>
 
           <div class="d-flex align-items-center me-5">
-            <form class="d-flex position-relative me-2" role="search" action="${pageContext.request.contextPath}/search" method="get">
+            <form class="d-flex position-relative me-2" role="search" action="/search" method="get">
               <input class="form-control rounded-pill" name="query" type="search" placeholder="Tìm kiếm"
                 aria-label="Search" style="padding-right: 3rem" />
 
@@ -89,7 +89,7 @@
 
                     <c:if test="${sessionScope.user.admin}">
                       <li>
-                        <a class="dropdown-item " href="<c:url value='/admin/home' />">
+                        <a class="dropdown-item " href="<c:url value='/admin/home'  />">
                           <i class="fa-brands fa-black-tie me-2 text-primary "></i>
                           Quản lí trang web
                         </a>

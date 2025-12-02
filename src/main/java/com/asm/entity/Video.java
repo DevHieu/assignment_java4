@@ -16,25 +16,34 @@ import lombok.Setter;
 @Entity
 @Table(name = "video")
 public class Video {
-	@Id
-	@Column(name = "id")
-	private String id;
-	@Column(name = "title")
-	private String title;
-	@Column(name = "poster")
-	private String poster;
-	@Column(name = "views")
-	private int views;
-	@Column(name = "description", columnDefinition = "TEXT")
-	private String description;
-//  @Column(name = "isBanner")
-//  private boolean isBanner;
-	@Column(name = "active")
-	private boolean active;
+  @Id
+  @Column(name = "id")
+  private String id;
 
-	@OneToMany(mappedBy = "video")
-	private List<Favorite> favorites;
+  @Column(name = "title")
+  private String title;
+  
+  @Column(name = "poster")
+  private String poster;
+  
+  @Column(name = "video")
+  private String video;
+  
+  @Column(name = "views")
+  private int views = 0;
+  
+  @Column(name = "description", columnDefinition = "TEXT")
+  private String description;
+  
+  @Column(name = "isBanner")
+  private boolean isBanner = false;
+  
+  @Column(name = "active")
+  private boolean active = false;
 
-	@OneToMany(mappedBy = "video")
-	private List<Share> shares;
+  @OneToMany(mappedBy = "video")
+  private List<Favorite> favorites;
+
+  @OneToMany(mappedBy = "video")
+  private List<Share> shares;
 }

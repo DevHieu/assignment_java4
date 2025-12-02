@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,20 +21,20 @@ import lombok.Setter;
 @Entity
 @Table(name = "favorite")
 public class Favorite {
-	@Id
-	@GeneratedValue
-	@Column(name = "id")
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "userId")
-	private User users;
+  @ManyToOne
+  @JoinColumn(name = "userId")
+  private User user;
 
-	@ManyToOne
-	@JoinColumn(name = "videoId")
-	private Video video;
+  @ManyToOne
+  @JoinColumn(name = "videoId")
+  private Video video;
 
-	@Column(name = "likeDate")
-	@Temporal(TemporalType.DATE)
-	private Date LikeDate;
+  @Column(name = "likeDate")
+  @Temporal(TemporalType.DATE)
+  private Date likeDate = new Date();
 }
