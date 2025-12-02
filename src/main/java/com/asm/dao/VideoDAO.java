@@ -21,7 +21,9 @@ public interface VideoDAO extends CrudDAO<Video, String> {
 
   List<Object[]> searchVideo(String textSearch, String JPQL);
 
-  boolean updateViews(String videoId);
-
   List<Video> find10RandomVideo();
+
+  void increaseViews(String videoId);
+
+  boolean isLiked(String videoId, String userId);
 }

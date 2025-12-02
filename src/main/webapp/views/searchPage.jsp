@@ -140,7 +140,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
                 <div class="col-md-6 col-lg-4 col-xl-3">
                   <div class="card video-card h-100 bg-dark">
                     <img
-                      src="https://img.youtube.com/vi/${list[0].id}/maxresdefault.jpg"
+                      src="..${list[0].poster}"
                       class="card-img-top"
                       alt="Video Thumbnail"
                     />

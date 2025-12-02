@@ -94,6 +94,7 @@ public class VideoDAOImpl implements VideoDAO {
 
     @Override
     public List<Video> getBannerVideo() {
+        em.clear();
         String jpql = "SELECT v FROM Video v WHERE v.isBanner = true";
         return em.createQuery(jpql, Video.class).getResultList();
     }
@@ -135,28 +136,36 @@ public class VideoDAOImpl implements VideoDAO {
     }
 
     @Override
-    public boolean updateViews(String videoId) {
-        // TODO Auto-generated method stub
-        try {
-            em.getTransaction().begin();
-
-            Video video = em.find(Video.class, videoId);
-            video.setViews(video.getViews() + 1);
-
-            em.getTransaction().commit();
-            return true;
-
-        } catch (Exception e) {
-            // TODO: handle exception
-            return false;
-        }
-    }
-
-    @Override
     public List<Video> find10RandomVideo() {
         String jpql = "SELECT v FROM Video v ORDER BY FUNCTION('RAND')";
         TypedQuery<Video> query = em.createQuery(jpql, Video.class);
         query.setMaxResults(10);
         return query.getResultList();
+    }
+
+    @Override
+    public void increaseViews(String videoId) {
+        Video video = em.find(Video.class, videoId);
+        if (video != null) {
+            try {
+                em.getTransaction().begin();
+                video.setViews(video.getViews() + 1);
+                em.merge(video);
+                em.getTransaction().commit();
+            } catch (Exception e) {
+                em.getTransaction().rollback();
+                throw e;
+            }
+        }
+    }
+
+    @Override
+    public boolean isLiked(String videoId, String userId) {
+        String jpql = "SELECT COUNT(f) FROM Favorite f WHERE f.video.id = :videoId AND f.user.id = :userId";
+        Long count = em.createQuery(jpql, Long.class)
+                .setParameter("videoId", videoId)
+                .setParameter("userId", userId)
+                .getSingleResult();
+        return count > 0;
     }
 }

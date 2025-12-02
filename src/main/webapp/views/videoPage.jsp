@@ -94,7 +94,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
                     >
                       <div class="flex-shrink-0">
                         <img
-                          src="https://img.youtube.com/vi/${list.id}/maxresdefault.jpg"
+                          src="..${list.poster}"
                           alt="Video Thumbnail for ${list.title}"
                           class="rounded"
                           width="120"

@@ -22,7 +22,7 @@
 <body>
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid px-5">
-            <a class="navbar-brand" href="/home">
+            <a class="navbar-brand" href="/admin/home">
                 <img
                     src="../../icons/logoAdmin.png"
                     alt="logo"

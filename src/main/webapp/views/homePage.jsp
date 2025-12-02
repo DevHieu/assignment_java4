@@ -84,18 +84,16 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
               <div class="col-sm-4 my-3">
                 <div class="card p-3 border-0 skit-item position-relative">
                   <div
-                    class="card-img-top bg-light object-fit-cover overflow-hidden"
-                    style="height: 300px; border-radius: 8px"
+                  class="card-img-top bg-light object-fit-cover overflow-hidden"
+                    style="height: 300px; border-radius: 8px;"
                   >
-                    <a href="/watch?id=${video.id}" class="stretched-link">
-                      <img
+                    <img
                         src="..${video.poster}"
                         alt="thumbnail"
-                        class="h-100"
+                        class="w-100 h-100 object-fit-cover"
                       />
-                    </a>
                   </div>
-  
+                  <a href="/watch?id=${video.id}" class="stretched-link"></a>
                   <div class="card-body p-0 pt-2">
                     <div class="row g-0 align-items-end">
                       <div class="col-10">
@@ -269,36 +267,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
             }
         });
 
-    function likeVideo(videoId, button) {
-      const isLiked = button.getAttribute("data-is-liked") === "true";
-
-      const formData = new FormData();
-      formData.append("videoId", videoId);
-      formData.append("action", isLiked ? "unlike" : "like");
-
-      fetch("/like-video", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.status === "success") {
-            if (data.action === "like") {
-              button.classList.add("liked-class");
-              button.setAttribute("data-is-liked", "true");
-            } else {
-              button.classList.remove("liked-class");
-              button.setAttribute("data-is-liked", "false");
-            }
-          } else {
-            alert("Có lỗi xảy ra: " + data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Lỗi khi gửi yêu cầu:", error);
-          alert("Không thể kết nối đến máy chủ.");
-        });
-    }
+    
 
     
   </script>

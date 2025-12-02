@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 
 <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
@@ -60,7 +61,19 @@
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
               >
-                  <i class="fa-solid fa-circle-user fa-lg mx-2 text-primary" style="font-size: 35px;"></i>
+                  <c:choose>
+                      <c:when test="${not empty sessionScope.user.avatar}">
+                          <img
+                              src="${sessionScope.user.avatar}"
+                              alt="Avatar"
+                              class="rounded-circle"
+                              style="width: 40px; height: 40px; object-fit: cover"
+                          />
+                      </c:when>
+                      <c:otherwise>
+                          <i class="fa-solid fa-user-circle fa-2x" style="color: #ffc107"></i>
+                      </c:otherwise>
+                  </c:choose>
               </a>
       
               <ul class="dropdown-menu dropdown-menu-end">
