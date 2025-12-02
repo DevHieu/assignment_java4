@@ -115,4 +115,40 @@ public class VideoDAOImpl implements VideoDAO {
             throw e;
         }
     }
+
+    	@Override
+	public int countAllVideos() {
+		String sql = "SELECT COUNT(v) FROM Video v";
+		TypedQuery<Long> query = em.createQuery(sql, Long.class);
+		return query.getSingleResult().intValue();
+	}
+
+	@Override
+	public List<Object[]> searchVideo(String textSearch, String JPQL) {
+		// TODO Auto-generated method stub
+		String searchText = (textSearch == null) ? "%" : "%" + textSearch + "%";
+
+		TypedQuery<Object[]> query = em.createQuery(JPQL, Object[].class);
+		query.setParameter("text", searchText);
+
+		return query.getResultList();
+	}
+
+	@Override
+	public boolean updateViews(String videoId) {
+		// TODO Auto-generated method stub
+		try {
+			em.getTransaction().begin();
+
+			Video video = em.find(Video.class, videoId);
+			video.setViews(video.getViews() + 1);
+
+			em.getTransaction().commit();
+			return true;
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			return false;
+		}
+	}
 }

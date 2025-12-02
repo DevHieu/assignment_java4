@@ -21,6 +21,24 @@ public class WatchVideoServlet extends HttpServlet {
 
   private HistoryDAO historyDAO = new HistoryDAOImpl();
 
+  @Override
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+
+		VideoDAO daoVid = new VideoDAOImpl();
+		List<Video> listAllVid = daoVid.findAll();
+		String pathInfo = request.getPathInfo().substring(1);
+		Video video = daoVid.findById(pathInfo);
+		video.setViews(video.getViews() + 1);
+
+		request.setAttribute("video", video);
+		request.setAttribute("ListVideoAll", listAllVid);
+		request.getRequestDispatcher("/views/videoPage.jsp").forward(request, response);
+	}
+
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession(true);
     String id = request.getParameter("id");
