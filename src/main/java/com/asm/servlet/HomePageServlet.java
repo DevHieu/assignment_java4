@@ -30,35 +30,18 @@ public class HomePageServlet extends HttpServlet {
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession();
-    // fake session user -> giả lập đăng nhập
-    // User user = new User();
-    // user.setId("hieu01");
-    // user.setFullname("Admin");
-    // user.setAdmin(true);
-    // session.setAttribute("user", user);
+
     if (request.getRequestURI().contains("logout")) {
-      session.setAttribute("user", null);
-    }
+      request.getSession().invalidate();
 
-    // Kiểm tra đã đăng nhập chưa
-    if (session.getAttribute("user") == null) {
-        // Chưa đăng nhập → kiểm tra cookie remember
-        Cookie[] cookies = request.getCookies();
-        String username = null;
+      // Xóa cookie
+      Cookie cookie = new Cookie("user", "");
+      cookie.setMaxAge(0); // Xóa cookie
+      cookie.setPath("/");
+      response.addCookie(cookie);
 
-        if (cookies != null) {
-            for (Cookie c : cookies) {
-                if ("rememberUsername".equals(c.getName())) username = c.getValue();
-            }
-        }
-        if (username != null) {
-            // Kiểm tra user có tồn tại không (có thể thêm kiểm tra token hợp lệ hơn)
-            UserDAO userDAO = new UserDAOImpl();
-            User user = userDAO.findById(username);
-            if (user != null) {
-                session.setAttribute("user", user); // tự động đăng nhập
-            }
-        }
+      response.sendRedirect(request.getContextPath() + "/home");
+      return;
     }
 
     String userId = session.getAttribute("user") != null
