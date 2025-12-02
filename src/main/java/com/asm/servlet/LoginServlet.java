@@ -22,19 +22,6 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        Cookie[] cookies = request.getCookies();
-        if(cookies != null){
-            for(Cookie cookie : cookies){
-                if(cookie.getName().equals("user")){
-                    String encoded = cookie.getValue();
-                    byte[] bytes = Base64.getDecoder().decode(encoded);
-                    String[] userInfo = new String(bytes).split(",");
-                    request.setAttribute("username", userInfo[0]);
-                    request.setAttribute("password", userInfo[1]);
-                }
-            }
-        }
-
         request.getRequestDispatcher("/views/login.jsp").forward(request, response);
     }
 
@@ -44,24 +31,36 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
 
+        System.out.println(remember);
+
         try {
             UserDAO userDAO = new UserDAOImpl();
 
             User user = userDAO.findById(username);
 
             if (user != null && user.getPassword().equals(password)) {
-                //đăng nhập thành công
+                // đăng nhập thành công
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
-                if(remember != null){
-                    byte[] bytes = (username+","+password).getBytes();
+                // if(remember != null){
+                // byte[] bytes = (username+","+password).getBytes();
+                // String userInfo = Base64.getEncoder().encodeToString(bytes);
+                // Cookie cookie = new Cookie("user", userInfo);
+                // cookie.setMaxAge(30*24*60*60);
+                // cookie.setPath("/"); //hịệu ứng từng ứng dụng
+
+                // response.addCookie(cookie); //gửi trình duyệt
+                // }
+
+                if (remember != null) {
+                    byte[] bytes = (username).getBytes();
                     String userInfo = Base64.getEncoder().encodeToString(bytes);
                     Cookie cookie = new Cookie("user", userInfo);
-                    cookie.setMaxAge(30*24*60*60);
-                    cookie.setPath("/"); //hịệu ứng từng ứng dụng
-
-                    response.addCookie(cookie); //gửi trình duyệt
+                    cookie.setMaxAge(30 * 24 * 60 * 60); // hiệu lực 30 ngày
+                    cookie.setPath("/"); // hiệu lực toàn ứng dụng
+                    // Gửi về trình duyệt
+                    response.addCookie(cookie);
                 }
                 response.sendRedirect("home");
             } else {
