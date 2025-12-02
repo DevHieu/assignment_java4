@@ -22,7 +22,7 @@
 <body>
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid px-5">
-            <a class="navbar-brand" href="/home">
+            <a class="navbar-brand" href="/admin/home">
                 <img src="../../icons/logoAdmin.png" alt="logo" style="height: 60px" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -275,30 +275,43 @@
             </table>
         </div>
 
+        
+        
         <c:if test="${not empty pageCount}">
             <nav class="mt-4" aria-label="Pagination">
                 <ul class="pagination justify-content-center">
+                    <!-- Nút Previous -->
                     <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
                         <a class="page-link"
-                           href="/admin/skit?page=${currentPage - 1}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if>">
-                            &lsaquo;
+                        href="/admin/skit?page=${currentPage - 1}
+                        <c:if test='${not empty paramQ}'>&amp;q=<c:out value='${paramQ}'/></c:if>">
+                            <i class="fa-solid fa-angle-left text-primary fs-6"></i>
                         </a>
                     </li>
+
+                    <!-- Các số trang -->
                     <c:forEach var="p" begin="1" end="${pageCount}">
                         <li class="page-item ${p == currentPage ? 'active' : ''}">
                             <a class="page-link"
-                               href="/admin/skit?page=${p}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if>">${p}</a>
+                            href="/admin/skit?page=${p}
+                            <c:if test='${not empty paramQ}'>&amp;q=<c:out value='${paramQ}'/></c:if>">
+                                ${p}
+                            </a>
                         </li>
                     </c:forEach>
+
+                    <!-- Nút Next -->
                     <li class="page-item ${currentPage >= pageCount ? 'disabled' : ''}">
                         <a class="page-link"
-                           href="/admin/skit?page=${currentPage + 1}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if>">
-                            &rsaquo;
+                        href="/admin/skit?page=${currentPage + 1}
+                        <c:if test='${not empty paramQ}'>&amp;q=<c:out value='${paramQ}'/></c:if>">
+                            <i class="fa-solid fa-angle-right text-primary fs-6"></i>
                         </a>
                     </li>
                 </ul>
             </nav>
         </c:if>
+
     </main>
 
     <script>
