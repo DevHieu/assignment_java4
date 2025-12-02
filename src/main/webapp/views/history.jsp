@@ -361,9 +361,9 @@
     document.addEventListener("DOMContentLoaded", function () {
       const filterLiked = document.getElementById("filter-liked");
       const filterAll = document.getElementById("filter-all");
-      const videoItems = document.querySelectorAll(".video-item");
-      const likeButtons = document.querySelectorAll(".like-btn");
-      const shareModal = document.getElementById('share');
+      const videoItems = document.querySelectorAll(".video-item") ;
+      const likeButtons = document.querySelectorAll(".like-btn") ;
+      const shareModal = document.getElementById('share') ;
       
       // Hằng số và đối tượng Phân trang
       const videosPerPage = 16; 
