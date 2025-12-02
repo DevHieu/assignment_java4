@@ -11,4 +11,5 @@ public interface VideoDetailDAO {
 
   List<VideoDetailDTO> findAll(String userId);
 
+  List<VideoDetailDTO> findHistoryByUserId(String userId, int page, int offset);
 }

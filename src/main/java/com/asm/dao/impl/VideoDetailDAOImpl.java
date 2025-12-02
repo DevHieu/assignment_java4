@@ -20,6 +20,7 @@ public class VideoDetailDAOImpl implements VideoDetailDAO {
         + "FROM Video v WHERE v.id = :id";
     TypedQuery<VideoDetailDTO> query = em.createQuery(jpql, VideoDetailDTO.class);
     query.setParameter("id", id);
+    query.setParameter("userId", userId);
 
     return query.getSingleResult();
   }
@@ -43,6 +44,23 @@ public class VideoDetailDAOImpl implements VideoDetailDAO {
   public List<VideoDetailDTO> findAll(String userId) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
+  }
+
+  @Override
+  public List<VideoDetailDTO> findHistoryByUserId(String userId, int page, int offset) {
+      String jpql = "SELECT NEW com.asm.dto.VideoDetailDTO(v.id, v.title, v.poster, v.views, v.description, SIZE(v.favorites), "
+          + "EXISTS ( SELECT 1 FROM Favorite f WHERE f.video.id = v.id AND f.user.id = :userId), " // <-- ĐÃ SỬA LỖI
+          + "h.viewDate) "
+          + "FROM Video v JOIN History h ON v.id = h.videoId " 
+          + "WHERE h.userId = :userId "
+          + "ORDER BY h.viewDate DESC";
+
+      TypedQuery<VideoDetailDTO> query = em.createQuery(jpql, VideoDetailDTO.class);
+      query.setParameter("userId", userId);
+      query.setFirstResult((page - 1) * offset);
+      query.setMaxResults(offset);
+
+      return query.getResultList();
   }
 
 }
