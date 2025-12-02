@@ -1,22 +1,28 @@
 document.addEventListener("DOMContentLoaded", function () {
   const shareModal = document.getElementById("share");
 
-  if (shareModal) {
-    shareModal.addEventListener("show.bs.modal", function (event) {
-      const button = event.relatedTarget;
+  if (!shareModal) return;
 
-      const videoId = button.getAttribute("data-video-id");
+  shareModal.addEventListener("show.bs.modal", function (event) {
+    const button = event.relatedTarget;
+    if (!button) return;
 
-      const idInput = shareModal.querySelector("#videoId");
-      const sectionInput = shareModal.querySelector("#section");
+    const isLogin = button.getAttribute("data-is-login") === "true";
 
-      if (idInput) {
-        idInput.value = videoId;
-      }
+    if (!isLogin) {
+      event.preventDefault();
 
-      if (sectionInput) {
-        sectionInput.value = "#skit";
-      }
-    });
-  }
+      alert("Vui lòng đăng nhập để chia sẻ video");
+
+      return;
+    }
+
+    const videoId = button.getAttribute("data-video-id");
+
+    const idInput = shareModal.querySelector("#videoId");
+    const sectionInput = shareModal.querySelector("#section");
+
+    if (idInput) idInput.value = videoId;
+    if (sectionInput) sectionInput.value = "#skit";
+  });
 });

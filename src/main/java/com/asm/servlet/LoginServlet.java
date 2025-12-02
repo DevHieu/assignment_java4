@@ -43,16 +43,6 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
 
-                // if(remember != null){
-                // byte[] bytes = (username+","+password).getBytes();
-                // String userInfo = Base64.getEncoder().encodeToString(bytes);
-                // Cookie cookie = new Cookie("user", userInfo);
-                // cookie.setMaxAge(30*24*60*60);
-                // cookie.setPath("/"); //hịệu ứng từng ứng dụng
-
-                // response.addCookie(cookie); //gửi trình duyệt
-                // }
-
                 if (remember != null) {
                     byte[] bytes = (username).getBytes();
                     String userInfo = Base64.getEncoder().encodeToString(bytes);
@@ -62,6 +52,7 @@ public class LoginServlet extends HttpServlet {
                     // Gửi về trình duyệt
                     response.addCookie(cookie);
                 }
+
                 response.sendRedirect("home");
             } else {
                 request.setAttribute("message", "Sai tên đăng nhập hoặc mật khẩu!");
