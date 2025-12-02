@@ -16,13 +16,14 @@
 
     <link href="../../styles/NavBar.css" rel="stylesheet" />
     <link href="../../styles/UserManager.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles/history.css" />
 </head>
 
 <body>
 
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid px-5">
-            <a class="navbar-brand" href="/home">
+            <a class="navbar-brand" href="/admin/home">
                 <img src="../../icons/logoAdmin.png" alt="logo" style="height: 60px" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -198,9 +199,9 @@
                     <th class="text-center" style="width:80px">ID</th>
                     <th>Họ tên</th>
                     <th>Email</th>
-                    <th class="text-center">Vai trò</th>
+                    <th class="text-center">Role</th>
                     <th class="text-center">Avatar</th>
-                    <th class="text-center" style="width:180px">Hành động</th>
+                    <th class="text-center" style="width:180px">Action</th>
                 </tr>
                 </thead>
 
@@ -226,7 +227,7 @@
                                 <td class="text-center">
                                     <a href="/admin/users/edit?id=${u.id}"
                                     class="btn btn-sm btn-warning me-1">
-                                        <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                        <i class="fa-solid fa-pen-to-square"></i> edit
                                     </a>
 
                                     <form action="/admin/users/delete" method="post"
@@ -234,7 +235,7 @@
                                         <input type="hidden" name="id" value="${u.id}" />
                                         <button type="submit" class="btn btn-sm btn-danger"
                                                 onclick="return confirm('Xóa user ${u.id}?')">
-                                            <i class="fa-solid fa-trash-can"></i> Xóa
+                                            <i class="fa-solid fa-trash-can"></i> delete
                                         </button>
                                     </form>
                                 </td>
@@ -254,6 +255,32 @@
                 </tbody>
             </table>
         </div>
+
+        <c:if test="${pageCount > 1}">
+            <nav class="mt-4" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item ${currentPage <= 1 ? 'disabled' : ''}">
+                        <a class="page-link" href="?page=${currentPage - 1}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if><c:if test="${not empty paramRole}">&role=<c:out value="${paramRole}" /></c:if>">
+                            <i class="fa-solid fa-angle-left text-primary fs-6"></i>
+                        </a>
+                    </li>
+
+                    <c:forEach begin="1" end="${pageCount}" var="p">
+                        <li class="page-item ${p == currentPage ? 'active' : ''}">
+                            <a class="page-link" href="?page=${p}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if><c:if test="${not empty paramRole}">&role=<c:out value="${paramRole}" /></c:if>">
+                                ${p}
+                            </a>
+                        </li>
+                    </c:forEach>
+
+                    <li class="page-item ${currentPage >= pageCount ? 'disabled' : ''}">
+                        <a class="page-link" href="?page=${currentPage + 1}<c:if test="${not empty paramQ}">&q=<c:out value="${paramQ}" /></c:if><c:if test="${not empty paramRole}">&role=<c:out value="${paramRole}" /></c:if>">
+                            <i class="fa-solid fa-angle-right text-primary fs-6"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </c:if>
 
     </main>
 

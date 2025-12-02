@@ -60,13 +60,25 @@ public class UserManagerServlet extends HttpServlet {
         List<User> users;
         int totalPages = 1;
 
-        if (q != null && !q.trim().isEmpty()) {
+        if (q != null && !q.trim().isEmpty() && roleStr != null && !roleStr.isEmpty()) {
+            boolean isAdmin = "ADMIN".equalsIgnoreCase(roleStr) || "true".equalsIgnoreCase(roleStr);
+            users = userDAO.searchByKeywordAndRole(q.trim(), isAdmin);
+            totalPages = 1;
+            page = 1;
+        }
+        else if (q != null && !q.trim().isEmpty()) {
             users = userDAO.searchByKeyword(q.trim());
-        } else if (roleStr != null && !roleStr.isEmpty()) {
+            totalPages = 1;
+            page = 1;
+        }
+        else if (roleStr != null && !roleStr.isEmpty()) {
             boolean isAdmin = "ADMIN".equalsIgnoreCase(roleStr) || "true".equalsIgnoreCase(roleStr);
             users = userDAO.findByRole(isAdmin);
-        } else {
-            users = userDAO.findPage((page - 1) * size, size);
+            totalPages = 1;
+            page = 1;
+        }
+        else {
+            users = userDAO.findPage(page - 1, size);
             int total = userDAO.countAll();
             totalPages = (int) Math.ceil(total * 1.0 / size);
         }

@@ -38,7 +38,7 @@ public class User {
   private boolean admin = false;
 
   @Column(name = "Avatar")
-    private String avatar;
+  private String avatar;
 
   @OneToMany(mappedBy = "user")
   private List<Favorite> favorites;
