@@ -359,8 +359,8 @@
   </body>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const filterLiked = document.getElementById("filter-liked");
-      const filterAll = document.getElementById("filter-all");
+      const filterLiked = document.getElementById("filter-liked") ;
+      const filterAll = document.getElementById("filter-all") ;
       const videoItems = document.querySelectorAll(".video-item") ;
       const likeButtons = document.querySelectorAll(".like-btn") ;
       const shareModal = document.getElementById('share') ;
