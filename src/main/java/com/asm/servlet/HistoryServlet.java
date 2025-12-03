@@ -12,39 +12,45 @@ import javax.servlet.http.HttpSession;
 
 import com.asm.dao.VideoDetailDAO;
 import com.asm.dao.impl.VideoDetailDAOImpl;
-import com.asm.dto.VideoDetailDTO; 
-import com.asm.entity.User; 
+import com.asm.dto.VideoDetailDTO;
+import com.asm.entity.User;
 
 @WebServlet("/history")
 public class HistoryServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    
+
     private VideoDetailDAO videoDetailDAO = new VideoDetailDAOImpl();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        
+
         if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login"); 
+            response.sendRedirect("login");
             return;
         }
 
         User user = (User) session.getAttribute("user");
         String userId = user.getId();
-        
-        int page = 1; 
-        int offset = 10;
-        
+
         try {
-            List<VideoDetailDTO> historyVideos = videoDetailDAO.findHistoryByUserId(userId, page, offset);
-            
+            List<VideoDetailDTO> historyVideos = videoDetailDAO.findAll(userId);
+
             request.setAttribute("historyVideos", historyVideos);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        String uri = request.getRequestURI();
+        String queryString = request.getQueryString();
+        String fullUrl;
+        if (queryString != null && !queryString.isEmpty()) {
+            fullUrl = uri + "?" + queryString;
+        } else {
+            fullUrl = uri;
+        }
+        request.setAttribute("currentUrl", fullUrl);
         request.getRequestDispatcher("/views/history.jsp").forward(request, response);
     }
 

@@ -12,3 +12,9 @@ target/
 # OS
 .DS_Store
 Thumbs.db
+
+src/main/webapp/uploads/posters/*
+src/main/webapp/uploads/avatars/*
+
+!src/main/webapp/uploads/posters/.gitkeep
+!src/main/webapp/uploads/avatars/.gitkeep

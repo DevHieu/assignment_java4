@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const videoId = button.getAttribute("data-video-id");
 
     const idInput = shareModal.querySelector("#videoId");
-    const sectionInput = shareModal.querySelector("#section");
 
-    if (idInput) idInput.value = videoId;
-    if (sectionInput) sectionInput.value = "#skit";
+    if (idInput) {
+      idInput.value = videoId;
+    }
   });
 });

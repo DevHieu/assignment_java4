@@ -25,8 +25,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       <%@ include file="./components/navbar.jsp" %>
       <div class="container-fluid p-0" id="banner">
         <header>
-          <!-- data-bs-ride="carousel" -->
-          <div id="carousel" class="carousel slide">
+          <div id="carousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner" style="height: 90vh">
               <c:forEach var="item" items="${bannerVideos}" varStatus="st">
                 <div class="carousel-item h-100 w-100 ${st.first ? 'active' : ''}">

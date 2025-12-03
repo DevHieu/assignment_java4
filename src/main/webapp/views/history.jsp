@@ -17,6 +17,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
     />
     <link href="../styles/NavBar.css" rel="stylesheet" />
     <link rel="stylesheet" href="../styles/history.css" />
+    <script src="../scripts/VideoAction.js"></script>
   </head>
 
   <body>
@@ -96,6 +97,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                             data-bs-toggle="modal"
                             data-bs-target="#share"
                             data-video-id="${video.id}"
+                            data-is-login="${sessionScope.user != null}"
                           >
                             <i class="fas fa-share"></i>
                           </button>
@@ -143,7 +145,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
       const likeButtons = document.querySelectorAll(".like-btn");
       const shareModal = document.getElementById("share");
 
-      const videosPerPage = 16;
+      const videosPerPage = 8;
       const allVideoItems = document.querySelectorAll(
         "#video-grid .video-item"
       );

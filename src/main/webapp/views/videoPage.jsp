@@ -68,6 +68,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
       referrerpolicy="no-referrer"
     />
     <link href="../styles/NavBar.css" rel="stylesheet" />
+    <script src="../scripts/VideoAction.js"></script>
   </head>
 
   <body>
@@ -116,6 +117,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
                         data-bs-toggle="modal"
                         data-bs-target="#share"
                         data-video-id="${video.id}"
+                        data-is-login="${sessionScope.user != null}"
                       >
                         <i class="fas fa-share"></i> Chia sẻ
                       </button>

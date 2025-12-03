@@ -58,9 +58,19 @@ public class WatchVideoServlet extends HttpServlet {
       isLiked = daoVid.isLiked(id, user.getId());
     }
 
+    String uri = request.getRequestURI();
+    String queryString = request.getQueryString();
+    String fullUrl;
+    if (queryString != null && !queryString.isEmpty()) {
+      fullUrl = uri + "?" + queryString;
+    } else {
+      fullUrl = uri;
+    }
+
     request.setAttribute("video", video);
     request.setAttribute("list10Vid", list10Vid);
     request.setAttribute("isLiked", isLiked);
+    request.setAttribute("currentUrl", fullUrl);
     request.getRequestDispatcher("/views/videoPage.jsp").forward(request, response);
   }
 
