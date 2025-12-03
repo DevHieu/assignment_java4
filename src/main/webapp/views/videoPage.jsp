@@ -5,6 +5,58 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
   <head>
     <meta charset="UTF-8" />
     <title>Insert title here</title>
+    <style>
+      .suggested-video-item {
+        height: 86px;
+        overflow: hidden;
+        align-items: flex-start;
+      }
+
+      .thumb-wrapper {
+        width: 120px;
+        height: 68px;
+      }
+
+      .thumb-img {
+        width: 120px;
+        height: 68px;
+        object-fit: cover;
+        border-radius: 6px;
+      }
+
+      .content-wrapper {
+        height: 68px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .video-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .video-desc {
+        font-size: 0.8rem;
+        color: #adb5bd;
+        line-height: 1.3;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      /* Views */
+      .video-views {
+        font-size: 0.75rem;
+        color: #868e96;
+      }
+    </style>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../bootstrap/css/custom-dark.css" />
     <script defer src="../bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -92,20 +144,20 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
                       href="/watch?id=${list.id}"
                       class="suggested-video-item d-flex gap-2 mb-3 text-decoration-none text-white"
                     >
-                      <div class="flex-shrink-0">
+                      <div class="thumb-wrapper flex-shrink-0">
                         <img
-                          src="..${list.poster}"
-                          alt="Video Thumbnail for ${list.title}"
-                          class="rounded"
-                          width="120"
-                          height="68"
+                          src="${pageContext.request.contextPath}${list.poster}"
+                          alt="${list.title}"
+                          class="thumb-img"
                         />
                       </div>
 
-                      <div class="flex-grow-1">
-                        <h6 class="mb-1 small">${list.title}</h6>
-                        <p class="text-muted small mb-1">${list.description}</p>
-                        <div class="text-muted small">
+                      <div class="content-wrapper flex-grow-1">
+                        <div class="video-title">${list.title}</div>
+
+                        <div class="video-desc">${list.description}</div>
+
+                        <div class="video-views">
                           <i class="fas fa-eye me-1"></i>${list.views}
                         </div>
                       </div>

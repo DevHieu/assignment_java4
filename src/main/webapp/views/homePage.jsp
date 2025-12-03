@@ -94,28 +94,33 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                       />
                   </div>
                   <a href="/watch?id=${video.id}" class="stretched-link"></a>
-                  <div class="card-body p-0 pt-2">
-                    <div class="row g-0 align-items-end">
-                      <div class="col-10">
-                        <h5 class="card-title fw-bold mb-0 fs-4">${video.title}</h5>
-                        <p class="card-text text-muted small my-2">${video.description}</p>
+                  <div class="card-body p-0 pt-2 card-content-fixed"> 
+        
+                    <div>
+                        <h5 class="card-title fw-bold mb-0 fs-4 text-truncate-2-lines">${video.title}</h5>
+                        
+                        <p class="card-text text-muted small my-2 text-truncate-2-lines" style="line-height: 1.25; min-height: 2.5em;">${video.description}</p>
+                        
                         <p class="card-text small mb-0 mt-1"><i class="fa-solid fa-eye me-2 text-primary" style="font-size: 15px;"></i>${video.views}</p>
-                      </div>
-  
-                      <div
-                        class="col-2 text-end d-flex justify-content-end align-items-center"
-                      >
-                        <button class="btn btn-sm icon-btn z-3" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#share" 
-                        data-video-id="${video.id}"
-                        data-is-login="${sessionScope.user != null}" >
-                          <i class="fas fa-share"></i>
-                        </button>
-  
-                      </div>
                     </div>
-                  </div>
+                    
+                    <div class="row g-0 align-items-end push-to-bottom"> 
+                        <div class="col-10">
+                            </div>
+                        
+                        <div
+                            class="col-2 text-end d-flex justify-content-end align-items-center"
+                        >
+                            <button class="btn btn-sm icon-btn z-3" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#share" 
+                            data-video-id="${video.id}"
+                            data-is-login="${sessionScope.user != null}" >
+                                <i class="fas fa-share"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 </div>
               </div>
             </c:forEach>

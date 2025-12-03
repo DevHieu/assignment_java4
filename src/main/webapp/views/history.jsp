@@ -56,8 +56,8 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                       </a>
                     </div>
                     <div class="card-body p-0">
-                      <div class="p-3">
-                        <h5 class="card-title text-white mb-2">
+                      <div class="p-3 fixed-card-content">
+                        <h5 class="card-title text-white mb-2 title-truncate">
                           <a
                             href="watch?id=${video.id}"
                             class="text-white text-decoration-none"
@@ -66,21 +66,23 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                           </a>
                         </h5>
 
-                        <p class="card-text text-white-50 small mb-2">
+                        <p
+                          class="card-text text-white-50 small mb-2 description-truncate"
+                        >
                           ${video.description}
                         </p>
 
-                        <p class="text-white-50 small mb-1">
+                        <p class="text-white-50 small mb-1 views-row">
                           <i class="fas fa-eye me-1"></i> ${video.views} lượt
                           xem
                         </p>
 
-                        <p class="text-white-50 small mb-3">
+                        <p class="text-white-50 small mb-3 view-date-row">
                           <i class="fas fa-clock me-1"></i> Xem lần cuối:
                           ${video.viewDate}
                         </p>
 
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 action-buttons">
                           <button
                             class="btn btn-sm ${video.liked ? 'btn-liked' : 'btn-outline-primary'} like-btn z-3"
                             data-video-id="${video.id}"

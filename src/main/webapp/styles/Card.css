@@ -1,0 +1,93 @@
+/* ========== VIDEO CARD COMMON ========== */
+.video-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Thumbnail */
+.video-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+  position: relative;
+}
+
+.video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Duration (nếu có) */
+.video-duration {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  font-size: 12px;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  color: #fff;
+}
+
+/* Content */
+.video-content {
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Title – 2 dòng */
+.video-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* ✅ khóa 2 dòng */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Description – 2 dòng */
+.video-desc {
+  font-size: 0.8rem;
+  color: #adb5bd;
+  line-height: 1.3;
+  margin: 4px 0;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Meta info */
+.video-meta {
+  font-size: 0.75rem;
+  color: #868e96;
+}
+
+/* Sidebar / suggested item */
+.video-mini {
+  height: 88px;
+  display: flex;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.video-mini .video-thumb {
+  width: 120px;
+  height: 68px;
+  flex-shrink: 0;
+}
+
+.video-mini .video-content {
+  height: 68px;
+  justify-content: space-between;
+  padding: 0;
+}

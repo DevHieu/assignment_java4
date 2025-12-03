@@ -38,6 +38,13 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
       .sort-dropdown .dropdown-menu {
         min-width: 200px;
       }
+
+      .text-truncate-2-lines {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
     </style>
   </head>
 
@@ -147,14 +154,14 @@ uri="http://java.sun.com/jstl/core_rt" prefix="core"%>
                     <div class="card-body d-flex flex-column">
                       <span class="text-muted small">25:10</span>
 
-                      <h5 class="card-title">
+                      <h5 class="card-title text-truncate-2-lines">
                         <a
                           class="text-decoration-none text-reset"
                           href="${pathMain}/watch?id=${list[0].id}"
                           >${list[0].title}</a
                         >
                       </h5>
-                      <p class="card-text text-muted flex-grow-1">
+                      <p class="card-text text-muted text-truncate-2-lines">
                         ${list[0].description}
                       </p>
 
