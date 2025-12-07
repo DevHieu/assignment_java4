@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/NavBar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/UserManager.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/styles/history.css">
+</head>
+
 <body>
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid px-5">
@@ -157,7 +159,9 @@
 
                         <div class="mb-3">
                             <label class="form-label">Poster:</label>
-                            <input type="file" name="posterFile" class="form-control" accept="image/*" id="posterInput">
+                            <input type="file" name="posterFile" class="form-control" 
+                                    accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" 
+                                    id="posterInput">
                             <div class="mt-2">
                                 <c:choose>
                                     <c:when test="${videoEdit != null && videoEdit.poster != null}">
@@ -316,12 +320,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const urlInput     = document.getElementById('youtubeUrl');
-            const idInput      = document.getElementById('youtubeId');
-            const extractBtn   = document.getElementById('extractBtn');
-            const posterInput  = document.getElementById('posterInput');
+            const urlInput      = document.getElementById('youtubeUrl');
+            const idInput       = document.getElementById('youtubeId');
+            const extractBtn    = document.getElementById('extractBtn');
+            const posterInput   = document.getElementById('posterInput');
             const posterPreview = document.getElementById('posterPreview');
 
+            // === 1. XỬ LÝ LẤY YOUTUBE ID ===
             function extractYouTubeID(url) {
                 const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/;
                 const match = url.match(regex);
@@ -332,7 +337,7 @@
                 extractBtn.onclick = function () {
                     const url = urlInput.value.trim();
                     if (!url) {
-                        alert('Dán link youtube bạn nhé!');
+                        alert('Dán link YouTube bạn nhé!');
                         return;
                     }
                     const videoId = extractYouTubeID(url);
@@ -340,32 +345,55 @@
                         idInput.value = videoId;
                         alert('Lấy ID thành công: ' + videoId);
                     } else {
-                        alert('Link YouTube không hợp lệ');
+                        alert('Link YouTube không hợp lệ!');
                     }
                 };
             }
 
-            urlInput.addEventListener('blur', function () {
-                if (!idInput.value) {
-                    const videoId = extractYouTubeID(this.value.trim());
-                    if (videoId) idInput.value = videoId;
-                }
-            });
+            if (urlInput) {
+                urlInput.addEventListener('blur', function () {
+                    if (!idInput.value) {
+                        const videoId = extractYouTubeID(this.value.trim());
+                        if (videoId) idInput.value = videoId;
+                    }
+                });
+            }
 
-            if (posterInput) {
+            // === 2. CHỈ CHO PHÉP CHỌN ẢNH + PREVIEW + KIỂM TRA KÍCH THƯỚC ===
+            if (posterInput && posterPreview) {
+                const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                const maxSizeMB = 5; // Tối đa 5MB (tùy chỉnh thoải mái)
+
                 posterInput.addEventListener('change', function () {
                     const file = this.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function (e) {
-                            posterPreview.src = e.target.result;
-                            posterPreview.style.display = 'block';
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        posterPreview.src = '';
-                        posterPreview.style.display = 'none';
+
+                    // Reset preview
+                    posterPreview.src = '';
+                    posterPreview.style.display = 'none';
+
+                    if (!file) return;
+
+                    // Kiểm tra loại file
+                    if (!allowedTypes.includes(file.type)) {
+                        alert('Chỉ được chọn file ảnh: JPG, PNG, GIF, WebP!');
+                        this.value = ''; // Xóa file đã chọn
+                        return;
                     }
+
+                    // Kiểm tra kích thước
+                    if (file.size > maxSizeMB * 1024 * 1024) {
+                        alert(`File quá lớn! Chỉ được upload tối đa ${maxSizeMB}MB`);
+                        this.value = '';
+                        return;
+                    }
+
+                    // Hiển thị preview
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        posterPreview.src = e.target.result;
+                        posterPreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
                 });
             }
         });

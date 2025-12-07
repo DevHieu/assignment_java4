@@ -58,12 +58,11 @@
         <c:set var="dummy" value="${sessionScope.remove('error')}" />
     </c:if>
 
-    <!-- MODAL -->
     <div class="modal fade" id="userModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
-                <form action="/admin/users/save" method="post" enctype="multipart/form-data" onsubmit="console.log('Form submitted'); return true;">
+                <form action="/admin/users/save" method="post" enctype="multipart/form-data">
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -79,7 +78,7 @@
                             <c:choose>
                                 <c:when test="${userEdit == null}">
                                     <input type="text" name="id" class="form-control" required
-                                        placeholder="Enter user ID (e.g. user01)" />
+                                           placeholder="Enter user ID (e.g. user01)" />
                                 </c:when>
                                 <c:otherwise>
                                     <input type="hidden" name="id" value="${userEdit.id}" />
@@ -91,13 +90,13 @@
                         <div class="mb-3">
                             <label class="form-label">Fullname:</label>
                             <input type="text" name="fullname" class="form-control" required
-                                value="${userEdit != null ? userEdit.fullname : ''}">
+                                   value="${userEdit != null ? userEdit.fullname : ''}">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Email:</label>
                             <input type="email" name="email" class="form-control" required
-                                value="${userEdit != null ? userEdit.email : ''}">
+                                   value="${userEdit != null ? userEdit.email : ''}">
                         </div>
 
                         <div class="mb-3">
@@ -115,13 +114,14 @@
                         <div class="mb-3">
                             <label class="form-label">Avatar:</label>
                             <input type="file" name="avatarFile" class="form-control"
-                                accept="image/*" id="avatarInput">
+                                   accept="image/jpeg,image/png,image/gif,image/webp" 
+                                   id="avatarInput">
 
                             <div class="mt-2">
                                 <c:choose>
                                     <c:when test="${userEdit != null && userEdit.avatar != null}">
                                         <img id="avatarPreview" src="${userEdit.avatar}"
-                                            style="max-width:200px; display:block;" />
+                                             style="max-width:200px; display:block;" />
                                     </c:when>
                                     <c:otherwise>
                                         <img id="avatarPreview" src="" style="max-width:200px; display:none;" />
@@ -293,11 +293,24 @@
         if (input && img) {
             input.addEventListener('change', function () {
                 const file = this.files && this.files[0];
+                
+                // 1. Nếu người dùng hủy chọn hoặc không có file
                 if (!file) {
                     img.style.display = 'none';
                     img.src = '';
                     return;
                 }
+
+                // 2. ĐÃ SỬA: Kiểm tra có phải là ảnh hay không
+                if (!file.type.startsWith('image/')) {
+                    alert('File không hợp lệ! Vui lòng chỉ chọn file hình ảnh (jpg, png, gif...)');
+                    this.value = ''; // Xóa file sai khỏi input
+                    img.style.display = 'none';
+                    img.src = '';
+                    return;
+                }
+
+                // 3. Nếu đúng là ảnh thì hiển thị
                 img.src = URL.createObjectURL(file);
                 img.style.display = 'block';
             });
