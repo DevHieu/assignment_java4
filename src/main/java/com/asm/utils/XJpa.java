@@ -7,7 +7,7 @@ import javax.persistence.Persistence;
 public class XJpa {
   private static EntityManagerFactory factory;
   static {
-    factory = Persistence.createEntityManagerFactory("PolyOE");
+    factory = Persistence.createEntityManagerFactory("HahaFactory");
   }
 
   public static EntityManager getEntityManager() {

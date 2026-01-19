@@ -10,8 +10,10 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Getter
 @Setter
 @AllArgsConstructor
@@ -32,8 +34,11 @@ public class User {
   @Column(name = "email")
   private String email;
 
+  @Column (name = "avatar")
+  private String avatar ;
+
   @Column(name = "admin")
-  private Boolean admin = false;
+  private boolean admin = false;
 
   @OneToMany(mappedBy = "user")
   private List<Favorite> favorites;

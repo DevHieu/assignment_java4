@@ -1,0 +1,41 @@
+/* Sidebar tabs */
+    #statTabs .nav-link {
+        border-radius: 999px;
+        color: #3b2a13; 
+        transition: background-color .2s ease, color .2s ease;
+    }
+
+    #statTabs .nav-link:hover {
+        background-color: #3b2a13;   
+        color: #ffd86b;
+    }
+
+    #statTabs .nav-link.active {
+    background-color: #ff922b;      
+    color: #121212 !important;      
+}
+
+    #statTabs .nav-link.active:hover {
+        background-color: #ffb341;   
+        color: #121212;
+    }
+
+    /* Buttons */
+    .btn-warning {
+        background-color: #ff922b;
+        border-color: #ff922b;
+        color: #121212;
+        transition: background-color .2s ease, border-color .2s ease, transform .1s;
+    }
+
+    .btn-warning:hover {
+        background-color: #ffd86b;
+        border-color: #ffd86b;
+        color: #121212;
+        transform: translateY(-1px);
+    }
+
+    /* Hover cho bảng */
+    .table-hover tbody tr:hover {
+        background-color: #2a2720 !important; 
+    }

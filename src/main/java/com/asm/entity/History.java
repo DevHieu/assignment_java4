@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,25 +15,21 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "share")
-public class Share {
+@Table(name = "history")
+public class History {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private long id;
+  @Column(name = "Id")
+  private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "userId")
-  private User user;
+  @Column(name = "UserId")
+  private String userId;
 
-  @ManyToOne
-  @JoinColumn(name = "videoId")
-  private Video video;
+  @Column(name = "VideoId")
+  private String videoId;
 
-  @Column(name = "emails")
-  private String emails;
-
-  @Column(name = "shareDate")
+  @Column(name = "ViewDate")
   @Temporal(TemporalType.DATE)
-  private Date shareDate = new Date();
+  private Date viewDate = new Date();
+
 }
