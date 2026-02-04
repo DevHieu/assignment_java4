@@ -29,7 +29,7 @@
     <div class="auth-container">
       <div class="auth-card">
         <h1 class="auth-title">Đăng Ký</h1>
-        <form action="register" method="post">
+        <form action="register" method="post" novalidate>
           <!-- Fullname Field -->
           <div class="mb-3">
             <div class="input-group">
