@@ -18,7 +18,7 @@
     />
     <link href="../styles/NavBar.css" rel="stylesheet" />
     <link href="../styles/Statistics.css" rel="stylesheet" />
-    
+
 </head>
 <body>
     <nav class="sticky-top navbar navbar-expand-lg bg-body-tertiary">
@@ -201,8 +201,8 @@
                             </table>
                         </div>
                     </div>
-                </div> 
-            </div> 
-        </div> 
+                </div>
+            </div>
+        </div>
 </body>
 </html>
