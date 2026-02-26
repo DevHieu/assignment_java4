@@ -13,7 +13,6 @@ public class LoginTest extends BaseTest {
         driver.get("http://localhost:9090/login");
     }
 
-    // 🔥 Hàm dùng chung
     private void login(String username, String password, boolean remember) {
         driver.findElement(By.name("username")).clear();
         driver.findElement(By.name("password")).clear();
