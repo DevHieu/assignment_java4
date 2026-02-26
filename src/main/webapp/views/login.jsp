@@ -97,7 +97,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
             >
           </div>
           <c:if test="${not empty message}">
-            <div
+            <div id= "message"
               class="alert alert-warning alert-dismissible fade show"
               role="alert"
             >
@@ -110,7 +110,7 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
             </div>
           </c:if>
           <!-- Login Button -->
-          <button type="submit" class="btn btn-auth w-100">Đăng Nhập</button>
+          <button type="submit" id="btnLogin" class="btn btn-auth w-100">Đăng Nhập</button>
         </form>
 
         <!-- Register Link -->

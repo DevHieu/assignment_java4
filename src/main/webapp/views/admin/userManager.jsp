@@ -62,7 +62,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
-                <form action="/admin/users/save" method="post" enctype="multipart/form-data">
+                <form action="/admin/users/save" method="post" enctype="multipart/form-data" novalidate>
 
                     <div class="modal-header">
                         <h5 class="modal-title">
@@ -153,7 +153,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-warning">Save</button>
+                        <button id="btnSave" type="submit" class="btn btn-warning">Save</button>
                     </div>
 
                 </form>
@@ -174,18 +174,18 @@
                     <input class="form-control" name="q" type="search"
                         placeholder="Search..." value="${param.q}" />
 
-                    <select class="form-select" name="role" style="min-width: 180px">
+                    <select class="form-select" id="role" name="role" style="min-width: 180px">
                         <option value="">All Roles</option>
                         <option value="ADMIN" ${param.role == 'ADMIN' ? 'selected' : ''}>Admin</option>
                         <option value="USER" ${param.role == 'USER' ? 'selected' : ''}>User</option>
                     </select>
 
-                    <button class="btn btn-warning" type="submit">
+                    <button id="btnSearch" class="btn btn-warning" type="submit">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>
 
-                <button type="button" class="btn btn-success"
+                <button id="btnAddUser" type="button" class="btn btn-success"
                         data-bs-toggle="modal" data-bs-target="#userModal">
                     <i class="fa-solid fa-plus"></i> Add User
                 </button>
@@ -230,10 +230,10 @@
                                         <i class="fa-solid fa-pen-to-square"></i> edit
                                     </a>
 
-                                    <form action="/admin/users/delete" method="post"
+                                    <form action="/admin/users/delete" method="post" 
                                         class="d-inline">
                                         <input type="hidden" name="id" value="${u.id}" />
-                                        <button type="submit" class="btn btn-sm btn-danger"
+                                        <button id="btnDelete" type="submit" class="btn btn-sm btn-danger"
                                                 onclick="return confirm('Xóa user ${u.id}?')">
                                             <i class="fa-solid fa-trash-can"></i> delete
                                         </button>

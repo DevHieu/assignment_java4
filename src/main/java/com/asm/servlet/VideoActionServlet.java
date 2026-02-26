@@ -65,12 +65,19 @@ public class VideoActionServlet extends HttpServlet {
 
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
+    PrintWriter out = response.getWriter();
 
-    try (PrintWriter out = response.getWriter()) {
+    try {
 
       if (user == null) {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // HTTP 401
         out.print("{\"status\":\"error\", \"message\":\"Vui lòng đăng nhập để thích video.\"}");
+        return;
+      }
+
+      if (video == null) {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // HTTP 400
+        out.print("{\"status\":\"error\", \"message\":\"Lỗi dữ liệu đầu vào. Video không hợp lệ.\"}");
         return;
       }
 
@@ -91,19 +98,14 @@ public class VideoActionServlet extends HttpServlet {
       response.setStatus(HttpServletResponse.SC_OK); // HTTP 200
       out.print("{\"status\":\"success\",\"action\":\"" + action + "\"}");
 
-    } catch (NullPointerException e) {
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST); // HTTP 400
-      try (PrintWriter out = response.getWriter()) {
-        out.print("{\"status\":\"error\", \"message\":\"Lỗi dữ liệu đầu vào. Video không hợp lệ.\"}");
-      }
-      e.printStackTrace();
     } catch (Exception e) {
       response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); // HTTP 500
-      try (PrintWriter out = response.getWriter()) {
-        out.print(
-            "{\"status\":\"error\", \"message\":\"Lỗi hệ thống: Không thể ghi nhận thao tác. Vui lòng kiểm tra cấu hình DB/Entity.\"}");
-      }
+      out.print(
+          "{\"status\":\"error\", \"message\":\"Lỗi hệ thống: Không thể ghi nhận thao tác. Vui lòng kiểm tra cấu hình DB/Entity.\"}");
       e.printStackTrace();
+    } finally {
+      out.flush();
+      out.close();
     }
   }
 
