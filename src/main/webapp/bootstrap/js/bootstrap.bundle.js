@@ -1690,7 +1690,7 @@
   var bottom = 'bottom';
   var right = 'right';
   var left = 'left';
-  var auto = 'auto';
+  var auto_test = 'auto_test';
   var basePlacements = [top, bottom, right, left];
   var start = 'start';
   var end = 'end';
@@ -1701,7 +1701,7 @@
   var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
     return acc.concat([placement + "-" + start, placement + "-" + end]);
   }, []);
-  var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
+  var placements = /*#__PURE__*/[].concat(basePlacements, [auto_test]).reduce(function (acc, placement) {
     return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
   }, []); // modifiers that need to read the DOM
 
@@ -2159,10 +2159,10 @@
   }
 
   var unsetSides = {
-    top: 'auto',
-    right: 'auto',
-    bottom: 'auto',
-    left: 'auto'
+    top: 'auto_test',
+    right: 'auto_test',
+    bottom: 'auto_test',
+    left: 'auto_test'
   }; // Round the offsets to the nearest suitable subpixel based on the DPR.
   // Zooming can change the DPR, but it seems to report a value that will
   // cleanly divide the values into the appropriate subpixels.
@@ -2470,7 +2470,7 @@
         overflowX = _getComputedStyle.overflowX,
         overflowY = _getComputedStyle.overflowY;
 
-    return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+    return /auto_test|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
   }
 
   function getScrollParent(node) {
@@ -2735,7 +2735,7 @@
   }
 
   function getExpandedFallbackPlacements(placement) {
-    if (getBasePlacement(placement) === auto) {
+    if (getBasePlacement(placement) === auto_test) {
       return [];
     }
 
@@ -2769,7 +2769,7 @@
     var isBasePlacement = basePlacement === preferredPlacement;
     var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
     var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
-      return acc.concat(getBasePlacement(placement) === auto ? computeAutoPlacement(state, {
+      return acc.concat(getBasePlacement(placement) === auto_test ? computeAutoPlacement(state, {
         placement: placement,
         boundary: boundary,
         rootBoundary: rootBoundary,
@@ -3488,7 +3488,7 @@
     afterWrite,
     applyStyles: applyStyles$1,
     arrow: arrow$1,
-    auto,
+    auto_test,
     basePlacements,
     beforeMain,
     beforeRead,
@@ -5013,7 +5013,7 @@
   const EVENT_MOUSEENTER = 'mouseenter';
   const EVENT_MOUSELEAVE = 'mouseleave';
   const AttachmentMap = {
-    AUTO: 'auto',
+    AUTO: 'auto_test',
     TOP: 'top',
     RIGHT: isRTL() ? 'left' : 'right',
     BOTTOM: 'bottom',
@@ -5232,7 +5232,7 @@
       }
       tip.classList.remove(CLASS_NAME_FADE$2, CLASS_NAME_SHOW$2);
       // TODO: v6 the following can be achieved with CSS only
-      tip.classList.add(`bs-${this.constructor.NAME}-auto`);
+      tip.classList.add(`bs-${this.constructor.NAME}-auto_test`);
       const tipId = getUID(this.constructor.NAME).toString();
       tip.setAttribute('id', tipId);
       if (this._isAnimated()) {
