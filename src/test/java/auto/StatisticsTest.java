@@ -1,4 +1,4 @@
-package tests;
+package auto;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
