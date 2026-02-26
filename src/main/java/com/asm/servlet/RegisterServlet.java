@@ -15,6 +15,12 @@ import com.asm.entity.User;
 public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private UserDAO userDAO = new UserDAOImpl();
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/views/register.jsp").forward(request, response);
     }
@@ -26,8 +32,6 @@ public class RegisterServlet extends HttpServlet {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
         
-        UserDAO userDAO = new UserDAOImpl();
-
         try {
             if(fullname.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()){
                 request.setAttribute("message", "Vui lòng điền đầy đủ thông tin!");

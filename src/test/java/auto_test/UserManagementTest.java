@@ -1,4 +1,4 @@
-package tests;
+package auto_test;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;

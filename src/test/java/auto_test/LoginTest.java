@@ -1,4 +1,4 @@
-package tests;
+package auto_test;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Cookie;

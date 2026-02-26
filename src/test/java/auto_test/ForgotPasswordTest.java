@@ -1,4 +1,4 @@
-package tests;
+package auto_test;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;

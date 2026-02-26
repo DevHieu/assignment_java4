@@ -1,4 +1,4 @@
-package tests;
+package unit_test;
 
 import com.asm.dao.VideoDAO;
 import com.asm.dao.impl.VideoDAOImpl;
