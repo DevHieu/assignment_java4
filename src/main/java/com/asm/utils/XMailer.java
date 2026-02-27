@@ -9,8 +9,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class XMailer {
-  public static boolean send(String to, String subject, String body) {
+// Implement
+public class XMailer implements IMailer {
+    @Override
+  public boolean send(String to, String subject, String body) {
     final String username = "hieudd2090@gmail.com";
     final String password = "nqhuaimewllmvfcu";
 

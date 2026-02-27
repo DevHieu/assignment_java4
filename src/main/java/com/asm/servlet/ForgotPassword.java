@@ -10,25 +10,32 @@ import javax.servlet.http.HttpServletResponse;
 import com.asm.dao.UserDAO;
 import com.asm.dao.impl.UserDAOImpl;
 import com.asm.entity.User;
+import com.asm.utils.IMailer;
 import com.asm.utils.XMailer;
 
 @WebServlet("/forgot_pw")
 public class ForgotPassword extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    private UserDAO userDAO = new UserDAOImpl();
+
+    public void setUserDAO(UserDAO userDAO){
+        this.userDAO = userDAO;
+    }
+
+    private IMailer mailer = new XMailer();
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.getRequestDispatcher("/views/forgotPassword.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String username = request.getParameter("username");
         String email = request.getParameter("email");
 
         try {
-            UserDAO userDAO = new UserDAOImpl();
-
             User user = userDAO.findById(username);
 
             if (user == null) {
@@ -48,7 +55,7 @@ public class ForgotPassword extends HttpServlet {
                 String subject = "Khôi phục mật khẩu";
                 String body = "Xin chào " + username + ". Mật khẩu của bạn là: " + user.getPassword();
 
-                XMailer.send(to, subject, body);
+                mailer.send(to, subject, body);
                 request.setAttribute("message", "Mật khẩu đã được gửi về email!");
             }
 

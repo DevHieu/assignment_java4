@@ -32,6 +32,8 @@ public class VideoActionServlet extends HttpServlet {
   private ShareDAO shareDAO = new ShareDAOImpl();
   private FavoriteDAO favoriteDAO = new FavoriteDAOImpl();
 
+    private XMailer mailService = new XMailer();
+
   @Override
   public void service(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
@@ -137,7 +139,7 @@ public class VideoActionServlet extends HttpServlet {
           "style='color:#0d6efd;text-decoration:none;font-weight:bold;'>" +
           "Xem video tại đây</a></p>";
 
-      XMailer.send(emails, "Chia sẻ video từ Ứng dụng Video", content);
+        mailService.send(emails, "Chia sẻ video từ Ứng dụng Video", content);
 
       session.setAttribute("message", "Gửi video thành công!");
 

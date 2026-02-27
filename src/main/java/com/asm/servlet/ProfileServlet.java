@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import com.asm.dao.UserDAO;
 import com.asm.dao.impl.UserDAOImpl;
 import com.asm.entity.User;
 
@@ -24,11 +25,15 @@ import com.asm.entity.User;
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private UserDAOImpl userDAO;
+    private UserDAO userDAO = new UserDAOImpl();
 
     @Override
     public void init() throws ServletException {
         this.userDAO = new UserDAOImpl();
+    }
+
+    public void setUserDAO(UserDAO userDAO){
+        this.userDAO = userDAO;
     }
 
     private String uploadFile(Part part, HttpServletRequest req) throws IOException {
@@ -79,7 +84,7 @@ public class ProfileServlet extends HttpServlet {
         request.getRequestDispatcher("/views/profile.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
         HttpSession session = request.getSession();
