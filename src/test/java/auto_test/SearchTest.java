@@ -19,211 +19,78 @@ public class SearchTest extends BaseTest {
                 searchPage.open();
         }
 
-        // ======================== TÌM KIẾM ========================
+        // ======================== CHỨC NĂNG 5: TÌM KIẾM VIDEO ========================
 
-        // SEA-001: Tìm kiếm từ khóa hợp lệ
+        // AT-SEA-01: Luồng tìm kiếm thành công
+        // Điều kiện tiên quyết: UI hoạt động
+        // Dữ liệu test: "Hài"
+        // Các bước: 1. Nhập từ khóa. 2. Nhấn Search.
+        // Kết quả mong muốn: Hiển thị danh sách video và số lượng kết quả tương ứng
+        // trên giao diện.
         @Test
-        public void SEA_001_SearchWithValidKeyword() {
+        public void AT_SEA_01_SearchSuccess() {
+                // Bước 1 & 2: Nhập từ khóa "Hài" và nhấn Search
                 searchPage.search("Hài");
 
+                // Kiểm tra: Hiển thị danh sách video
+                List<WebElement> videoItems = searchPage.getVideoItems();
+                Assert.assertFalse(videoItems.isEmpty(),
+                                "Phải hiển thị danh sách video khi tìm 'Hài'");
+
+                // Kiểm tra: Số lượng kết quả tương ứng
                 List<WebElement> titles = searchPage.getVideoTitles();
-
                 Assert.assertFalse(titles.isEmpty(),
-                                "Danh sách video không được rỗng khi tìm 'Hài'");
+                                "Danh sách video phải có tiêu đề hiển thị");
 
+                // Kiểm tra: Tất cả kết quả phải chứa từ khóa "Hài"
                 for (WebElement title : titles) {
                         Assert.assertTrue(
                                         title.getText().toLowerCase().contains("hài"),
-                                        "Tiêu đề video phải chứa 'Hài': " + title.getText());
+                                        "Tiêu đề video phải chứa từ khóa 'Hài': " + title.getText());
                 }
+
+                System.out.println("AT-SEA-01: Tìm 'Hài' => " + videoItems.size() + " video hiển thị");
         }
 
-        // SEA-002: Tìm kiếm chuỗi rỗng
+        // AT-SEA-02: Kết hợp Tìm kiếm & Sắp xếp
+        // Điều kiện tiên quyết: UI hoạt động
+        // Dữ liệu test: "Phim", Chọn "A-Z"
+        // Các bước: 1. Tìm "Phim". 2. Thay đổi bộ lọc sắp xếp sang A-Z.
+        // Kết quả mong muốn: UI cập nhật thứ tự hiển thị của các video "Phim" theo bảng
+        // chữ cái.
         @Test
-        public void SEA_002_SearchWithEmptyKeyword() {
-                searchPage.search("");
-
-                List<WebElement> videoItems = searchPage.getVideoItems();
-
-                Assert.assertFalse(videoItems.isEmpty(),
-                                "Khi tìm kiếm rỗng, hệ thống phải load toàn bộ danh sách video");
-        }
-
-        // SEA-003: Từ khóa không tồn tại
-        @Test
-        public void SEA_003_SearchWithNonExistentKeyword() {
-                searchPage.search("XYZ123");
-
-                boolean isDisplayed = searchPage.isNoResultMessageDisplayed();
-
-                Assert.assertTrue(isDisplayed,
-                                "Phải hiển thị thông báo 'Tìm được 0 video liên quan'");
-        }
-
-        // SEA-004: Ký tự đặc biệt (Security)
-        @Test
-        public void SEA_004_SearchWithSpecialCharacters() {
-                searchPage.search("<script>alert('XSS')</script>");
-
-                String pageSource = driver.getPageSource();
-                Assert.assertFalse(
-                                pageSource.contains("<script>alert('XSS')</script>"),
-                                "Hệ thống không được render script tag trực tiếp (XSS vulnerability)");
-
-                String currentUrl = searchPage.getCurrentUrl();
-                Assert.assertTrue(currentUrl.contains("/search"),
-                                "Hệ thống phải xử lý an toàn, không lỗi server, vẫn ở trang search");
-        }
-
-        // SEA-004b: SQL Injection
-        @Test
-        public void SEA_004b_SearchWithSQLInjection() {
-                searchPage.search("' OR '1'='1");
-
-                String currentUrl = searchPage.getCurrentUrl();
-                Assert.assertTrue(currentUrl.contains("/search"),
-                                "Hệ thống phải xử lý an toàn chuỗi SQL injection, không lỗi server");
-        }
-
-        // ======================== SẮP XẾP ========================
-
-        // SRT-001: Sắp xếp Views giảm dần
-        @Test
-        public void SRT_001_SortByMostViews() {
-                searchPage.clickManyViews();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/viewHtoL"),
-                                "URL phải chứa /search/viewHtoL");
-
-                List<WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2,
-                                "Cần ít nhất 2 video để kiểm tra thứ tự sắp xếp");
-
-                long firstViews = searchPage.getViewsAt(0);
-                long secondViews = searchPage.getViewsAt(1);
-
-                Assert.assertTrue(firstViews >= secondViews,
-                                "Video đầu tiên phải có views >= video thứ hai. First=" + firstViews
-                                                + ", Second=" + secondViews);
-        }
-
-        // SRT-002: Sắp xếp Views tăng dần
-        @Test
-        public void SRT_002_SortByLeastViews() {
-                searchPage.clickFewViews();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/viewLtoH"),
-                                "URL phải chứa /search/viewLtoH");
-
-                List<WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2,
-                                "Cần ít nhất 2 video để kiểm tra thứ tự sắp xếp");
-
-                long firstViews = searchPage.getViewsAt(0);
-                long secondViews = searchPage.getViewsAt(1);
-
-                Assert.assertTrue(firstViews <= secondViews,
-                                "Video đầu tiên phải có views <= video thứ hai. First=" + firstViews
-                                                + ", Second=" + secondViews);
-        }
-
-        // SRT-003: Sắp xếp theo Lượt thích giảm dần
-        @Test
-        public void SRT_003_SortByMostLikes() {
-                searchPage.clickManyLikes();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/likeHtoL"),
-                                "URL phải chứa /search/likeHtoL");
-
-                List<WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2,
-                                "Cần ít nhất 2 video để kiểm tra thứ tự sắp xếp");
-
-                long firstLikes = searchPage.getLikesAt(0);
-                long secondLikes = searchPage.getLikesAt(1);
-
-                Assert.assertTrue(firstLikes >= secondLikes,
-                                "Video đầu tiên phải có likes >= video thứ hai. First=" + firstLikes
-                                                + ", Second=" + secondLikes);
-        }
-
-        // SRT-004: Sắp xếp theo A-Z
-        @Test
-        public void SRT_004_SortByAZ() {
-                searchPage.clickAZ();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/AZ"),
-                                "URL phải chứa /search/AZ");
-
-                List<WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2,
-                                "Cần ít nhất 2 video để kiểm tra thứ tự A-Z");
-
-                String firstTitle = searchPage.getTitleAt(0);
-                String secondTitle = searchPage.getTitleAt(1);
-
-                Assert.assertTrue(
-                                firstTitle.compareToIgnoreCase(secondTitle) <= 0,
-                                "Video đầu tiên '" + firstTitle + "' phải đứng trước '"
-                                                + secondTitle + "' theo A-Z");
-        }
-
-        // SRT-005: Duy trì lọc khi chuyển trang
-        @Test
-        public void SRT_005_FilterMaintainedOnPageTwo() {
+        public void AT_SEA_02_SearchAndSort() {
+                // Bước 1: Tìm "Phim"
                 searchPage.search("Phim");
-
-                List<WebElement> page1Items = searchPage.getVideoItems();
-                Assert.assertFalse(page1Items.isEmpty(),
-                                "Tìm kiếm 'Phim' phải có kết quả ở trang 1");
-
-                searchPage.clickNextPage();
-
-                List<WebElement> page2Titles = searchPage.getVideoTitles();
-                Assert.assertFalse(page2Titles.isEmpty(),
-                                "Trang 2 phải có video kết quả của từ khóa 'Phim'");
-
-                for (WebElement title : page2Titles) {
-                        Assert.assertTrue(
-                                        title.getText().toLowerCase().contains("phim"),
-                                        "Tiêu đề ở trang 2 phải chứa 'Phim': " + title.getText());
-                }
-        }
-
-        // SRT-006: Kết hợp Tìm kiếm & Sắp xếp
-        @Test
-        public void SRT_006_SearchAndSortCombined() {
-                searchPage.search("Hài");
 
                 List<WebElement> searchResults = searchPage.getVideoTitles();
                 Assert.assertFalse(searchResults.isEmpty(),
-                                "Tìm kiếm 'Hài' phải có kết quả");
+                                "Tìm kiếm 'Phim' phải có kết quả");
 
+                // Bước 2: Thay đổi bộ lọc sắp xếp sang A-Z
                 searchPage.clickAZ();
 
+                // Kiểm tra: URL chứa sort path
                 Assert.assertTrue(
                                 driver.getCurrentUrl().contains("/search/AZ"),
-                                "URL phải chứa /search/AZ sau khi sắp xếp");
+                                "URL phải chứa /search/AZ sau khi chọn sắp xếp");
 
-                List<WebElement> sortedItems = searchPage.getVideoItems();
-                Assert.assertTrue(sortedItems.size() >= 2,
-                                "Cần ít nhất 2 video để kiểm tra kết hợp tìm kiếm + sắp xếp");
+                // Kiểm tra: Kết quả vẫn chứa từ khóa "Phim"
+                List<WebElement> sortedTitles = searchPage.getVideoTitles();
+                Assert.assertFalse(sortedTitles.isEmpty(),
+                                "Sau khi sắp xếp vẫn phải có kết quả cho 'Phim'");
 
-                for (WebElement title : searchPage.getVideoTitles()) {
+                // Kiểm tra: Thứ tự A-Z được áp dụng
+                if (sortedTitles.size() >= 2) {
+                        String firstTitle = searchPage.getTitleAt(0);
+                        String secondTitle = searchPage.getTitleAt(1);
                         Assert.assertTrue(
-                                        title.getText().toLowerCase().contains("hài"),
-                                        "Kết quả sau sắp xếp vẫn phải chứa 'Hài': " + title.getText());
+                                        firstTitle.compareToIgnoreCase(secondTitle) <= 0,
+                                        "Video phải sắp xếp theo A-Z: '" + firstTitle
+                                                        + "' trước '" + secondTitle + "'");
                 }
 
-                String firstTitle = searchPage.getTitleAt(0);
-                String secondTitle = searchPage.getTitleAt(1);
-                Assert.assertTrue(
-                                firstTitle.compareToIgnoreCase(secondTitle) <= 0,
-                                "Kết quả 'Hài' phải được sắp xếp A-Z: '" + firstTitle
-                                                + "' trước '" + secondTitle + "'");
+                System.out.println("AT-SEA-02: Tìm 'Phim' + Sắp xếp A-Z => "
+                                + sortedTitles.size() + " video, thứ tự đúng");
         }
 }

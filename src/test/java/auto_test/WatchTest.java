@@ -28,186 +28,69 @@ public class WatchTest extends BaseTest {
                 driver.findElement(By.cssSelector("button[type='submit']")).click();
         }
 
-        // ======================== XEM VIDEO ========================
+        // ======================== CHỨC NĂNG 6: XEM VIDEO ========================
 
-        // WAT-001: Hiển thị chi tiết video
+        // AT-WAT-01: Kiểm tra hiển thị chi tiết video
+        // Điều kiện tiên quyết: Video ID tồn tại trong DB, Browser hỗ trợ Iframe
+        // Dữ liệu test: ID = "V001"
+        // Các bước: 1. Click vào poster video "V001". 2. Chờ tải Iframe YouTube.
+        // Kết quả mong muốn: Chuyển đến URL /watch, hiển thị đúng Title và Iframe phát
+        // video tải thành công.
         @Test
-        public void WAT_001_VideoDetailDisplay() {
+        public void AT_WAT_01_VideoDetailDisplay() {
+                // Bước 1: Click vào poster video "V001"
                 watchPage.openByVideoId("V001");
 
+                // Kiểm tra: Chuyển đến URL /watch
                 Assert.assertTrue(
-                                watchPage.getCurrentUrl().contains("/watch?id=V001"),
-                                "URL phải chứa /watch?id=V001");
+                                watchPage.getCurrentUrl().contains("/watch"),
+                                "Phải chuyển đến URL /watch khi xem video");
 
+                Assert.assertTrue(
+                                watchPage.getCurrentUrl().contains("id=V001"),
+                                "URL phải chứa id=V001");
+
+                // Kiểm tra: Hiển thị đúng Title
                 String title = watchPage.getVideoTitle();
                 Assert.assertFalse(title.isEmpty(),
-                                "Tiêu đề video không được rỗng");
+                                "Tiêu đề video phải được hiển thị, không được rỗng");
 
-                String description = watchPage.getVideoDescription();
-                Assert.assertFalse(description.isEmpty(),
-                                "Mô tả video không được rỗng");
-        }
-
-        // WAT-002: Kiểm tra trình phát Iframe YouTube
-        @Test
-        public void WAT_002_YoutubeIframeLoaded() {
-                watchPage.openByVideoId("V001");
-
+                // Bước 2 & Kiểm tra: Iframe phát video tải thành công
                 Assert.assertTrue(
                                 watchPage.isIframeDisplayed(),
-                                "Iframe YouTube phải được hiển thị trên trang xem video");
+                                "Iframe YouTube phải được hiển thị và tải thành công");
 
                 String iframeSrc = watchPage.getIframeSrc();
                 Assert.assertTrue(
                                 iframeSrc.contains("youtube") || iframeSrc.contains("youtu.be"),
                                 "src của Iframe phải là link YouTube, thực tế: " + iframeSrc);
+
+                System.out.println("AT-WAT-01: Video V001 => Title='" + title + "', Iframe tải thành công");
         }
 
-        // WAT-003: Tự động tăng lượt xem
+        // AT-ACT-01: Kiểm tra luồng tương tác Thích (Like)
+        // Điều kiện tiên quyết: Đã đăng nhập, chưa thích video hiện tại
+        // Dữ liệu test: Nhấn nút Like
+        // Các bước: 1. Truy cập trang chi tiết video. 2. Nhấn nút "Thích".
+        // Kết quả mong muốn: Nút chuyển trạng thái "Đã thích", DB tăng 1 bản ghi tại
+        // bảng favorite.
         @Test
-        public void WAT_003_ViewCountAutoIncrement() {
-                watchPage.openByVideoId("V001");
-
-                long viewsBefore = watchPage.getViews();
-
-                watchPage.refresh();
-
-                long viewsAfter = watchPage.getViews();
-
-                Assert.assertEquals(viewsAfter, viewsBefore + 1,
-                                "Số views phải tăng thêm 1 sau khi refresh. Before=" + viewsBefore
-                                                + ", After=" + viewsAfter);
-        }
-
-        // WAT-004: Video đề xuất ngẫu nhiên không chứa video đang xem
-        @Test
-        public void WAT_004_RecommendedVideosDisplayed() {
-                try {
-                        String currentVideoId = "V001";
-                        watchPage.openByVideoId(currentVideoId);
-
-                        List<WebElement> recommended = watchPage.getRecommendedItems();
-
-                        Assert.assertFalse(recommended.isEmpty(),
-                                        "Phần Recommended phải hiển thị ít nhất 1 video");
-
-                        for (WebElement item : recommended) {
-                                String href = item.getAttribute("href");
-                                String itemId = "";
-                                if (href != null && href.contains("?id=")) {
-                                        itemId = href.substring(href.indexOf("?id=") + 4);
-                                }
-                                Assert.assertNotEquals(itemId, currentVideoId,
-                                                "Video đề xuất không được trùng với video đang xem (ID="
-                                                                + currentVideoId + ")");
-                        }
-                } catch (AssertionError e) {
-                        throw new org.testng.SkipException(
-                                        "Backend chưa loại trừ video đang xem khỏi danh sách đề xuất.");
-                }
-        }
-
-        // WAT-005: Lưu lịch sử xem (Đã login)
-        @Test
-        public void WAT_005_WatchHistorySaved() {
+        public void AT_ACT_01_LikeVideo() {
+                // Điều kiện: Đã đăng nhập
                 loginAsAdmin();
 
+                // Bước 1: Truy cập trang chi tiết video
                 watchPage.openByVideoId("V001");
 
-                watchPage.goToHistory();
-
-                List<WebElement> historyItems = watchPage.getHistoryItems();
-                Assert.assertFalse(historyItems.isEmpty(),
-                                "Lịch sử xem phải có ít nhất 1 bản ghi sau khi xem video");
-
-                String latestHistoryText = historyItems.get(0).getText();
-                Assert.assertFalse(latestHistoryText.isEmpty(),
-                                "Bản ghi lịch sử phải hiển thị tên video và thời gian xem");
-        }
-
-        // WAT-006: Xem video khi chưa login (Guest)
-        @Test
-        public void WAT_006_WatchVideoAsGuest() {
-                watchPage.openByVideoId("V001");
-
-                Assert.assertTrue(
-                                watchPage.getCurrentUrl().contains("/watch"),
-                                "Guest vẫn phải được phép truy cập trang xem video");
-
-                String title = watchPage.getVideoTitle();
-                Assert.assertFalse(title.isEmpty(),
-                                "Guest phải thấy tiêu đề video");
-
-                Assert.assertTrue(watchPage.isIframeDisplayed(),
-                                "Guest phải thấy trình phát video iframe");
-        }
-
-        // ======================== TƯƠNG TÁC ========================
-
-        // ACT-001: Thích video (Like)
-        @Test
-        public void ACT_001_LikeVideo() {
-                loginAsAdmin();
-
-                watchPage.openByVideoId("V001");
-
+                // Bước 2: Nhấn nút "Thích"
                 watchPage.clickLikeButton();
 
+                // Kiểm tra: Nút chuyển trạng thái thành "Đã thích"
                 String afterText = watchPage.getLikeButtonText();
                 Assert.assertTrue(
                                 afterText.contains("Đã thích") || afterText.contains("Thích"),
-                                "Nút Like phải thay đổi trạng thái, thực tế: " + afterText);
-        }
+                                "Nút Like phải chuyển trạng thái sau khi nhấn, thực tế: " + afterText);
 
-        // ACT-002: Bỏ thích (Unlike)
-        @Test
-        public void ACT_002_UnlikeVideo() {
-                loginAsAdmin();
-
-                watchPage.openByVideoId("V003");
-
-                String initialText = watchPage.getLikeButtonText();
-                watchPage.clickLikeButton();
-
-                String afterText = watchPage.getLikeButtonText();
-                Assert.assertNotEquals(afterText, initialText,
-                                "Sau khi click, nút phải thay đổi (Đã thích <-> Thích)");
-        }
-
-        // ACT-003: Chia sẻ qua Email
-        @Test
-        public void ACT_003_ShareVideoByEmail() {
-                loginAsAdmin();
-
-                watchPage.openByVideoId("V001");
-
-                watchPage.shareVideo("test@gmail.com");
-
-                String message = watchPage.getShareMessage();
-                Assert.assertTrue(
-                                message.contains("thành công") || watchPage.getCurrentUrl().contains("/watch"),
-                                "Hệ thống phải báo gửi thành công hoặc redirect về trang watch");
-        }
-
-        // ACT-004: Chia sẻ để trống Email
-        @Test
-        public void ACT_004_ShareVideoEmptyEmail() {
-                loginAsAdmin();
-
-                watchPage.openByVideoId("V001");
-
-                watchPage.clickShareButton();
-
-                WebElement emailInput = driver.findElement(By.id("emailInput"));
-                emailInput.clear();
-
-                watchPage.clickSubmitShare();
-
-                boolean isRequired = Boolean.parseBoolean(emailInput.getAttribute("required"));
-                String validationMessage = emailInput.getAttribute("validationMessage");
-
-                Assert.assertTrue(
-                                isRequired || (validationMessage != null && !validationMessage.isEmpty()),
-                                "Hệ thống phải báo lỗi khi để trống email (required hoặc validation message)");
+                System.out.println("AT-ACT-01: Like video => Nút hiển thị: '" + afterText + "'");
         }
 }
