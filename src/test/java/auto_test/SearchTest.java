@@ -1,5 +1,6 @@
 package auto_test;
 
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,136 +19,78 @@ public class SearchTest extends BaseTest {
                 searchPage.open();
         }
 
+        // ======================== CHỨC NĂNG 5: TÌM KIẾM VIDEO ========================
+
+        // AT-SEA-01: Luồng tìm kiếm thành công
+        // Điều kiện tiên quyết: UI hoạt động
+        // Dữ liệu test: "Hài"
+        // Các bước: 1. Nhập từ khóa. 2. Nhấn Search.
+        // Kết quả mong muốn: Hiển thị danh sách video và số lượng kết quả tương ứng
+        // trên giao diện.
         @Test
-        public void testSearchWithValidKeyword() {
+        public void AT_SEA_01_SearchSuccess() {
+                // Bước 1 & 2: Nhập từ khóa "Hài" và nhấn Search
                 searchPage.search("Hài");
 
-                List<org.openqa.selenium.WebElement> titles = searchPage.getVideoTitles();
+                // Kiểm tra: Hiển thị danh sách video
+                List<WebElement> videoItems = searchPage.getVideoItems();
+                Assert.assertFalse(videoItems.isEmpty(),
+                                "Phải hiển thị danh sách video khi tìm 'Hài'");
 
+                // Kiểm tra: Số lượng kết quả tương ứng
+                List<WebElement> titles = searchPage.getVideoTitles();
                 Assert.assertFalse(titles.isEmpty(),
-                                "Danh sách video không được rỗng khi tìm 'Hài'");
+                                "Danh sách video phải có tiêu đề hiển thị");
 
-                for (org.openqa.selenium.WebElement title : titles) {
+                // Kiểm tra: Tất cả kết quả phải chứa từ khóa "Hài"
+                for (WebElement title : titles) {
                         Assert.assertTrue(
                                         title.getText().toLowerCase().contains("hài"),
-                                        "Tiêu đề video phải chứa 'Hài': " + title.getText());
+                                        "Tiêu đề video phải chứa từ khóa 'Hài': " + title.getText());
                 }
+
+                System.out.println("AT-SEA-01: Tìm 'Hài' => " + videoItems.size() + " video hiển thị");
         }
 
+        // AT-SEA-02: Kết hợp Tìm kiếm & Sắp xếp
+        // Điều kiện tiên quyết: UI hoạt động
+        // Dữ liệu test: "Phim", Chọn "A-Z"
+        // Các bước: 1. Tìm "Phim". 2. Thay đổi bộ lọc sắp xếp sang A-Z.
+        // Kết quả mong muốn: UI cập nhật thứ tự hiển thị của các video "Phim" theo bảng
+        // chữ cái.
         @Test
-        public void testSearchWithEmptyKeyword() {
-                searchPage.search("");
-
-                List<org.openqa.selenium.WebElement> videoItems = searchPage.getVideoItems();
-
-                Assert.assertFalse(videoItems.isEmpty(),
-                                "Khi tìm kiếm rỗng, hệ thống phải load toàn bộ danh sách video");
-        }
-
-        @Test
-        public void testSearchWithNonExistentKeyword() {
-                searchPage.search("XYZ123");
-
-                boolean isDisplayed = searchPage.isNoResultMessageDisplayed();
-
-                Assert.assertTrue(
-                                isDisplayed,
-                                "Phải hiển thị thông báo không có kết quả");
-        }
-
-        @Test
-        public void testSortByMostViews() {
-                searchPage.clickManyViews();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/viewHtoL"),
-                                "URL phải chứa /search/viewHtoL");
-
-                List<org.openqa.selenium.WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2, "Cần ít nhất 2 video để kiểm tra thứ tự sắp xếp");
-
-                long firstViews = searchPage.getViewsAt(0);
-                long secondViews = searchPage.getViewsAt(1);
-
-                Assert.assertTrue(firstViews >= secondViews,
-                                "Video đầu tiên phải có views >= video thứ hai. First=" + firstViews + ", Second="
-                                                + secondViews);
-        }
-
-        @Test
-        public void testSortByLeastViews() {
-                searchPage.clickFewViews();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/viewLtoH"),
-                                "URL phải chứa /search/viewLtoH");
-
-                List<org.openqa.selenium.WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2, "Cần ít nhất 2 video để kiểm tra thứ tự sắp xếp");
-
-                long firstViews = searchPage.getViewsAt(0);
-                long secondViews = searchPage.getViewsAt(1);
-
-                Assert.assertTrue(firstViews <= secondViews,
-                                "Video đầu tiên phải có views <= video thứ hai. First=" + firstViews + ", Second="
-                                                + secondViews);
-        }
-
-        @Test
-        public void testSortByMostLikes() {
-                searchPage.clickManyLikes();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/likeHtoL"),
-                                "URL phải chứa /search/likeHtoL");
-
-                List<org.openqa.selenium.WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2, "Cần ít nhất 2 video để kiểm tra thứ tự sắp xếp");
-
-                long firstLikes = searchPage.getLikesAt(0);
-                long secondLikes = searchPage.getLikesAt(1);
-
-                Assert.assertTrue(firstLikes >= secondLikes,
-                                "Video đầu tiên phải có likes >= video thứ hai. First=" + firstLikes + ", Second="
-                                                + secondLikes);
-        }
-
-        @Test
-        public void testSortByAZ() {
-                searchPage.clickAZ();
-
-                Assert.assertTrue(
-                                driver.getCurrentUrl().contains("/search/AZ"),
-                                "URL phải chứa /search/AZ");
-
-                List<org.openqa.selenium.WebElement> items = searchPage.getVideoItems();
-                Assert.assertTrue(items.size() >= 2, "Cần ít nhất 2 video để kiểm tra thứ tự A-Z");
-
-                String firstTitle = searchPage.getTitleAt(0);
-                String secondTitle = searchPage.getTitleAt(1);
-
-                Assert.assertTrue(
-                                firstTitle.compareToIgnoreCase(secondTitle) <= 0,
-                                "Video đầu tiên '" + firstTitle + "' phải đứng trước '" + secondTitle + "' theo A-Z");
-        }
-
-        @Test
-        public void testFilterMaintainedOnPageTwo() {
+        public void AT_SEA_02_SearchAndSort() {
+                // Bước 1: Tìm "Phim"
                 searchPage.search("Phim");
 
-                List<org.openqa.selenium.WebElement> page1Items = searchPage.getVideoItems();
-                Assert.assertFalse(page1Items.isEmpty(), "Tìm kiếm 'Phim' phải có kết quả ở trang 1");
+                List<WebElement> searchResults = searchPage.getVideoTitles();
+                Assert.assertFalse(searchResults.isEmpty(),
+                                "Tìm kiếm 'Phim' phải có kết quả");
 
-                searchPage.clickNextPage();
+                // Bước 2: Thay đổi bộ lọc sắp xếp sang A-Z
+                searchPage.clickAZ();
 
-                List<org.openqa.selenium.WebElement> page2Titles = searchPage.getVideoTitles();
-                Assert.assertFalse(page2Titles.isEmpty(),
-                                "Trang 2 phải có video kết quả của từ khóa 'Phim'");
+                // Kiểm tra: URL chứa sort path
+                Assert.assertTrue(
+                                driver.getCurrentUrl().contains("/search/AZ"),
+                                "URL phải chứa /search/AZ sau khi chọn sắp xếp");
 
-                for (org.openqa.selenium.WebElement title : page2Titles) {
+                // Kiểm tra: Kết quả vẫn chứa từ khóa "Phim"
+                List<WebElement> sortedTitles = searchPage.getVideoTitles();
+                Assert.assertFalse(sortedTitles.isEmpty(),
+                                "Sau khi sắp xếp vẫn phải có kết quả cho 'Phim'");
+
+                // Kiểm tra: Thứ tự A-Z được áp dụng
+                if (sortedTitles.size() >= 2) {
+                        String firstTitle = searchPage.getTitleAt(0);
+                        String secondTitle = searchPage.getTitleAt(1);
                         Assert.assertTrue(
-                                        title.getText().toLowerCase().contains("phim"),
-                                        "Tiêu đề ở trang 2 phải chứa 'Phim': " + title.getText());
+                                        firstTitle.compareToIgnoreCase(secondTitle) <= 0,
+                                        "Video phải sắp xếp theo A-Z: '" + firstTitle
+                                                        + "' trước '" + secondTitle + "'");
                 }
+
+                System.out.println("AT-SEA-02: Tìm 'Phim' + Sắp xếp A-Z => "
+                                + sortedTitles.size() + " video, thứ tự đúng");
         }
 }

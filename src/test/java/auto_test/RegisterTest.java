@@ -8,10 +8,10 @@ import page.RegisterPage;
 
 public class RegisterTest extends BaseTest {
 
-  @BeforeMethod
-  public void navigateToRegisterPage() {
-    driver.get("http://localhost:9090/register");
-  }
+    @BeforeMethod
+    public void navigateToRegisterPage() {
+        driver.get("http://localhost:9090/register");
+    }
 
     @Test
     public void testAllEmptyFields() {
@@ -23,8 +23,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Vui lòng điền đầy đủ thông tin!")
-        );
+                alertText.contains("Vui lòng điền đầy đủ thông tin!"));
     }
 
     @Test
@@ -37,8 +36,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Vui lòng điền đầy đủ thông tin!")
-        );
+                alertText.contains("Vui lòng điền đầy đủ thông tin!"));
     }
 
     @Test
@@ -51,8 +49,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Vui lòng điền đầy đủ thông tin!")
-        );
+                alertText.contains("Vui lòng điền đầy đủ thông tin!"));
     }
 
     @Test
@@ -65,8 +62,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Vui lòng điền đầy đủ thông tin!")
-        );
+                alertText.contains("Vui lòng điền đầy đủ thông tin!"));
     }
 
     @Test
@@ -79,8 +75,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Vui lòng điền đầy đủ thông tin!")
-        );
+                alertText.contains("Vui lòng điền đầy đủ thông tin!"));
     }
 
     @Test
@@ -93,8 +88,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Mật khẩu xác nhận không khớp!")
-        );
+                alertText.contains("Mật khẩu xác nhận không khớp!"));
     }
 
     @Test
@@ -107,8 +101,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Tên đăng nhập đã tồn tại!")
-        );
+                alertText.contains("Tên đăng nhập đã tồn tại!"));
     }
 
     @Test
@@ -121,8 +114,7 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Email đã tồn tại!")
-        );
+                alertText.contains("Email đã tồn tại!"));
     }
 
     @Test
@@ -138,7 +130,6 @@ public class RegisterTest extends BaseTest {
         String alertText = registerPage.getAlertMessage();
 
         Assert.assertTrue(
-                alertText.contains("Đăng ký thành công")
-        );
+                alertText.contains("Đăng ký thành công"));
     }
 }

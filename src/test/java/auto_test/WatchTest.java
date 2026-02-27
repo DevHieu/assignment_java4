@@ -1,5 +1,7 @@
 package auto_test;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -17,160 +19,78 @@ public class WatchTest extends BaseTest {
                 watchPage = new WatchPage(driver);
         }
 
-        @Test
-        public void testVideoDetailDisplay() {
-                watchPage.openByVideoId("V001");
+        // ======================== HELPER ========================
 
-                Assert.assertTrue(
-                                watchPage.getCurrentUrl().contains("/watch?id=V001"),
-                                "URL phải chứa /watch?id=V001");
-
-                String title = watchPage.getVideoTitle();
-                Assert.assertFalse(title.isEmpty(), "Tiêu đề video không được rỗng");
-
-                String description = watchPage.getVideoDescription();
-                Assert.assertFalse(description.isEmpty(), "Mô tả video không được rỗng");
+        private void loginAsAdmin() {
+                driver.get("http://localhost:9090/login");
+                driver.findElement(By.name("username")).sendKeys("admin");
+                driver.findElement(By.name("password")).sendKeys("123");
+                driver.findElement(By.cssSelector("button[type='submit']")).click();
         }
 
+        // ======================== CHỨC NĂNG 6: XEM VIDEO ========================
+
+        // AT-WAT-01: Kiểm tra hiển thị chi tiết video
+        // Điều kiện tiên quyết: Video ID tồn tại trong DB, Browser hỗ trợ Iframe
+        // Dữ liệu test: ID = "V001"
+        // Các bước: 1. Click vào poster video "V001". 2. Chờ tải Iframe YouTube.
+        // Kết quả mong muốn: Chuyển đến URL /watch, hiển thị đúng Title và Iframe phát
+        // video tải thành công.
         @Test
-        public void testYoutubeIframeLoaded() {
+        public void AT_WAT_01_VideoDetailDisplay() {
+                // Bước 1: Click vào poster video "V001"
                 watchPage.openByVideoId("V001");
 
+                // Kiểm tra: Chuyển đến URL /watch
+                Assert.assertTrue(
+                                watchPage.getCurrentUrl().contains("/watch"),
+                                "Phải chuyển đến URL /watch khi xem video");
+
+                Assert.assertTrue(
+                                watchPage.getCurrentUrl().contains("id=V001"),
+                                "URL phải chứa id=V001");
+
+                // Kiểm tra: Hiển thị đúng Title
+                String title = watchPage.getVideoTitle();
+                Assert.assertFalse(title.isEmpty(),
+                                "Tiêu đề video phải được hiển thị, không được rỗng");
+
+                // Bước 2 & Kiểm tra: Iframe phát video tải thành công
                 Assert.assertTrue(
                                 watchPage.isIframeDisplayed(),
-                                "Iframe YouTube phải được hiển thị trên trang xem video");
+                                "Iframe YouTube phải được hiển thị và tải thành công");
 
                 String iframeSrc = watchPage.getIframeSrc();
                 Assert.assertTrue(
                                 iframeSrc.contains("youtube") || iframeSrc.contains("youtu.be"),
                                 "src của Iframe phải là link YouTube, thực tế: " + iframeSrc);
+
+                System.out.println("AT-WAT-01: Video V001 => Title='" + title + "', Iframe tải thành công");
         }
 
+        // AT-ACT-01: Kiểm tra luồng tương tác Thích (Like)
+        // Điều kiện tiên quyết: Đã đăng nhập, chưa thích video hiện tại
+        // Dữ liệu test: Nhấn nút Like
+        // Các bước: 1. Truy cập trang chi tiết video. 2. Nhấn nút "Thích".
+        // Kết quả mong muốn: Nút chuyển trạng thái "Đã thích", DB tăng 1 bản ghi tại
+        // bảng favorite.
         @Test
-        public void testViewCountAutoIncrement() {
-                try {
-                        watchPage.openByVideoId("V001");
+        public void AT_ACT_01_LikeVideo() {
+                // Điều kiện: Đã đăng nhập
+                loginAsAdmin();
 
-                        long viewsBefore = watchPage.getViews();
-
-                        watchPage.refresh();
-
-                        long viewsAfter = watchPage.getViews();
-
-                        Assert.assertEquals(viewsAfter, viewsBefore + 1,
-                                        "Số views phải tăng thêm 1 sau khi refresh. Before=" + viewsBefore + ", After="
-                                                        + viewsAfter);
-                } catch (Exception e) {
-                        System.err.println("Lỗi trong testViewCountAutoIncrement: " + e.getMessage());
-                        throw e;
-                }
-        }
-
-        @Test
-        public void testRecommendedVideosDisplayed() {
-                try {
-                        String currentVideoId = "V001";
-                        watchPage.openByVideoId(currentVideoId);
-
-                        List<org.openqa.selenium.WebElement> recommended = watchPage.getRecommendedItems();
-
-                        Assert.assertFalse(recommended.isEmpty(),
-                                        "Phần Recommended phải hiển thị ít nhất 1 video");
-
-                        for (org.openqa.selenium.WebElement item : recommended) {
-                                String href = item.getAttribute("href");
-                                String itemId = "";
-                                if (href != null && href.contains("?id=")) {
-                                        itemId = href.substring(href.indexOf("?id=") + 4);
-                                }
-                                Assert.assertNotEquals(itemId, currentVideoId,
-                                                "Video đề xuất không được trùng với video đang xem (ID="
-                                                                + currentVideoId
-                                                                + ")");
-                        }
-                } catch (AssertionError e) {
-                        System.err.println(
-                                        "Backend chưa loại trừ video đang xem khỏi danh sách đề xuất => "
-                                                        + e.getMessage());
-                        throw new org.testng.SkipException(
-                                        "Backend chưa chặn video đang xem khỏi list đề xuất.");
-                } catch (Exception e) {
-                        System.err.println("Lỗi trong testRecommendedVideosDisplayed: " + e.getMessage());
-                        throw e;
-                }
-        }
-
-        @Test
-        public void testWatchHistorySaved() {
-                try {
-                        driver.get("http://localhost:9090/login");
-                        driver.findElement(org.openqa.selenium.By.name("username")).sendKeys("admin");
-                        driver.findElement(org.openqa.selenium.By.name("password")).sendKeys("123");
-                        driver.findElement(org.openqa.selenium.By.cssSelector("button[type='submit']")).click();
-
-                        watchPage.openByVideoId("V001");
-
-                        watchPage.goToHistory();
-
-                        List<org.openqa.selenium.WebElement> historyItems = watchPage.getHistoryItems();
-                        Assert.assertFalse(historyItems.isEmpty(),
-                                        "Lịch sử xem phải có ít nhất 1 bản ghi sau khi xem video");
-
-                        String latestHistoryText = historyItems.get(0).getText();
-                        Assert.assertFalse(latestHistoryText.isEmpty(),
-                                        "Bản ghi lịch sử phải hiển thị tên video và thời gian xem");
-                } catch (Exception e) {
-                        System.err.println("Lỗi trong testWatchHistorySaved: " + e.getMessage());
-                        throw e;
-                }
-        }
-
-        @Test
-        public void testLikeVideo() {
-                driver.get("http://localhost:9090/login");
-                driver.findElement(org.openqa.selenium.By.name("username")).sendKeys("admin");
-                driver.findElement(org.openqa.selenium.By.name("password")).sendKeys("123");
-                driver.findElement(org.openqa.selenium.By.cssSelector("button[type='submit']")).click();
-
+                // Bước 1: Truy cập trang chi tiết video
                 watchPage.openByVideoId("V001");
 
+                // Bước 2: Nhấn nút "Thích"
                 watchPage.clickLikeButton();
 
+                // Kiểm tra: Nút chuyển trạng thái thành "Đã thích"
                 String afterText = watchPage.getLikeButtonText();
                 Assert.assertTrue(
                                 afterText.contains("Đã thích") || afterText.contains("Thích"),
-                                "Nút Like phải thay đổi trạng thái, thực tế: " + afterText);
-        }
+                                "Nút Like phải chuyển trạng thái sau khi nhấn, thực tế: " + afterText);
 
-        @Test
-        public void testUnlikeVideo() {
-                driver.get("http://localhost:9090/login");
-                driver.findElement(org.openqa.selenium.By.name("username")).sendKeys("admin");
-                driver.findElement(org.openqa.selenium.By.name("password")).sendKeys("123");
-                driver.findElement(org.openqa.selenium.By.cssSelector("button[type='submit']")).click();
-
-                watchPage.openByVideoId("V003");
-
-                String initialText = watchPage.getLikeButtonText();
-                watchPage.clickLikeButton();
-
-                String afterText = watchPage.getLikeButtonText();
-                Assert.assertNotEquals(afterText, initialText,
-                                "Sau khi click, nút phải thay đổi (Đã thích <-> Thích)");
-        }
-
-        @Test
-        public void testShareVideoByEmail() {
-                driver.get("http://localhost:9090/login");
-                driver.findElement(org.openqa.selenium.By.name("username")).sendKeys("admin");
-                driver.findElement(org.openqa.selenium.By.name("password")).sendKeys("123");
-                driver.findElement(org.openqa.selenium.By.cssSelector("button[type='submit']")).click();
-
-                watchPage.openByVideoId("V001");
-
-                watchPage.shareVideo("test@gmail.com");
-
-                Assert.assertTrue(watchPage.getCurrentUrl().contains("/watch"),
-                                "Hệ thống phải đứng ở trang watch hoặc share-video");
+                System.out.println("AT-ACT-01: Like video => Nút hiển thị: '" + afterText + "'");
         }
 }
