@@ -35,7 +35,6 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 class="form-control"
                 name="username"
                 placeholder="Tên đăng nhập"
-                required
               />
               <span class="input-group-text"
                 ><i class="fa-solid fa-user"></i
@@ -52,7 +51,6 @@ uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
                 name="password"
                 id="password"
                 placeholder="Mật khẩu"
-                required
               />
               <span
                 class="input-group-text"
