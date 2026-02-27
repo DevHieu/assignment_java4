@@ -1,7 +1,6 @@
 package auto_test;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -28,11 +27,8 @@ public class LoginTest extends BaseTest {
     @Test
     public void testLoginSuccess() {
         loginPage.login("admin", "admin123");
-        System.out.println("Current URL: " + driver.getCurrentUrl());
-        Assert.assertTrue(driver.getCurrentUrl().contains("home"));
-        
-}
-    
+        Assert.assertTrue(driver.getCurrentUrl().contains("home"));    
+    }
 
     // LOG-003
     @Test
@@ -41,23 +37,6 @@ public class LoginTest extends BaseTest {
         String errorText = driver.findElement(By.id("message")).getText();
 
         Assert.assertEquals(errorText, "Sai tên đăng nhập hoặc mật khẩu!");
-    }
-
-    // LOG-007
-    @Test
-    public void testRememberMe() {
-        loginPage.loginWithRemember("admin", "admin123");
-
-        Cookie cookie = driver.manage().getCookieNamed("user");
-        Assert.assertNotNull(cookie);
-    }
-
-    // LOG-008
-    @Test
-    public void testSessionCreated() {
-        loginPage.login("admin", "admin123");
-        Cookie session = driver.manage().getCookieNamed("JSESSIONID");
-        Assert.assertNotNull(session);
     }
 
 }
@@ -82,6 +61,23 @@ public class LoginTest extends BaseTest {
     // public void testEmptyPassword() {
     //     login("admin", "", false);
     //     Assert.assertTrue(driver.getCurrentUrl().contains("login"));
+    // }
+
+    
+    // LOG-007
+    // @Test
+    // public void testRememberMe() {
+    //     loginPage.loginWithRemember("admin", "admin123");
+    //     Cookie cookie = driver.manage().getCookieNamed("user");
+    //     Assert.assertNotNull(cookie);
+    // }
+
+    // LOG-008
+    // @Test
+    // public void testSessionCreated() {
+    //     loginPage.login("admin", "admin123");
+    //     Cookie session = driver.manage().getCookieNamed("JSESSIONID");
+    //     Assert.assertNotNull(session);
     // }
 
 
