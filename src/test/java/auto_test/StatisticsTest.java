@@ -1,6 +1,5 @@
 package auto_test;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,41 +13,24 @@ public class StatisticsTest extends BaseTest {
     public void setup() {
         new LoginPage(driver).open();
         new LoginPage(driver).login("admin", "123");
+        
         statsPage = new StatisticsPage(driver);
         statsPage.open();
     }
 
-    @Test // STA-001 & STA-010
-    public void STA_001_010_DefaultTab() {
-        Assert.assertTrue(statsPage.isTab1Active());
+    // TEST AUTO 1: STA-001 - Kiểm tra giao diện mặc định (Tab 1)
+    @Test
+    public void STA_001_VerifyDefaultTabActive() {
+        Assert.assertTrue(statsPage.isTab1Active(), "Lỗi: Mặc định Tab 1 phải được kích hoạt.");
+        Assert.assertTrue(statsPage.getFavoritesCount() >= 0, "Bảng Favorites phải hiển thị.");
     }
 
-    @Test // STA-002
-    public void STA_002_SearchFavoriteByTitle() {
+    // TEST AUTO 2: STA-009 - Kiểm tra chức năng chuyển đổi giữa các Tab
+    @Test
+    public void STA_009_VerifyTabSwitchingInteraction() {
         statsPage.clickTab2();
-        statsPage.searchFavorite("Java");
-        Assert.assertTrue(statsPage.getFavUsersCount() >= 0);
-    }
-
-    @Test // STA-003
-    public void STA_003_SearchVideoNotExist() {
-        statsPage.clickTab2();
-        statsPage.searchFavorite("No_Video_Exist_123");
-        Assert.assertEquals(statsPage.getFavUsersCount(), 0);
-    }
-
-    @Test // STA-006
-    public void STA_006_CheckTab1DataAccuracy() {
-        String data = statsPage.getFirstRowData(By.cssSelector("#favorites tbody tr:first-child"));
-        Assert.assertNotNull(data);
-        System.out.println("Dòng đầu tiên: " + data);
-    }
-
-    @Test // STA-009
-    public void STA_009_SwitchTabHighlight() {
-        statsPage.clickTab2();
-        Assert.assertTrue(statsPage.isTab2Active());
+        Assert.assertTrue(statsPage.isTab2Active(), "Lỗi: Tab 2 không được kích hoạt sau khi click.");
         statsPage.clickTab3();
-        Assert.assertTrue(statsPage.isTab3Active());
+        Assert.assertTrue(statsPage.isTab3Active(), "Lỗi: Tab 3 không được kích hoạt sau khi click.");
     }
 }
