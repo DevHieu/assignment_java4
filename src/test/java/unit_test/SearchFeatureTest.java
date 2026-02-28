@@ -1,26 +1,21 @@
 package unit_test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import com.asm.dao.VideoDAO;
 import com.asm.dao.impl.VideoDAOImpl;
 import com.asm.entity.Video;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class SearchFeatureTest {
 
         static VideoDAO videoDAO;
 
-        @BeforeAll
-        static void setUp() {
+        @BeforeClass
+        public static void setUp() {
                 videoDAO = new VideoDAOImpl();
         }
 
@@ -29,9 +24,8 @@ public class SearchFeatureTest {
         // UT-SEA-01: Tìm kiếm theo từ khóa hợp lệ
         // Điều kiện: DB có ít nhất 1 video chứa từ "Java" trong tiêu đề
         // Kết quả mong muốn: list.size() > 0; Tất cả title chứa "Java"
-        @Test
-        @Order(1)
-        void UT_SEA_01_SearchByValidKeyword() {
+        @Test(priority = 1)
+        public void UT_SEA_01_SearchByValidKeyword() {
                 String keyword = "Java";
                 String searchText = "%" + keyword + "%";
 
@@ -43,13 +37,13 @@ public class SearchFeatureTest {
 
                 List<Object[]> results = videoDAO.searchVideo(searchText, JPQL);
 
-                assertNotNull(results, "searchVideo() không được trả về null");
-                assertTrue(results.size() > 0,
+                Assert.assertNotNull(results, "searchVideo() không được trả về null");
+                Assert.assertTrue(results.size() > 0,
                                 "Phải có ít nhất 1 video chứa từ 'Java' trong tiêu đề");
 
                 for (Object[] row : results) {
                         Video video = (Video) row[0];
-                        assertTrue(
+                        Assert.assertTrue(
                                         video.getTitle().toLowerCase().contains(keyword.toLowerCase()),
                                         "Tiêu đề phải chứa '" + keyword + "': " + video.getTitle());
                 }
@@ -59,9 +53,8 @@ public class SearchFeatureTest {
         // UT-SEA-02: Tìm kiếm với chuỗi rỗng
         // Điều kiện: DB có dữ liệu video ở trạng thái "Active"
         // Kết quả mong muốn: Trả về toàn bộ danh sách video active
-        @Test
-        @Order(2)
-        void UT_SEA_02_SearchWithEmptyString() {
+        @Test(priority = 2)
+        public void UT_SEA_02_SearchWithEmptyString() {
                 String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
                                 + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
                                 + "left join Share s on v.id = s.video.id "
@@ -69,12 +62,12 @@ public class SearchFeatureTest {
                                 + "GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active";
 
                 List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
-                assertNotNull(results);
-                assertFalse(results.isEmpty(),
+                Assert.assertNotNull(results);
+                Assert.assertFalse(results.isEmpty(),
                                 "Tìm kiếm chuỗi rỗng phải trả về toàn bộ danh sách video active");
 
                 List<Video> allVideos = videoDAO.findAll();
-                assertEquals(allVideos.size(), results.size(),
+                Assert.assertEquals(results.size(), allVideos.size(),
                                 "Số lượng kết quả phải bằng tổng số video (findAll)");
                 System.out.println("UT-SEA-02: Chuỗi rỗng => " + results.size() + " kết quả (= findAll)");
         }
@@ -82,9 +75,8 @@ public class SearchFeatureTest {
         // UT-SEA-03: Từ khóa không tồn tại trong hệ thống
         // Điều kiện: Không có video nào chứa chuỗi "XYZ123"
         // Kết quả mong muốn: list.size() == 0 (Danh sách rỗng, không gây lỗi)
-        @Test
-        @Order(3)
-        void UT_SEA_03_SearchNonExistentKeyword() {
+        @Test(priority = 3)
+        public void UT_SEA_03_SearchNonExistentKeyword() {
                 String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
                                 + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
                                 + "left join Share s on v.id = s.video.id "
@@ -92,8 +84,8 @@ public class SearchFeatureTest {
                                 + "GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active";
 
                 List<Object[]> results = videoDAO.searchVideo("%XYZ123%", JPQL);
-                assertNotNull(results, "Kết quả không được null dù không tìm thấy");
-                assertEquals(0, results.size(),
+                Assert.assertNotNull(results, "Kết quả không được null dù không tìm thấy");
+                Assert.assertEquals(results.size(), 0,
                                 "Tìm keyword 'XYZ123' không tồn tại phải trả về danh sách rỗng");
                 System.out.println("UT-SEA-03: Keyword 'XYZ123' => 0 kết quả (đúng)");
         }
@@ -103,9 +95,8 @@ public class SearchFeatureTest {
         // Dữ liệu test: q = "' OR 1=1 --"
         // Kết quả mong muốn: Hệ thống xử lý chuỗi dưới dạng văn bản thuần; Không trả về
         // toàn bộ DB
-        @Test
-        @Order(4)
-        void UT_SEA_04_SQLInjection() {
+        @Test(priority = 4)
+        public void UT_SEA_04_SQLInjection() {
                 String injection = "' OR 1=1 --";
                 String searchText = "%" + injection + "%";
 
@@ -116,10 +107,10 @@ public class SearchFeatureTest {
                                 + "GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active";
 
                 List<Object[]> results = videoDAO.searchVideo(searchText, JPQL);
-                assertNotNull(results, "Hệ thống không được crash khi nhận chuỗi SQL injection");
+                Assert.assertNotNull(results, "Hệ thống không được crash khi nhận chuỗi SQL injection");
 
                 List<Video> allVideos = videoDAO.findAll();
-                assertTrue(results.size() < allVideos.size(),
+                Assert.assertTrue(results.size() < allVideos.size(),
                                 "SQL Injection không được trả về toàn bộ DB. Kết quả: "
                                                 + results.size() + ", Tổng DB: " + allVideos.size());
 
@@ -131,9 +122,8 @@ public class SearchFeatureTest {
         // Điều kiện: DB có ít nhất 2 video với lượt xem khác nhau
         // Dữ liệu test: sort = "viewHtoL"
         // Kết quả mong muốn: video[i].views >= video[i+1].views với mọi i
-        @Test
-        @Order(5)
-        void UT_SEA_05_SortViewsDescending() {
+        @Test(priority = 5)
+        public void UT_SEA_05_SortViewsDescending() {
                 String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
                                 + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
                                 + "left join Share s on v.id = s.video.id "
@@ -142,14 +132,14 @@ public class SearchFeatureTest {
                                 + "ORDER BY v.views DESC";
 
                 List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
-                assertNotNull(results);
-                assertTrue(results.size() >= 2,
+                Assert.assertNotNull(results);
+                Assert.assertTrue(results.size() >= 2,
                                 "Cần ít nhất 2 video để kiểm tra sắp xếp views giảm dần");
 
                 for (int i = 0; i < results.size() - 1; i++) {
                         Video current = (Video) results.get(i)[0];
                         Video next = (Video) results.get(i + 1)[0];
-                        assertTrue(current.getViews() >= next.getViews(),
+                        Assert.assertTrue(current.getViews() >= next.getViews(),
                                         "video[" + i + "].views (" + current.getViews()
                                                         + ") >= video[" + (i + 1) + "].views (" + next.getViews()
                                                         + ")");
@@ -161,9 +151,8 @@ public class SearchFeatureTest {
         // Điều kiện: DB có ít nhất 2 video với lượt xem khác nhau
         // Dữ liệu test: sort = "viewLtoH"
         // Kết quả mong muốn: video[i].views <= video[i+1].views với mọi i
-        @Test
-        @Order(6)
-        void UT_SEA_06_SortViewsAscending() {
+        @Test(priority = 6)
+        public void UT_SEA_06_SortViewsAscending() {
                 String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
                                 + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
                                 + "left join Share s on v.id = s.video.id "
@@ -172,14 +161,14 @@ public class SearchFeatureTest {
                                 + "ORDER BY v.views ASC";
 
                 List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
-                assertNotNull(results);
-                assertTrue(results.size() >= 2,
+                Assert.assertNotNull(results);
+                Assert.assertTrue(results.size() >= 2,
                                 "Cần ít nhất 2 video để kiểm tra sắp xếp views tăng dần");
 
                 for (int i = 0; i < results.size() - 1; i++) {
                         Video current = (Video) results.get(i)[0];
                         Video next = (Video) results.get(i + 1)[0];
-                        assertTrue(current.getViews() <= next.getViews(),
+                        Assert.assertTrue(current.getViews() <= next.getViews(),
                                         "video[" + i + "].views (" + current.getViews()
                                                         + ") <= video[" + (i + 1) + "].views (" + next.getViews()
                                                         + ")");
@@ -192,9 +181,8 @@ public class SearchFeatureTest {
         // Dữ liệu test: sort = "likeHtoL"
         // Kết quả mong muốn: Phần tử đứng trước luôn có favoriteCount >= phần tử đứng
         // sau
-        @Test
-        @Order(7)
-        void UT_SEA_07_SortByLikesDescending() {
+        @Test(priority = 7)
+        public void UT_SEA_07_SortByLikesDescending() {
                 String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
                                 + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
                                 + "left join Share s on v.id = s.video.id "
@@ -203,14 +191,14 @@ public class SearchFeatureTest {
                                 + "ORDER BY COUNT(f.video.id) DESC";
 
                 List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
-                assertNotNull(results);
-                assertTrue(results.size() >= 2,
+                Assert.assertNotNull(results);
+                Assert.assertTrue(results.size() >= 2,
                                 "Cần ít nhất 2 video để kiểm tra sắp xếp theo likes");
 
                 for (int i = 0; i < results.size() - 1; i++) {
                         Long currentLikes = (Long) results.get(i)[1];
                         Long nextLikes = (Long) results.get(i + 1)[1];
-                        assertTrue(currentLikes >= nextLikes,
+                        Assert.assertTrue(currentLikes >= nextLikes,
                                         "favoriteCount[" + i + "] (" + currentLikes
                                                         + ") >= favoriteCount[" + (i + 1) + "] (" + nextLikes + ")");
                 }
@@ -221,9 +209,8 @@ public class SearchFeatureTest {
         // Điều kiện: DB có các video với tiêu đề khác nhau
         // Dữ liệu test: sort = "AZ"
         // Kết quả mong muốn: title[i].compareToIgnoreCase(title[i+1]) <= 0
-        @Test
-        @Order(8)
-        void UT_SEA_08_SortByTitleAZ() {
+        @Test(priority = 8)
+        public void UT_SEA_08_SortByTitleAZ() {
                 String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
                                 + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
                                 + "left join Share s on v.id = s.video.id "
@@ -232,14 +219,14 @@ public class SearchFeatureTest {
                                 + "ORDER BY v.title ASC";
 
                 List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
-                assertNotNull(results);
-                assertTrue(results.size() >= 2,
+                Assert.assertNotNull(results);
+                Assert.assertTrue(results.size() >= 2,
                                 "Cần ít nhất 2 video để kiểm tra sắp xếp A-Z");
 
                 for (int i = 0; i < results.size() - 1; i++) {
                         Video current = (Video) results.get(i)[0];
                         Video next = (Video) results.get(i + 1)[0];
-                        assertTrue(
+                        Assert.assertTrue(
                                         current.getTitle().compareToIgnoreCase(next.getTitle()) <= 0,
                                         "'" + current.getTitle() + "' phải đứng trước '"
                                                         + next.getTitle() + "' theo A-Z");
@@ -252,30 +239,29 @@ public class SearchFeatureTest {
         // Dữ liệu test: page = 2, size = 6
         // Kết quả mong muốn: Trả về đúng 6 bản ghi, bắt đầu từ vị trí thứ 7 (offset =
         // 6)
-        @Test
-        @Order(9)
-        void UT_SEA_09_Pagination() {
+        @Test(priority = 9)
+        public void UT_SEA_09_Pagination() {
                 int page = 2;
                 int size = 6;
 
                 List<Video> pageResults = videoDAO.findPage(page, size);
-                assertNotNull(pageResults, "findPage() không được trả về null");
+                Assert.assertNotNull(pageResults, "findPage() không được trả về null");
 
                 int totalVideos = videoDAO.countAll();
                 System.out.println("UT-SEA-09: Tổng video = " + totalVideos);
 
                 if (totalVideos >= 12) {
-                        assertEquals(size, pageResults.size(),
+                        Assert.assertEquals(pageResults.size(), size,
                                         "Trang 2 với size=6 phải trả về đúng 6 bản ghi");
                 } else if (totalVideos > size) {
-                        assertTrue(pageResults.size() <= size,
+                        Assert.assertTrue(pageResults.size() <= size,
                                         "Số bản ghi trả về không được vượt quá page size");
                 }
 
                 // Kiểm tra dữ liệu trang 2 khác trang 1
                 List<Video> page1 = videoDAO.findPage(1, size);
                 if (!pageResults.isEmpty() && !page1.isEmpty()) {
-                        assertNotEquals(page1.get(0).getId(), pageResults.get(0).getId(),
+                        Assert.assertNotEquals(pageResults.get(0).getId(), page1.get(0).getId(),
                                         "Dữ liệu trang 2 phải khác trang 1");
                 }
 
@@ -287,9 +273,8 @@ public class SearchFeatureTest {
         // Điều kiện: DB có video tiêu đề "Hài kịch"
         // Dữ liệu test: q = "hÀi"
         // Kết quả mong muốn: Kết quả trả về chứa video "Hài kịch"
-        @Test
-        @Order(10)
-        void UT_SEA_10_CaseInsensitiveSearch() {
+        @Test(priority = 10)
+        public void UT_SEA_10_CaseInsensitiveSearch() {
                 String keyword = "hÀi";
                 String searchText = "%" + keyword + "%";
 
@@ -300,7 +285,7 @@ public class SearchFeatureTest {
                                 + "GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active";
 
                 List<Object[]> results = videoDAO.searchVideo(searchText, JPQL);
-                assertNotNull(results, "Kết quả không được null");
+                Assert.assertNotNull(results, "Kết quả không được null");
 
                 // So sánh với khi search "Hài" (chữ hoa chuẩn)
                 String normalSearch = "%Hài%";
@@ -312,7 +297,7 @@ public class SearchFeatureTest {
 
                 List<Object[]> normalResults = videoDAO.searchVideo(normalSearch, JPQL2);
 
-                assertEquals(normalResults.size(), results.size(),
+                Assert.assertEquals(results.size(), normalResults.size(),
                                 "Tìm 'hÀi' phải cho kết quả giống 'Hài' (case insensitive)");
                 System.out.println("UT-SEA-10: Tìm 'hÀi' => " + results.size()
                                 + " kết quả (= tìm 'Hài': " + normalResults.size() + ")");
