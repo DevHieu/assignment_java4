@@ -61,7 +61,7 @@ public class VideoDAOTestNG {
         Assert.assertEquals(updated.getTitle(), "Updated Title");
     }
 
-    // SKI-005 Xóa video theo id tồn tại (test bằng increase views trước khi xóa)
+    // SKI-005 Tăng lượt xem video thành công
     @Test(priority = 5)
     public void SKI_005_increaseViews() {
         Video v = dao.findById(TEST_ID);
