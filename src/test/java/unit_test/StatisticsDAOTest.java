@@ -1,12 +1,14 @@
 package unit_test;
 
-import com.asm.dao.VideoDAO;
-import com.asm.dao.impl.VideoDAOImpl;
-import com.asm.entity.Video;
+import java.util.List;
+
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import java.util.List;
+
+import com.asm.dao.VideoDAO;
+import com.asm.dao.impl.VideoDAOImpl;
+import com.asm.entity.Video;
 
 public class StatisticsDAOTest {
     VideoDAO videoDAO;
@@ -23,7 +25,8 @@ public class StatisticsDAOTest {
         List<Video> listJava = videoDAO.searchByTitle("Java");
         Assert.assertNotNull(listJava);
 
-        // STA-007 & STA-008: Tìm kiếm để trống tiêu đề (Phải trả về list hoặc rỗng, không lỗi)
+        // STA-007 & STA-008: Tìm kiếm để trống tiêu đề (Phải trả về list hoặc rỗng,
+        // không lỗi)
         List<Video> listAll = videoDAO.searchByTitle("");
         Assert.assertTrue(listAll.size() >= 0);
     }
@@ -36,7 +39,7 @@ public class StatisticsDAOTest {
     }
 
     // STA-005 & STA-006:
-    @Test 
+    @Test
     public void testTab1DataLogic() {
         List<Video> list = videoDAO.findPage(0, 10);
         Assert.assertNotNull(list, "Dữ liệu Tab 1 không được null");
@@ -47,6 +50,6 @@ public class StatisticsDAOTest {
     @Test
     public void testIsLikedLogic() {
         boolean result = videoDAO.isLiked("V01", "U01");
-        Assert.assertTrue(true); 
+        Assert.assertTrue(true);
     }
 }
