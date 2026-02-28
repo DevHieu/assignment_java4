@@ -15,7 +15,7 @@ public class SkitManagerTest extends BaseTest {
 
         LoginPage login = new LoginPage(driver);
         login.open();
-        login.login("admin", "admin123");
+        login.login("admin", "123");
 
         new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(10))
                 .until(d -> !d.getCurrentUrl().contains("/login"));

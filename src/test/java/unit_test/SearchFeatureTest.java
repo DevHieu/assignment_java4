@@ -1,6 +1,8 @@
 package unit_test;
 
+import java.text.Collator;
 import java.util.List;
+import java.util.Locale;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -211,34 +213,35 @@ public class SearchFeatureTest {
         // Kết quả mong muốn: title[i].compareToIgnoreCase(title[i+1]) <= 0
         @Test(priority = 8)
         public void UT_SEA_08_SortByTitleAZ() {
-                String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id)"
-                                + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
-                                + "left join Share s on v.id = s.video.id "
-                                + "WHERE v.title LIKE :text "
-                                + "GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active "
-                                + "ORDER BY v.title ASC";
+            String JPQL = "SELECT v, COUNT(f.video.id), COUNT(s.video.id) "
+                    + "FROM Video v LEFT JOIN Favorite f on v.id = f.video.id "
+                    + "LEFT JOIN Share s on v.id = s.video.id "
+                    + "WHERE v.title LIKE :text "
+                    + "GROUP BY v.id, v.title, v.poster, v.views, v.description, v.active "
+                    + "ORDER BY v.title ASC";
 
-                List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
-                Assert.assertNotNull(results);
-                Assert.assertTrue(results.size() >= 2,
-                                "Cần ít nhất 2 video để kiểm tra sắp xếp A-Z");
+            List<Object[]> results = videoDAO.searchVideo("%%", JPQL);
+            Assert.assertNotNull(results);
+            Assert.assertTrue(results.size() >= 2, "Cần ít nhất 2 video để kiểm tra sắp xếp A-Z");
 
-                for (int i = 0; i < results.size() - 1; i++) {
-                        Video current = (Video) results.get(i)[0];
-                        Video next = (Video) results.get(i + 1)[0];
-                        Assert.assertTrue(
-                                        current.getTitle().compareToIgnoreCase(next.getTitle()) <= 0,
-                                        "'" + current.getTitle() + "' phải đứng trước '"
-                                                        + next.getTitle() + "' theo A-Z");
-                }
-                System.out.println("UT-SEA-08: Sắp xếp A-Z => Đúng thứ tự");
+            // Collator cho tiếng Việt
+            Collator collator = Collator.getInstance(new Locale("vi", "VN"));
+            collator.setStrength(Collator.PRIMARY); // bỏ phân biệt hoa thường
+
+            for (int i = 0; i < results.size() - 1; i++) {
+                Video current = (Video) results.get(i)[0];
+                Video next = (Video) results.get(i + 1)[0];
+
+                // Dùng collator so sánh thay cho compareToIgnoreCase
+                Assert.assertTrue(
+                        collator.compare(current.getTitle(), next.getTitle()) <= 0,
+                        "'" + current.getTitle() + "' phải đứng trước '" + next.getTitle() + "' theo A-Z"
+                );
+            }
+
+            System.out.println("UT-SEA-08: Sắp xếp A-Z tiếng Việt => Đúng thứ tự");
         }
 
-        // UT-SEA-09: Kiểm tra logic phân trang (Pagination)
-        // Điều kiện: DB có ít nhất 12 bản ghi
-        // Dữ liệu test: page = 2, size = 6
-        // Kết quả mong muốn: Trả về đúng 6 bản ghi, bắt đầu từ vị trí thứ 7 (offset =
-        // 6)
         @Test(priority = 9)
         public void UT_SEA_09_Pagination() {
                 int page = 2;

@@ -26,7 +26,7 @@ public class LoginTest extends BaseTest {
     // LOG-002
     @Test
     public void testLoginSuccess() {
-        loginPage.login("admin", "admin123");
+        loginPage.login("admin", "123");
         Assert.assertTrue(driver.getCurrentUrl().contains("home"));    
     }
 

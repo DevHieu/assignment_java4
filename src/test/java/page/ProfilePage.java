@@ -79,11 +79,11 @@ public class ProfilePage {
     }
 
     public void uploadAvatar(String filePath) {
-        WebElement input = wait.until(ExpectedConditions.presenceOfElementLocated(avatarFileInput));
+        WebElement input = wait.until(
+                ExpectedConditions.presenceOfElementLocated(avatarFileInput)
+        );
         input.sendKeys(filePath);
-        ((JavascriptExecutor) driver).executeScript("document.getElementById('avatar-form').submit();");
     }
-
     public void deleteAvatar() {
         clickJS(deleteAvatarBtn);
     }

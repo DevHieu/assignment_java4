@@ -2,6 +2,7 @@ package page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -59,13 +60,18 @@ public class SkitManagerPage {
     }
 
     public void deleteFirstVideo() {
-        wait.until(ExpectedConditions.elementToBeClickable(btnDeleteFirst)).click();
+        By firstRow = By.cssSelector("table tbody tr:first-child");
+        WebElement row = wait.until(d -> driver.findElement(firstRow));
+
+        row.findElement(By.cssSelector("button.btn-danger")).click();
 
         try {
+            wait.until(ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().accept();
         } catch (Exception ignored) {}
 
-        wait.until(ExpectedConditions.stalenessOf(driver.findElement(btnDeleteFirst)));
+        // Chờ row cũ biến mất (stale)
+        wait.until(ExpectedConditions.stalenessOf(row));
     }
 
     public boolean isVideoPresent(String id) {

@@ -26,8 +26,6 @@ public class ForgotTestUnit {
     @Mock private HttpServletResponse response;
     @Mock private RequestDispatcher dispatcher;
 
-//    private AutoCloseable closeable;
-
     @BeforeMethod
     public void setup() {
         MockitoAnnotations.openMocks(this);

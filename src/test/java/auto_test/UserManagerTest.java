@@ -17,7 +17,7 @@ public class UserManagerTest extends BaseTest {
 
         driver.get("http://localhost:9090/login");
         driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin123");
+        driver.findElement(By.name("password")).sendKeys("123");
         driver.findElement(By.id("btnLogin")).click();
 
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));

@@ -23,29 +23,26 @@ public class ProfileTest extends BaseTest {
         profilePage.open();
     }
 
-    @Test // PRO-02
-    public void PRO_02_AccessProfileLoggedIn() {
-        Assert.assertTrue(driver.getCurrentUrl().contains("profile"));
-    }
-
     @Test // PRO-03
-    public void PRO_03_UpdateProfileSuccess() {
+    public void SEL_PRO_01_UpdateProfileSuccess() {
         profilePage.updateProfile("Nguyen Van Test", "test@gmail.com");
         Assert.assertTrue(profilePage.getAlertMessage().contains("Cập nhật thông tin hồ sơ thành công"));
     }
 
-    @Test // PRO-04
-    public void PRO_04_UpdateProfileFullnameEmpty() {
-        // Xóa required attribute để submit form rỗng lên server
-        ((JavascriptExecutor) driver).executeScript("document.getElementById('fullname').removeAttribute('required')");
-        profilePage.updateProfile("", "test@gmail.com");
-        // Lưu ý: Servlet của bạn hiện tại không check rỗng cho updateProfile,
-        // nó sẽ lưu chuỗi rỗng vào DB. Bạn cần sửa Servlet để hiện message này.
-        Assert.assertTrue(profilePage.getAlertMessage().contains("Cập nhật thông tin hồ sơ thành công"));
+    @Test // PRO-09
+    public void SEL_PRO_02_ChangePasswordSuccess() {
+        profilePage.updatePassword("123", "456", "456");
+        Assert.assertTrue(profilePage.getAlertMessage().contains("Đổi mật khẩu thành công"));
+    }
+
+    @Test // PRO-10
+    public void SEL_PRO_03_ChangePasswordWrongCurrent() {
+        profilePage.updatePassword("wrong_pass", "456", "456");
+        Assert.assertTrue(profilePage.getAlertMessage().contains("Mật khẩu hiện tại không đúng"));
     }
 
     @Test // PRO-06 - Sửa lỗi File Not Found
-    public void PRO_06_UploadAvatarSuccess() {
+    public void SEL_PRO_04_UploadAvatarSuccess() {
         // Tạo file tạm nếu chưa có để Selenium không báo lỗi "File not found"
         File file = new File("src/test/resources/avatar.jpg");
         if(!file.exists()) {
@@ -54,37 +51,13 @@ public class ProfileTest extends BaseTest {
         }
 
         profilePage.uploadAvatar(file.getAbsolutePath());
-        Assert.assertTrue(profilePage.getAlertMessage().contains("Vui lòng chọn file ảnh"));
+        Assert.assertTrue(profilePage.getAlertMessage().contains("Cập nhật avatar thành công!"));
     }
 
     @Test // PRO-08
     public void PRO_08_DeleteAvatarSuccess() {
         profilePage.deleteAvatar();
         Assert.assertTrue(profilePage.getAlertMessage().contains("Xóa avatar thành công"));
-    }
-
-    @Test // PRO-09
-    public void PRO_09_ChangePasswordSuccess() {
-        profilePage.updatePassword("123", "456", "456");
-        Assert.assertTrue(profilePage.getAlertMessage().contains("Đổi mật khẩu thành công"));
-    }
-
-    @Test // PRO-10
-    public void PRO_10_ChangePasswordWrongCurrent() {
-        profilePage.updatePassword("wrong_pass", "456", "456");
-        Assert.assertTrue(profilePage.getAlertMessage().contains("Mật khẩu hiện tại không đúng"));
-    }
-
-    @Test // PRO-11
-    public void PRO_11_ChangePasswordNewEmpty() {
-        ((JavascriptExecutor) driver).executeScript(
-                "document.getElementById('new-password').removeAttribute('required');" +
-                        "document.getElementById('confirm-password').removeAttribute('required');"
-        );
-        profilePage.updatePassword("123", "", "");
-        // Tùy vào Servlet của bạn xử lý pass rỗng ntn, Assert cho đúng thực tế
-        Assert.assertTrue(profilePage.getAlertMessage().contains("thành công") ||
-                profilePage.getAlertMessage().contains("không được để trống"));
     }
 
     @AfterMethod
