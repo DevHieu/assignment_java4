@@ -29,7 +29,9 @@ import com.asm.entity.User;
         maxRequestSize = 50 * 1024 * 1024)
 public class UserManagerServlet extends HttpServlet {
 
-    private final UserDAO userDAO = new UserDAOImpl();
+    protected UserDAO getUserDAO() {
+        return new UserDAOImpl();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -41,7 +43,7 @@ public class UserManagerServlet extends HttpServlet {
         if (uri.contains("/edit")) {
             String id = req.getParameter("id");
             if (id != null && !id.isEmpty()) {
-                req.setAttribute("userEdit", userDAO.findById(id));
+                req.setAttribute("userEdit", getUserDAO().findById(id));
             }
         }
 
@@ -62,24 +64,24 @@ public class UserManagerServlet extends HttpServlet {
 
         if (q != null && !q.trim().isEmpty() && roleStr != null && !roleStr.isEmpty()) {
             boolean isAdmin = "ADMIN".equalsIgnoreCase(roleStr) || "true".equalsIgnoreCase(roleStr);
-            users = userDAO.searchByKeywordAndRole(q.trim(), isAdmin);
+            users = getUserDAO().searchByKeywordAndRole(q.trim(), isAdmin);
             totalPages = 1;
             page = 1;
         }
         else if (q != null && !q.trim().isEmpty()) {
-            users = userDAO.searchByKeyword(q.trim());
+            users = getUserDAO().searchByKeyword(q.trim());
             totalPages = 1;
             page = 1;
         }
         else if (roleStr != null && !roleStr.isEmpty()) {
             boolean isAdmin = "ADMIN".equalsIgnoreCase(roleStr) || "true".equalsIgnoreCase(roleStr);
-            users = userDAO.findByRole(isAdmin);
+            users = getUserDAO().findByRole(isAdmin);
             totalPages = 1;
             page = 1;
         }
         else {
-            users = userDAO.findPage(page - 1, size);
-            int total = userDAO.countAll();
+            users = getUserDAO().findPage(page - 1, size);
+            int total = getUserDAO().countAll();
             totalPages = (int) Math.ceil(total * 1.0 / size);
         }
 
@@ -104,7 +106,7 @@ public class UserManagerServlet extends HttpServlet {
 
                 String id = req.getParameter("id");
 
-                User u = userDAO.findById(id); 
+                User u = getUserDAO().findById(id); 
                 boolean isCreate = (u == null);
 
                 if (isCreate) {
@@ -128,7 +130,14 @@ public class UserManagerServlet extends HttpServlet {
                     }
                 }
 
-                u.setFullname(req.getParameter("fullname"));
+                // u.setFullname(req.getParameter("fullname"));
+                String fullname = req.getParameter("fullname");
+
+                if (fullname == null || fullname.trim().isEmpty()) {
+                    throw new Exception("Fullname không được để trống!");
+                }
+
+                u.setFullname(fullname);
                 u.setEmail(req.getParameter("email"));
                 u.setAdmin("ADMIN".equals(req.getParameter("role")));
 
@@ -138,10 +147,10 @@ public class UserManagerServlet extends HttpServlet {
                     u.setAvatar("/uploads/avatars/" + fileName);
                 }
                 if (isCreate) {
-                    userDAO.create(u);
+                    getUserDAO().create(u);
                     req.getSession().setAttribute("message", "Thêm người dùng thành công!");
                 } else {
-                    userDAO.update(u);
+                    getUserDAO().update(u);
                     req.getSession().setAttribute("message", "Cập nhật người dùng thành công!");
                 }
             }
@@ -152,7 +161,7 @@ public class UserManagerServlet extends HttpServlet {
                 if ("admin".equalsIgnoreCase(id))
                     throw new Exception("Không được xóa tài khoản admin chính!");
 
-                userDAO.deleteById(id);
+                getUserDAO().deleteById(id);
                 req.getSession().setAttribute("message", "Xóa thành công!");
             }
 
